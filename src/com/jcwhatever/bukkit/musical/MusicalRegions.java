@@ -44,7 +44,7 @@ public class MusicalRegions extends GenericsPlugin {
         registerCommands(new CommandHandler());
         registerEventListeners(new EventListener());
 
-        _regionManager = new RegionManager(this.getSettings().getNode("regions"));
+        _regionManager = new RegionManager(this.getDataNode().getNode("regions"));
     }
 
     @Override
