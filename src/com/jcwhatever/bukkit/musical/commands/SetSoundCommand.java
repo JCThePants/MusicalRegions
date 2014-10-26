@@ -1,4 +1,4 @@
-/* This file is part of BankOfArboria for Bukkit, licensed under the MIT License (MIT).
+/* This file is part of MusicalRegions for Bukkit, licensed under the MIT License (MIT).
  *
  * Copyright (c) JCThePants (www.jcwhatever.com)
  *
