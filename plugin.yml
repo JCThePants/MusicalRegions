@@ -1,8 +1,8 @@
 name: MusicalRegions
 author: JC The Pants
 main: com.jcwhatever.bukkit.musical.MusicalRegions
-version: 0.2
-depend: [jcGenerics]
+version: 0.0-beta
+depend: [GenericsLib]
 commands:
     musical:
         description: Base command for Musical Regions
