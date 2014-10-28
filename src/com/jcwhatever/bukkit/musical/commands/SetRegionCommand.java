@@ -57,7 +57,7 @@ public class SetRegionCommand extends AbstractCommand {
 		
 		String regionName = args.getName("regionName");
 		
-		RegionManager regionManager = MusicalRegions.getInstance().getRegionManager();
+		RegionManager regionManager = MusicalRegions.getPlugin().getRegionManager();
 		
 		MusicRegion region = regionManager.getRegion(regionName);
 		if (region == null) {

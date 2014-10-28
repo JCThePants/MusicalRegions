@@ -57,7 +57,7 @@ public class ListCommand extends AbstractCommand {
 		String paginTitle = Lang.get("Available Resource Sounds");
 		ChatPaginator pagin = new ChatPaginator(getPlugin(), 6, PaginatorTemplate.HEADER, PaginatorTemplate.FOOTER, paginTitle);
 
-		RegionManager regionManager = MusicalRegions.getInstance().getRegionManager();
+		RegionManager regionManager = MusicalRegions.getPlugin().getRegionManager();
 
 		List<MusicRegion> regions = regionManager.getRegions();
 

@@ -44,7 +44,7 @@ public class MusicRegion extends Region {
 	private PlayList _playList;
 		
 	public MusicRegion(String name, IDataNode settings) {
-		super(MusicalRegions.getInstance(), name, settings);
+		super(MusicalRegions.getPlugin(), name, settings);
 		
 		setIsPlayerWatcher(true);
 
@@ -112,7 +112,7 @@ public class MusicRegion extends Region {
             sounds.add(sound);
         }
 
-        _playList = new PlayList(MusicalRegions.getInstance(), sounds);
+        _playList = new PlayList(MusicalRegions.getPlugin(), sounds);
         _playList.setLoop(isLoop);
         _playList.setLocation(getCenter());
         _playList.setVolume(Math.max(1, (Math.max(getXBlockWidth(), getZBlockWidth())) / 16));

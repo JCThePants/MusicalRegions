@@ -35,7 +35,7 @@ public class MusicalRegions extends GenericsPlugin {
 	
 	private RegionManager _regionManager; 
 	
-	public static MusicalRegions getInstance() {
+	public static MusicalRegions getPlugin() {
 		return _instance;
 	}
 	

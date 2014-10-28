@@ -48,7 +48,7 @@ public class LoopCommand extends AbstractCommand {
 		String regionName = args.getName("regionName");
 		boolean isEnabled = args.getBoolean("isEnabled");
 		
-		RegionManager regionManager = MusicalRegions.getInstance().getRegionManager();
+		RegionManager regionManager = MusicalRegions.getPlugin().getRegionManager();
 		
 		MusicRegion region = regionManager.getRegion(regionName);
 		if (region == null) {

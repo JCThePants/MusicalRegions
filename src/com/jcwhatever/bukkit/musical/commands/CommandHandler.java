@@ -30,7 +30,7 @@ import com.jcwhatever.bukkit.musical.MusicalRegions;
 public class CommandHandler extends AbstractCommandHandler {
 
 	public CommandHandler() {
-		super(MusicalRegions.getInstance());
+		super(MusicalRegions.getPlugin());
 	}
 
 	@Override

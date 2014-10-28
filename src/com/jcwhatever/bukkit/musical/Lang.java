@@ -31,6 +31,6 @@ public class Lang {
 
     @Localized
     public static String get(String text, Object... params) {
-        return MusicalRegions.getInstance().getLanguageManager().get(text, params);
+        return MusicalRegions.getPlugin().getLanguageManager().get(text, params);
     }
 }

@@ -39,7 +39,7 @@ public class EventListener implements Listener {
     RegionManager _regionManager;
 
     public EventListener () {
-        _regionManager = MusicalRegions.getInstance().getRegionManager();
+        _regionManager = MusicalRegions.getPlugin().getRegionManager();
     }
 
 
@@ -63,7 +63,7 @@ public class EventListener implements Listener {
         msg += '\'' + sound.getDisplayName() + '\'';
 
         if (!msg.isEmpty())
-            Messenger.tell(MusicalRegions.getInstance(), p, msg);
+            Messenger.tell(MusicalRegions.getPlugin(), p, msg);
     }
 
 }
