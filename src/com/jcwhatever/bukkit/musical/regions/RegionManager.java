@@ -64,7 +64,7 @@ public class RegionManager {
 		_settings.runBatchOperation(new BatchOperation() {
 
 			@Override
-			public void run(IDataNode config) {
+			public void run(IDataNode dataNode) {
 				region.setCoords(p1, p2);
 				region.setSound(sound);
 			}
