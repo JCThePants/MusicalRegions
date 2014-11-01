@@ -29,7 +29,6 @@ import com.jcwhatever.bukkit.generic.commands.ICommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
 import com.jcwhatever.bukkit.generic.messaging.ChatPaginator;
-import com.jcwhatever.bukkit.generic.messaging.ChatPaginator.PaginatorTemplate;
 import com.jcwhatever.bukkit.generic.utils.TextUtils;
 import com.jcwhatever.bukkit.generic.utils.TextUtils.FormatTemplate;
 import com.jcwhatever.bukkit.musical.Lang;
@@ -55,7 +54,7 @@ public class ListCommand extends AbstractCommand {
 		int page = args.getInt("page");
 		
 		String paginTitle = Lang.get("Available Resource Sounds");
-		ChatPaginator pagin = new ChatPaginator(getPlugin(), 6, PaginatorTemplate.HEADER, PaginatorTemplate.FOOTER, paginTitle);
+		ChatPaginator pagin = new ChatPaginator(getPlugin(), 6, paginTitle);
 
 		RegionManager regionManager = MusicalRegions.getPlugin().getRegionManager();
 

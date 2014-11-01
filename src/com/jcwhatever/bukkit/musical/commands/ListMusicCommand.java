@@ -33,7 +33,6 @@ import com.jcwhatever.bukkit.generic.sounds.MusicSound;
 import com.jcwhatever.bukkit.generic.sounds.ResourceSound;
 import com.jcwhatever.bukkit.generic.sounds.SoundManager;
 import com.jcwhatever.bukkit.generic.messaging.ChatPaginator;
-import com.jcwhatever.bukkit.generic.messaging.ChatPaginator.PaginatorTemplate;
 import com.jcwhatever.bukkit.generic.utils.TextUtils.FormatTemplate;
 import com.jcwhatever.bukkit.musical.Lang;
 import org.bukkit.command.CommandSender;
@@ -57,7 +56,7 @@ public class ListMusicCommand extends AbstractCommand {
 		int page = args.getInt("page");
 		
 		String paginTitle = Lang.get(_PAGINATOR_TITLE);
-		ChatPaginator pagin = new ChatPaginator(getPlugin(), 6, PaginatorTemplate.HEADER, PaginatorTemplate.FOOTER, paginTitle);
+		ChatPaginator pagin = new ChatPaginator(getPlugin(), 6, paginTitle);
 		
 		Set<ResourceSound> sounds = SoundManager.getSounds(MusicSound.class);
 		
