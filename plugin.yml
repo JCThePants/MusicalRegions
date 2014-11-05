@@ -1,5 +1,5 @@
 name: MusicalRegions
-author: JC The Pants
+author: JCThePants
 main: com.jcwhatever.bukkit.musical.MusicalRegions
 version: 0.0-beta
 depend: [GenericsLib]
