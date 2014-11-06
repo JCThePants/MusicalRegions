@@ -51,7 +51,7 @@ public class ListCommand extends AbstractCommand {
 	@Override
 	public void execute(CommandSender sender, CommandArguments args) throws InvalidValueException {
 		
-		int page = args.getInt("page");
+		int page = args.getInteger("page");
 		
 		String paginTitle = Lang.get("Available Resource Sounds");
 		ChatPaginator pagin = new ChatPaginator(getPlugin(), 6, paginTitle);
