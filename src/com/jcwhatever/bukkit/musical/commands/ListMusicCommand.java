@@ -25,7 +25,7 @@
 package com.jcwhatever.bukkit.musical.commands;
 
 import com.jcwhatever.bukkit.generic.commands.AbstractCommand;
-import com.jcwhatever.bukkit.generic.commands.ICommandInfo;
+import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
 import com.jcwhatever.bukkit.generic.language.Localizable;
@@ -39,7 +39,7 @@ import org.bukkit.command.CommandSender;
 
 import java.util.Set;
 
-@ICommandInfo(
+@CommandInfo(
 		command="listmusic", 
 		staticParams={"page=1"},
 		usage="/musical listmusic [page]",

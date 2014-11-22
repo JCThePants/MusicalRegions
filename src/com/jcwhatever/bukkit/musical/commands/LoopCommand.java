@@ -27,14 +27,14 @@ package com.jcwhatever.bukkit.musical.commands;
 import org.bukkit.command.CommandSender;
 
 import com.jcwhatever.bukkit.generic.commands.AbstractCommand;
-import com.jcwhatever.bukkit.generic.commands.ICommandInfo;
+import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
 import com.jcwhatever.bukkit.musical.MusicalRegions;
 import com.jcwhatever.bukkit.musical.regions.MusicRegion;
 import com.jcwhatever.bukkit.musical.regions.RegionManager;
 
-@ICommandInfo(
+@CommandInfo(
 		command="loop", 
 		staticParams={"regionName", "isEnabled"},
 		usage="/musical loop <regionName> <isEnabled>",
