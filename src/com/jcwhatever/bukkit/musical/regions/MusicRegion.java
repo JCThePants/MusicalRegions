@@ -59,19 +59,19 @@ public class MusicRegion extends Region {
 	
 	
 	@Override
-	protected void onPlayerEnter(Player p) {
+	protected void onPlayerEnter(Player p, EnterRegionReason reason) {
 		_playList.addPlayer(p);
 	}
 	
 	@Override
-	protected boolean canDoPlayerEnter(Player p) {
+	protected boolean canDoPlayerEnter(Player p, EnterRegionReason reason) {
 
         PlayerSoundQueue queue = _playList.getSoundQueue(p);
-        return queue == null && super.canDoPlayerEnter(p);
+        return queue == null && super.canDoPlayerEnter(p, reason);
     }
 	
 	@Override
-	protected void onPlayerLeave(Player p) {
+	protected void onPlayerLeave(Player p, LeaveRegionReason reason) {
 		if (!p.getWorld().equals(this.getWorld()))
             _playList.removePlayer(p);
 	}
