@@ -71,7 +71,7 @@ public class ListMusicCommand extends AbstractCommand {
                     description + sound.getDurationSeconds() + ' ' + secondsLabel);
 		}
 		
-		pagin.show(sender, page, FormatTemplate.ITEM_DESCRIPTION);
+		pagin.show(sender, page, FormatTemplate.LIST_ITEM_DESCRIPTION);
 	}
 	
 }
