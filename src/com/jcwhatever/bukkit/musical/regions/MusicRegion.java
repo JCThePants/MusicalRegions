@@ -24,7 +24,7 @@
 
 package com.jcwhatever.bukkit.musical.regions;
 
-import com.jcwhatever.bukkit.generic.messaging.Messenger;
+import com.jcwhatever.bukkit.generic.internal.Msg;
 import com.jcwhatever.bukkit.generic.regions.Region;
 import com.jcwhatever.bukkit.generic.sounds.PlayList;
 import com.jcwhatever.bukkit.generic.sounds.PlayList.PlayerSoundQueue;
@@ -34,6 +34,7 @@ import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
 import com.jcwhatever.bukkit.generic.utils.text.TextUtils;
 import com.jcwhatever.bukkit.musical.MusicalRegions;
+
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -112,7 +113,7 @@ public class MusicRegion extends Region {
 
             ResourceSound sound = SoundManager.getSound(soundName.trim());
             if (sound == null) {
-                Messenger.debug(getPlugin(), "Failed to find resource sound '{0}' for musical region '{1}'", soundName, getName());
+                Msg.debug("Failed to find resource sound '{0}' for musical region '{1}'", soundName, getName());
             }
 
             sounds.add(sound);
