@@ -44,7 +44,7 @@ public class MusicalRegions extends GenericsPlugin {
 	}
 	
 	@Override
-	protected void init() {
+	protected void onInit() {
 		_instance = this;
 	}
 
