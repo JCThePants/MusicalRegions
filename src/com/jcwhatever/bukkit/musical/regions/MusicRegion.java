@@ -53,7 +53,7 @@ public class MusicRegion extends Region {
 
         _dataNode = dataNode;
 
-		setIsPlayerWatcher(true);
+		setEventListener(true);
 
         loadSettings();
 	}
