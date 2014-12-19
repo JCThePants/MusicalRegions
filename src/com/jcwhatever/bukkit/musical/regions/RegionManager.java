@@ -25,7 +25,7 @@
 package com.jcwhatever.bukkit.musical.regions;
 
 import com.jcwhatever.bukkit.generic.sounds.ResourceSound;
-import com.jcwhatever.bukkit.generic.storage.BatchOperation;
+import com.jcwhatever.bukkit.generic.storage.DataBatchOperation;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import org.bukkit.Location;
 
@@ -61,7 +61,7 @@ public class RegionManager {
 		
 		final MusicRegion region = new MusicRegion(regionName, _settings.getNode(regionName));
 		
-		_settings.runBatchOperation(new BatchOperation() {
+		_settings.runBatchOperation(new DataBatchOperation() {
 
 			@Override
 			public void run(IDataNode dataNode) {
