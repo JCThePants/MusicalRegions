@@ -24,25 +24,25 @@
 
 package com.jcwhatever.bukkit.musical.commands;
 
-import com.jcwhatever.bukkit.generic.regions.selection.RegionSelection;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import com.jcwhatever.bukkit.generic.commands.AbstractCommand;
 import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException.CommandSenderType;
+import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
+import com.jcwhatever.bukkit.generic.regions.selection.IRegionSelection;
 import com.jcwhatever.bukkit.musical.MusicalRegions;
 import com.jcwhatever.bukkit.musical.regions.MusicRegion;
 import com.jcwhatever.bukkit.musical.regions.RegionManager;
+
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 @CommandInfo(
 		command="setregion", 
 		staticParams={"regionName"},
 		usage="/musical setregion <regionName>",
-		description="Change a musical regions cuboid region using the current World Edit selection.")
+		description="Change a musical regions to your current region selection.")
 
 public class SetRegionCommand extends AbstractCommand {
 
@@ -51,10 +51,7 @@ public class SetRegionCommand extends AbstractCommand {
 	        throws InvalidValueException, InvalidCommandSenderException {
 		
 	    InvalidCommandSenderException.check(sender, CommandSenderType.PLAYER, "Console cannot select regions.");
-		
-		if (!isWorldEditInstalled(sender))
-			return; // finish
-		
+
 		String regionName = args.getName("regionName");
 		
 		RegionManager regionManager = MusicalRegions.getPlugin().getRegionManager();
@@ -65,7 +62,7 @@ public class SetRegionCommand extends AbstractCommand {
 			return; // finish
 		}
 		
-		RegionSelection sel = getWorldEditSelection((Player)sender);
+		IRegionSelection sel = getRegionSelection((Player) sender);
 		if (sel == null)
 			return; // finish
 		

@@ -30,12 +30,13 @@ import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException.CommandSenderType;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
-import com.jcwhatever.bukkit.generic.regions.selection.RegionSelection;
+import com.jcwhatever.bukkit.generic.regions.selection.IRegionSelection;
 import com.jcwhatever.bukkit.generic.sounds.ResourceSound;
 import com.jcwhatever.bukkit.generic.sounds.SoundManager;
 import com.jcwhatever.bukkit.musical.MusicalRegions;
 import com.jcwhatever.bukkit.musical.regions.MusicRegion;
 import com.jcwhatever.bukkit.musical.regions.RegionManager;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -44,7 +45,7 @@ import org.bukkit.entity.Player;
 		command="create", 
 		staticParams={"regionName", "songName"},
 		usage="/musical create <regionName> <songName>",
-		description="Create a musical region whose cuboid region is the current World Edit selection.")
+		description="Create a musical region using your current region selection.")
 
 public class CreateCommand extends AbstractCommand {
 
@@ -53,10 +54,7 @@ public class CreateCommand extends AbstractCommand {
 	        throws InvalidValueException, InvalidCommandSenderException {
 		
 	    InvalidCommandSenderException.check(sender, CommandSenderType.PLAYER, "Console cannot select regions.");
-		
-		if (!isWorldEditInstalled(sender))
-			return; // finish
-		
+
 		String regionName = args.getName("regionName");
 		String songName = args.getString("songName");
 		
@@ -75,7 +73,7 @@ public class CreateCommand extends AbstractCommand {
 			return; // finish
 		}
 		
-		RegionSelection sel = getWorldEditSelection((Player)sender);
+		IRegionSelection sel = getRegionSelection((Player) sender);
 		if (sel == null)
 			return; // finish
 		
