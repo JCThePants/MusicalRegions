@@ -29,7 +29,7 @@ import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException.CommandSenderType;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
+import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidArgumentException;
 import com.jcwhatever.bukkit.generic.regions.selection.IRegionSelection;
 import com.jcwhatever.bukkit.musical.MusicalRegions;
 import com.jcwhatever.bukkit.musical.regions.MusicRegion;
@@ -48,7 +48,7 @@ public class SetRegionCommand extends AbstractCommand {
 
 	@Override
 	public void execute(CommandSender sender, CommandArguments args)
-	        throws InvalidValueException, InvalidCommandSenderException {
+	        throws InvalidArgumentException, InvalidCommandSenderException {
 		
 	    InvalidCommandSenderException.check(sender, CommandSenderType.PLAYER, "Console cannot select regions.");
 
