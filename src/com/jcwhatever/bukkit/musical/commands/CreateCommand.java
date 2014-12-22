@@ -27,9 +27,7 @@ package com.jcwhatever.bukkit.musical.commands;
 import com.jcwhatever.bukkit.generic.commands.AbstractCommand;
 import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException.CommandSenderType;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidArgumentException;
+import com.jcwhatever.bukkit.generic.commands.exceptions.CommandException;
 import com.jcwhatever.bukkit.generic.regions.selection.IRegionSelection;
 import com.jcwhatever.bukkit.generic.sounds.ResourceSound;
 import com.jcwhatever.bukkit.generic.sounds.SoundManager;
@@ -49,10 +47,9 @@ import org.bukkit.entity.Player;
 public class CreateCommand extends AbstractCommand {
 
 	@Override
-	public void execute(CommandSender sender, CommandArguments args)
-	        throws InvalidArgumentException, InvalidCommandSenderException {
-		
-	    InvalidCommandSenderException.check(sender, CommandSenderType.PLAYER, "Console cannot select regions.");
+	public void execute(CommandSender sender, CommandArguments args) throws CommandException{
+
+		CommandException.assertNotConsole(this, sender);
 
 		String regionName = args.getName("regionName");
 		String songName = args.getString("songName");
