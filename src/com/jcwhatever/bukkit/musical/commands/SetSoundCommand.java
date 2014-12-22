@@ -42,7 +42,6 @@ import java.util.List;
 @CommandInfo(
 		command="setsound", 
 		staticParams={"regionName", "soundId"},
-		usage="/musical setsound <regionName> <soundId>",
 		description="Change a musical regions sound.")
 
 public class SetSoundCommand extends AbstractCommand {

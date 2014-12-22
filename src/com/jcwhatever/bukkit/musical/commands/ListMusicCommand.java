@@ -42,7 +42,6 @@ import java.util.Set;
 @CommandInfo(
 		command="listmusic", 
 		staticParams={"page=1"},
-		usage="/musical listmusic [page]",
 		description="List available resource sounds.")
 
 public class ListMusicCommand extends AbstractCommand {

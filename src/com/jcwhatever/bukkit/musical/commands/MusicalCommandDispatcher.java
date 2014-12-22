@@ -24,13 +24,25 @@
 
 package com.jcwhatever.bukkit.musical.commands;
 
-import com.jcwhatever.bukkit.generic.GenericsPlugin;
-import com.jcwhatever.bukkit.generic.commands.AbstractCommandUtils;
+import com.jcwhatever.bukkit.generic.commands.CommandDispatcher;
+import com.jcwhatever.bukkit.musical.MusicalRegions;
 
-public class CmdHelper extends AbstractCommandUtils {
+public class MusicalCommandDispatcher extends CommandDispatcher {
 
-	public CmdHelper(GenericsPlugin plugin) {
-		super(plugin);
+	public MusicalCommandDispatcher() {
+		super(MusicalRegions.getPlugin());
+	}
+
+	@Override
+	protected void registerCommands() {
+		this.registerCommand(CreateCommand.class);
+		this.registerCommand(DelCommand.class);
+		this.registerCommand(ListCommand.class);
+		this.registerCommand(ListMusicCommand.class);
+		this.registerCommand(LoopCommand.class);
+		this.registerCommand(SetRegionCommand.class);
+		this.registerCommand(SetSoundCommand.class);
+		
 	}
 
 }

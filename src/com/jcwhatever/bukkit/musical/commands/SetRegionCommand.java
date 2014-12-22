@@ -41,7 +41,6 @@ import org.bukkit.entity.Player;
 @CommandInfo(
 		command="setregion", 
 		staticParams={"regionName"},
-		usage="/musical setregion <regionName>",
 		description="Change a musical regions to your current region selection.")
 
 public class SetRegionCommand extends AbstractCommand {

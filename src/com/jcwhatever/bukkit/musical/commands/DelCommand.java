@@ -24,8 +24,6 @@
 
 package com.jcwhatever.bukkit.musical.commands;
 
-import org.bukkit.command.CommandSender;
-
 import com.jcwhatever.bukkit.generic.commands.AbstractCommand;
 import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
@@ -34,10 +32,11 @@ import com.jcwhatever.bukkit.musical.MusicalRegions;
 import com.jcwhatever.bukkit.musical.regions.MusicRegion;
 import com.jcwhatever.bukkit.musical.regions.RegionManager;
 
+import org.bukkit.command.CommandSender;
+
 @CommandInfo(
 		command="del", 
 		staticParams={"regionName"},
-		usage="/musical del <regionName>",
 		description="Delete a musical region.")
 
 public class DelCommand extends AbstractCommand {

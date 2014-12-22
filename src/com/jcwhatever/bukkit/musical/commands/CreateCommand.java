@@ -44,7 +44,6 @@ import org.bukkit.entity.Player;
 @CommandInfo(
 		command="create", 
 		staticParams={"regionName", "songName"},
-		usage="/musical create <regionName> <songName>",
 		description="Create a musical region using your current region selection.")
 
 public class CreateCommand extends AbstractCommand {

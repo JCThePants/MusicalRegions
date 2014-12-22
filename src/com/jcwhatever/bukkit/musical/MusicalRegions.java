@@ -25,7 +25,7 @@
 package com.jcwhatever.bukkit.musical;
 
 import com.jcwhatever.bukkit.generic.GenericsPlugin;
-import com.jcwhatever.bukkit.musical.commands.CommandHandler;
+import com.jcwhatever.bukkit.musical.commands.MusicalCommandDispatcher;
 import com.jcwhatever.bukkit.musical.regions.RegionManager;
 import org.bukkit.ChatColor;
 
@@ -65,7 +65,7 @@ public class MusicalRegions extends GenericsPlugin {
 
     @Override
     protected void onEnablePlugin() {
-        registerCommands(new CommandHandler());
+        registerCommands(new MusicalCommandDispatcher());
         registerEventListeners(new EventListener());
 
         _regionManager = new RegionManager(this.getDataNode().getNode("regions"));
