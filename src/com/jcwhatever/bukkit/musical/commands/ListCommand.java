@@ -43,7 +43,7 @@ import java.util.List;
 @CommandInfo(
 		command="list", 
 		staticParams={"page=1"},
-s		description="List music regions.")
+		description="List music regions.")
 
 public class ListCommand extends AbstractCommand {
 
