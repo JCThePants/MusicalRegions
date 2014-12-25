@@ -25,10 +25,10 @@
 package com.jcwhatever.bukkit.musical;
 
 
-import com.jcwhatever.bukkit.generic.events.sounds.PlayResourceSoundEvent;
-import com.jcwhatever.bukkit.generic.internal.Msg;
-import com.jcwhatever.bukkit.generic.sounds.MusicSound;
-import com.jcwhatever.bukkit.generic.sounds.ResourceSound;
+import com.jcwhatever.generic.events.sounds.PlayResourceSoundEvent;
+import com.jcwhatever.generic.internal.Msg;
+import com.jcwhatever.generic.sounds.MusicSound;
+import com.jcwhatever.generic.sounds.ResourceSound;
 import com.jcwhatever.bukkit.musical.regions.RegionManager;
 
 import org.bukkit.entity.Player;

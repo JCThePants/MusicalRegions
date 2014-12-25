@@ -24,7 +24,7 @@
 
 package com.jcwhatever.bukkit.musical;
 
-import com.jcwhatever.bukkit.generic.GenericsPlugin;
+import com.jcwhatever.generic.GenericsPlugin;
 import com.jcwhatever.bukkit.musical.commands.MusicalCommandDispatcher;
 import com.jcwhatever.bukkit.musical.regions.RegionManager;
 import org.bukkit.ChatColor;

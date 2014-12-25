@@ -24,16 +24,16 @@
 
 package com.jcwhatever.bukkit.musical.commands;
 
-import com.jcwhatever.bukkit.generic.commands.AbstractCommand;
-import com.jcwhatever.bukkit.generic.commands.CommandInfo;
-import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidArgumentException;
-import com.jcwhatever.bukkit.generic.language.Localizable;
-import com.jcwhatever.bukkit.generic.sounds.MusicSound;
-import com.jcwhatever.bukkit.generic.sounds.ResourceSound;
-import com.jcwhatever.bukkit.generic.sounds.SoundManager;
-import com.jcwhatever.bukkit.generic.messaging.ChatPaginator;
-import com.jcwhatever.bukkit.generic.utils.text.TextUtils.FormatTemplate;
+import com.jcwhatever.generic.commands.AbstractCommand;
+import com.jcwhatever.generic.commands.CommandInfo;
+import com.jcwhatever.generic.commands.arguments.CommandArguments;
+import com.jcwhatever.generic.commands.exceptions.InvalidArgumentException;
+import com.jcwhatever.generic.language.Localizable;
+import com.jcwhatever.generic.sounds.MusicSound;
+import com.jcwhatever.generic.sounds.ResourceSound;
+import com.jcwhatever.generic.sounds.SoundManager;
+import com.jcwhatever.generic.messaging.ChatPaginator;
+import com.jcwhatever.generic.utils.text.TextUtils.FormatTemplate;
 import com.jcwhatever.bukkit.musical.Lang;
 import org.bukkit.command.CommandSender;
 

@@ -24,7 +24,7 @@
 
 package com.jcwhatever.bukkit.musical.commands;
 
-import com.jcwhatever.bukkit.generic.commands.CommandDispatcher;
+import com.jcwhatever.generic.commands.CommandDispatcher;
 import com.jcwhatever.bukkit.musical.MusicalRegions;
 
 public class MusicalCommandDispatcher extends CommandDispatcher {

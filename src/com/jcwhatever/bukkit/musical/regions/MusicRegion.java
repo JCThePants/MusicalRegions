@@ -24,15 +24,15 @@
 
 package com.jcwhatever.bukkit.musical.regions;
 
-import com.jcwhatever.bukkit.generic.internal.Msg;
-import com.jcwhatever.bukkit.generic.regions.Region;
-import com.jcwhatever.bukkit.generic.sounds.PlayList;
-import com.jcwhatever.bukkit.generic.sounds.PlayList.PlayerSoundQueue;
-import com.jcwhatever.bukkit.generic.sounds.ResourceSound;
-import com.jcwhatever.bukkit.generic.sounds.SoundManager;
-import com.jcwhatever.bukkit.generic.storage.IDataNode;
-import com.jcwhatever.bukkit.generic.utils.PreCon;
-import com.jcwhatever.bukkit.generic.utils.text.TextUtils;
+import com.jcwhatever.generic.internal.Msg;
+import com.jcwhatever.generic.regions.Region;
+import com.jcwhatever.generic.sounds.PlayList;
+import com.jcwhatever.generic.sounds.PlayList.PlayerSoundQueue;
+import com.jcwhatever.generic.sounds.ResourceSound;
+import com.jcwhatever.generic.sounds.SoundManager;
+import com.jcwhatever.generic.storage.IDataNode;
+import com.jcwhatever.generic.utils.PreCon;
+import com.jcwhatever.generic.utils.text.TextUtils;
 import com.jcwhatever.bukkit.musical.MusicalRegions;
 
 import org.bukkit.entity.Player;

@@ -24,13 +24,13 @@
 
 package com.jcwhatever.bukkit.musical.commands;
 
-import com.jcwhatever.bukkit.generic.commands.AbstractCommand;
-import com.jcwhatever.bukkit.generic.commands.CommandInfo;
-import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidArgumentException;
-import com.jcwhatever.bukkit.generic.sounds.ResourceSound;
-import com.jcwhatever.bukkit.generic.sounds.SoundManager;
-import com.jcwhatever.bukkit.generic.utils.text.TextUtils;
+import com.jcwhatever.generic.commands.AbstractCommand;
+import com.jcwhatever.generic.commands.CommandInfo;
+import com.jcwhatever.generic.commands.arguments.CommandArguments;
+import com.jcwhatever.generic.commands.exceptions.InvalidArgumentException;
+import com.jcwhatever.generic.sounds.ResourceSound;
+import com.jcwhatever.generic.sounds.SoundManager;
+import com.jcwhatever.generic.utils.text.TextUtils;
 import com.jcwhatever.bukkit.musical.MusicalRegions;
 import com.jcwhatever.bukkit.musical.regions.MusicRegion;
 import com.jcwhatever.bukkit.musical.regions.RegionManager;
