@@ -2,17 +2,10 @@ name: MusicalRegions
 author: JCThePants
 main: com.jcwhatever.bukkit.musical.MusicalRegions
 version: 0.0-beta
-depend: [GenericsLib]
+depend: [NucleusFramework]
 commands:
     musical:
-        description: Base command for Musical Regions
-        usage: |
-            ERROR!
-    music:
-        description: Base command for Musical Regions
-        usage: |
-            ERROR!
-    musicalregions:
+        aliases: [music, musicalregions]
         description: Base command for Musical Regions
         usage: |
             ERROR!

@@ -24,9 +24,9 @@
 
 package com.jcwhatever.bukkit.musical.regions;
 
-import com.jcwhatever.generic.sounds.ResourceSound;
-import com.jcwhatever.generic.storage.DataBatchOperation;
-import com.jcwhatever.generic.storage.IDataNode;
+import com.jcwhatever.nucleus.sounds.ResourceSound;
+import com.jcwhatever.nucleus.storage.DataBatchOperation;
+import com.jcwhatever.nucleus.storage.IDataNode;
 import org.bukkit.Location;
 
 import java.util.ArrayList;

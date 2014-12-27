@@ -24,12 +24,12 @@
 
 package com.jcwhatever.bukkit.musical;
 
-import com.jcwhatever.generic.GenericsPlugin;
+import com.jcwhatever.nucleus.NucleusPlugin;
 import com.jcwhatever.bukkit.musical.commands.MusicalCommandDispatcher;
 import com.jcwhatever.bukkit.musical.regions.RegionManager;
 import org.bukkit.ChatColor;
 
-public class MusicalRegions extends GenericsPlugin {
+public class MusicalRegions extends NucleusPlugin {
 
 	private static MusicalRegions _instance;
 	
