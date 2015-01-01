@@ -1,3 +1,5 @@
+package com.jcwhatever.bukkit.musical;
+
 import com.jcwhatever.nucleus.messaging.ChatPaginator;
 import com.jcwhatever.nucleus.messaging.IMessenger;
 import com.jcwhatever.nucleus.utils.text.TextUtils;

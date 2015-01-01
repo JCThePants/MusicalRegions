@@ -26,7 +26,6 @@ package com.jcwhatever.bukkit.musical;
 
 
 import com.jcwhatever.nucleus.events.sounds.PlayResourceSoundEvent;
-import com.jcwhatever.nucleus.internal.Msg;
 import com.jcwhatever.nucleus.sounds.MusicSound;
 import com.jcwhatever.nucleus.sounds.ResourceSound;
 import com.jcwhatever.bukkit.musical.regions.RegionManager;

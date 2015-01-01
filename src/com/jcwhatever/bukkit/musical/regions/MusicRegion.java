@@ -24,7 +24,8 @@
 
 package com.jcwhatever.bukkit.musical.regions;
 
-import com.jcwhatever.nucleus.internal.Msg;
+import com.jcwhatever.bukkit.musical.Msg;
+import com.jcwhatever.bukkit.musical.MusicalRegions;
 import com.jcwhatever.nucleus.regions.Region;
 import com.jcwhatever.nucleus.sounds.PlayList;
 import com.jcwhatever.nucleus.sounds.PlayList.PlayerSoundQueue;
@@ -33,7 +34,6 @@ import com.jcwhatever.nucleus.sounds.SoundManager;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
-import com.jcwhatever.bukkit.musical.MusicalRegions;
 
 import org.bukkit.entity.Player;
 
