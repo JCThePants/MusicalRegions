@@ -27,13 +27,13 @@ package com.jcwhatever.bukkit.musical.regions;
 import com.jcwhatever.nucleus.sounds.ResourceSound;
 import com.jcwhatever.nucleus.storage.DataBatchOperation;
 import com.jcwhatever.nucleus.storage.IDataNode;
+
 import org.bukkit.Location;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class RegionManager {
 
@@ -91,14 +91,9 @@ public class RegionManager {
 	}
 	
 	private void loadRegions() {
-		
-		Set<String> regionNames = _settings.getSubNodeNames();
-		if (regionNames == null)
-			return;
-		
-		for (String regionName : regionNames) {
+		for (IDataNode regionNode : _settings) {
 			
-			MusicRegion region = new MusicRegion(regionName, _settings.getNode(regionName));
+			MusicRegion region = new MusicRegion(regionNode.getName(), regionNode);
 			
 			_regions.put(region.getSearchName(), region);
 		}
