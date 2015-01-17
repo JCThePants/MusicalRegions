@@ -24,7 +24,7 @@
 
 package com.jcwhatever.bukkit.musical;
 
-import com.jcwhatever.nucleus.language.Localized;
+import com.jcwhatever.nucleus.utils.language.Localized;
 
 public class Lang {
     private Lang() {}
