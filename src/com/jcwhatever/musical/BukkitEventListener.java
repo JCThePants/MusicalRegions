@@ -22,26 +22,21 @@
  */
 
 
-package com.jcwhatever.bukkit.musical;
+package com.jcwhatever.musical;
 
 
 import com.jcwhatever.nucleus.events.sounds.PlayResourceSoundEvent;
 import com.jcwhatever.nucleus.sounds.MusicSound;
 import com.jcwhatever.nucleus.sounds.ResourceSound;
-import com.jcwhatever.bukkit.musical.regions.RegionManager;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-public class EventListener implements Listener {
-
-    RegionManager _regionManager;
-
-    public EventListener () {
-        _regionManager = MusicalRegions.getPlugin().getRegionManager();
-    }
-
+/**
+ * Listens to Bukkit events.
+ */
+public class BukkitEventListener implements Listener {
 
     @EventHandler()
     private void onPlayResourceSound(PlayResourceSoundEvent event) {
@@ -65,5 +60,4 @@ public class EventListener implements Listener {
         if (!msg.isEmpty())
             Msg.tell(p, msg);
     }
-
 }

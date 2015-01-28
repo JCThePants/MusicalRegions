@@ -22,55 +22,63 @@
  */
 
 
-package com.jcwhatever.bukkit.musical.commands;
+package com.jcwhatever.musical.commands;
 
+import com.jcwhatever.musical.Lang;
+import com.jcwhatever.musical.MusicalRegions;
+import com.jcwhatever.musical.regions.MusicRegion;
+import com.jcwhatever.musical.regions.RegionManager;
 import com.jcwhatever.nucleus.commands.AbstractCommand;
 import com.jcwhatever.nucleus.commands.CommandInfo;
 import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
 import com.jcwhatever.nucleus.commands.exceptions.InvalidArgumentException;
 import com.jcwhatever.nucleus.messaging.ChatPaginator;
+import com.jcwhatever.nucleus.utils.language.Localizable;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.nucleus.utils.text.TextUtils.FormatTemplate;
-import com.jcwhatever.bukkit.musical.Lang;
-import com.jcwhatever.bukkit.musical.MusicalRegions;
-import com.jcwhatever.bukkit.musical.regions.MusicRegion;
-import com.jcwhatever.bukkit.musical.regions.RegionManager;
-import org.bukkit.ChatColor;
+
 import org.bukkit.command.CommandSender;
 
-import java.util.List;
+import java.util.Collection;
 
 @CommandInfo(
-		command="list", 
-		staticParams={"page=1"},
-		description="List music regions.")
+        command="list",
+        staticParams={"page=1"},
+        description="List music regions.",
+        paramDescriptions = {
+                "page= {PAGE}"
+        })
 
 public class ListCommand extends AbstractCommand {
 
-	@Override
-	public void execute(CommandSender sender, CommandArguments args) throws InvalidArgumentException {
-		
-		int page = args.getInteger("page");
-		
-		String paginTitle = Lang.get("Available Resource Sounds");
-		ChatPaginator pagin = new ChatPaginator(getPlugin(), 6, paginTitle);
+    @Localizable static final String _PAGINATOR_TITLE =
+            "Available Resource Sounds";
 
-		RegionManager regionManager = MusicalRegions.getPlugin().getRegionManager();
+    @Localizable static final String _LABEL_NONE =
+            "{RED}<none>";
 
-		List<MusicRegion> regions = regionManager.getRegions();
+    @Override
+    public void execute(CommandSender sender, CommandArguments args) throws InvalidArgumentException {
 
-		String noneLabel = Lang.get("<none>");
+        int page = args.getInteger("page");
 
-		for (MusicRegion region : regions) {
+        ChatPaginator pagin = new ChatPaginator(getPlugin(), 6, Lang.get(_PAGINATOR_TITLE));
+
+        RegionManager regionManager = MusicalRegions.getRegionManager();
+
+        Collection<MusicRegion> regions = regionManager.getAll();
+
+        String noneLabel = Lang.get(_LABEL_NONE);
+
+        for (MusicRegion region : regions) {
 
             String description = (region.getPlayList().size() == 0
-                    ? ChatColor.RED + noneLabel
+                    ? noneLabel
                     : TextUtils.concat(region.getPlayList().getSounds(), ", "));
 
-			pagin.add(region.getName(), description);
-		}
-		
-		pagin.show(sender, page, FormatTemplate.LIST_ITEM_DESCRIPTION);
-	}
-	
+            pagin.add(region.getName(), description);
+        }
+
+        pagin.show(sender, page, FormatTemplate.LIST_ITEM_DESCRIPTION);
+    }
 }

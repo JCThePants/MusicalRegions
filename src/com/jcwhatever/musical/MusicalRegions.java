@@ -22,61 +22,66 @@
  */
 
 
-package com.jcwhatever.bukkit.musical;
+package com.jcwhatever.musical;
 
+import com.jcwhatever.musical.commands.MusicCommandDispatcher;
+import com.jcwhatever.musical.regions.RegionManager;
 import com.jcwhatever.nucleus.NucleusPlugin;
-import com.jcwhatever.bukkit.musical.commands.MusicalCommandDispatcher;
-import com.jcwhatever.bukkit.musical.regions.RegionManager;
+
 import org.bukkit.ChatColor;
 
+/**
+ * Musical Regions plugin.
+ *
+ * <p>Uses NucleusFramework sounds and regions to play music to players that
+ * enter a musical region.</p>
+ */
 public class MusicalRegions extends NucleusPlugin {
 
-	private static MusicalRegions _instance;
-	
-	private RegionManager _regionManager; 
-	
-	public static MusicalRegions getPlugin() {
-		return _instance;
-	}
-	
-	public MusicalRegions() {
-		super();
-	}
-	
-	@Override
-	protected void onInit() {
-		_instance = this;
-	}
+    private static MusicalRegions _instance;
+
+    private RegionManager _regionManager;
+
+    public static MusicalRegions getPlugin() {
+        return _instance;
+    }
+
+    public static RegionManager getRegionManager() {
+        return _instance._regionManager;
+    }
+
+    public MusicalRegions() {
+        super();
+    }
 
     @Override
-	public String getChatPrefix() {
-		return ChatColor.LIGHT_PURPLE + "[Music] " + ChatColor.RESET;
-	}
+    protected void onInit() {
+        _instance = this;
+    }
 
-	@Override
-	public String getConsolePrefix() {
-		return "[Music] ";
-	}
+    @Override
+    public String getChatPrefix() {
+        return ChatColor.LIGHT_PURPLE + "[Music] " + ChatColor.RESET;
+    }
 
-	
-	public RegionManager getRegionManager() {
-		return _regionManager;
-	}
+    @Override
+    public String getConsolePrefix() {
+        return "[Music] ";
+    }
 
     @Override
     protected void onEnablePlugin() {
-        registerCommands(new MusicalCommandDispatcher());
-        registerEventListeners(new EventListener());
+
+        _instance = this;
 
         _regionManager = new RegionManager(this.getDataNode().getNode("regions"));
+
+        registerCommands(new MusicCommandDispatcher());
+        registerEventListeners(new BukkitEventListener());
     }
 
     @Override
     protected void onDisablePlugin() {
-
+        _instance = null;
     }
-
-
-
-
 }

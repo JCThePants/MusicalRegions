@@ -1,11 +1,11 @@
 name: MusicalRegions
 author: JCThePants
-main: com.jcwhatever.bukkit.musical.MusicalRegions
+main: com.jcwhatever.musical.MusicalRegions
 version: 0.0-beta
 depend: [NucleusFramework]
 commands:
-    musical:
-        aliases: [music, musicalregions]
+    musicalregions:
+        aliases: [music, musical]
         description: Base command for Musical Regions
         usage: |
             ERROR!

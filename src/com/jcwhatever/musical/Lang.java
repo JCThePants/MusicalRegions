@@ -22,27 +22,19 @@
  */
 
 
-package com.jcwhatever.bukkit.musical.commands;
+package com.jcwhatever.musical;
 
-import com.jcwhatever.nucleus.commands.CommandDispatcher;
-import com.jcwhatever.bukkit.musical.MusicalRegions;
+import com.jcwhatever.nucleus.utils.language.Localized;
 
-public class MusicalCommandDispatcher extends CommandDispatcher {
+/**
+ * Convenience class for accessing MusicalRegions language manager.
+ */
+public class Lang {
 
-	public MusicalCommandDispatcher() {
-		super(MusicalRegions.getPlugin());
-	}
+    private Lang() {}
 
-	@Override
-	protected void registerCommands() {
-		this.registerCommand(CreateCommand.class);
-		this.registerCommand(DelCommand.class);
-		this.registerCommand(ListCommand.class);
-		this.registerCommand(ListMusicCommand.class);
-		this.registerCommand(LoopCommand.class);
-		this.registerCommand(SetRegionCommand.class);
-		this.registerCommand(SetSoundCommand.class);
-		
-	}
-
+    @Localized
+    public static String get(String text, Object... params) {
+        return MusicalRegions.getPlugin().getLanguageManager().get(text, params);
+    }
 }

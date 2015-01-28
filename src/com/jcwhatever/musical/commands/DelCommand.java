@@ -22,56 +22,57 @@
  */
 
 
-package com.jcwhatever.bukkit.musical.commands;
+package com.jcwhatever.musical.commands;
 
-import com.jcwhatever.bukkit.musical.Lang;
+import com.jcwhatever.musical.Lang;
+import com.jcwhatever.musical.MusicalRegions;
+import com.jcwhatever.musical.regions.MusicRegion;
+import com.jcwhatever.musical.regions.RegionManager;
 import com.jcwhatever.nucleus.commands.AbstractCommand;
 import com.jcwhatever.nucleus.commands.CommandInfo;
 import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
 import com.jcwhatever.nucleus.commands.exceptions.InvalidArgumentException;
-import com.jcwhatever.nucleus.messaging.ChatPaginator;
-import com.jcwhatever.nucleus.sounds.MusicSound;
-import com.jcwhatever.nucleus.sounds.ResourceSound;
-import com.jcwhatever.nucleus.sounds.SoundManager;
 import com.jcwhatever.nucleus.utils.language.Localizable;
-import com.jcwhatever.nucleus.utils.text.TextUtils.FormatTemplate;
 
 import org.bukkit.command.CommandSender;
 
-import java.util.List;
-
 @CommandInfo(
-		command="listmusic", 
-		staticParams={"page=1"},
-		description="List available resource sounds.")
+        command="del",
+        staticParams={"regionName"},
+        description="Delete a musical region.",
+        paramDescriptions = {
+                "regionName= The name of the region to delete."
+        })
 
-public class ListMusicCommand extends AbstractCommand {
+public class DelCommand extends AbstractCommand {
 
-    @Localizable static final String _PAGINATOR_TITLE = "Available Resource Sounds";
-    @Localizable static final String _LABEL_SECONDS = "seconds";
+    @Localizable static final String _REGION_NOT_FOUND =
+            "A musical region with the name '{0: region name}' was not found.";
 
-	@Override
-	public void execute(CommandSender sender, CommandArguments args) throws InvalidArgumentException {
-		
-		int page = args.getInteger("page");
-		
-		String paginTitle = Lang.get(_PAGINATOR_TITLE);
-		ChatPaginator pagin = new ChatPaginator(getPlugin(), 6, paginTitle);
-		
-		List<MusicSound> sounds = SoundManager.getSounds(MusicSound.class);
-		
-		String secondsLabel = Lang.get(_LABEL_SECONDS);
-		for (ResourceSound sound : sounds) {
+    @Localizable static final String _FAILED =
+            "Failed to delete musical region '{0: region name}'.";
 
-            String description = sound.getDisplayName() != null
-                    ? sound.getDisplayName() + " - "
-                    : "";
+    @Localizable static final String _SUCCESS =
+            "Musical region '{0: region name}' deleted.";
 
-			pagin.add(sound.getName(),
-                    description + sound.getDurationSeconds() + ' ' + secondsLabel);
-		}
-		
-		pagin.show(sender, page, FormatTemplate.LIST_ITEM_DESCRIPTION);
-	}
-	
+    @Override
+    public void execute(CommandSender sender, CommandArguments args) throws InvalidArgumentException {
+
+        String regionName = args.getString("regionName");
+
+        RegionManager regionManager = MusicalRegions.getRegionManager();
+
+        MusicRegion region = regionManager.get(regionName);
+        if (region == null) {
+            tellError(sender, Lang.get(_REGION_NOT_FOUND, regionName));
+            return; // finish
+        }
+
+        if (!regionManager.remove(regionName)) {
+            tellError(sender, Lang.get(_FAILED, regionName));
+            return; // finish
+        }
+
+        tellSuccess(sender, Lang.get(_SUCCESS, regionName));
+    }
 }

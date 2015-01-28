@@ -22,49 +22,58 @@
  */
 
 
-package com.jcwhatever.bukkit.musical.commands;
+package com.jcwhatever.musical.commands;
 
+import com.jcwhatever.musical.Lang;
+import com.jcwhatever.musical.MusicalRegions;
+import com.jcwhatever.musical.regions.MusicRegion;
+import com.jcwhatever.musical.regions.RegionManager;
 import com.jcwhatever.nucleus.commands.AbstractCommand;
 import com.jcwhatever.nucleus.commands.CommandInfo;
 import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
 import com.jcwhatever.nucleus.commands.exceptions.CommandException;
 import com.jcwhatever.nucleus.regions.selection.IRegionSelection;
-import com.jcwhatever.bukkit.musical.MusicalRegions;
-import com.jcwhatever.bukkit.musical.regions.MusicRegion;
-import com.jcwhatever.bukkit.musical.regions.RegionManager;
+import com.jcwhatever.nucleus.utils.language.Localizable;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandInfo(
-		command="setregion", 
-		staticParams={"regionName"},
-		description="Change a musical regions to your current region selection.")
+        command="redefine",
+        staticParams={"regionName"},
+        description="Redefine a musical regions coordinates using your current region selection.",
+        paramDescriptions = {
+                "regionName= The name of the region to redefine."
+        })
 
-public class SetRegionCommand extends AbstractCommand {
+public class RedefineCommand extends AbstractCommand {
 
-	@Override
-	public void execute(CommandSender sender, CommandArguments args) throws CommandException{
+    @Localizable static final String _REGION_NOT_FOUND =
+            "A musical region with the name '{0: region name}' was not found.";
 
-		CommandException.checkNotConsole(this, sender);
+    @Localizable static final String _SUCCESS =
+            "Musical region '{0: region name}' redefined.";
 
-		String regionName = args.getName("regionName");
-		
-		RegionManager regionManager = MusicalRegions.getPlugin().getRegionManager();
-		
-		MusicRegion region = regionManager.getRegion(regionName);
-		if (region == null) {
-			tellError(sender, "A musical region with the name '" + regionName + "' was not found.");
-			return; // finish
-		}
-		
-		IRegionSelection sel = getRegionSelection((Player) sender);
-		if (sel == null)
-			return; // finish
-		
-		region.setCoords(sel.getP1(), sel.getP2());
-		
-		tellSuccess(sender, "Region changed for '" + regionName + "'.");
-	}
-	
+    @Override
+    public void execute(CommandSender sender, CommandArguments args) throws CommandException{
+
+        CommandException.checkNotConsole(this, sender);
+
+        String regionName = args.getString("regionName");
+
+        IRegionSelection sel = getRegionSelection((Player) sender);
+        if (sel == null)
+            return; // finish
+
+        RegionManager regionManager = MusicalRegions.getRegionManager();
+        MusicRegion region = regionManager.get(regionName);
+        if (region == null) {
+            tellError(sender, Lang.get(_REGION_NOT_FOUND, regionName));
+            return; // finish
+        }
+
+        region.setCoords(sel.getP1(), sel.getP2());
+
+        tellSuccess(sender, Lang.get(_SUCCESS, regionName));
+    }
 }

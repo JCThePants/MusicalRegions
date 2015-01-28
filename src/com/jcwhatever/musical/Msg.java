@@ -1,9 +1,8 @@
-package com.jcwhatever.bukkit.musical;
+package com.jcwhatever.musical;
 
 import com.jcwhatever.nucleus.messaging.ChatPaginator;
 import com.jcwhatever.nucleus.messaging.IMessenger;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
-import com.jcwhatever.bukkit.musical.MusicalRegions;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -11,8 +10,8 @@ import org.bukkit.entity.Player;
 import java.util.Collection;
 import java.util.UUID;
 
-/*
- * 
+/**
+ * Convenience class for accessing musical regions chat and console messenger.
  */
 public class Msg {
 
@@ -68,5 +67,4 @@ public class Msg {
     private static IMessenger msg() {
         return MusicalRegions.getPlugin().getMessenger();
     }
-
 }

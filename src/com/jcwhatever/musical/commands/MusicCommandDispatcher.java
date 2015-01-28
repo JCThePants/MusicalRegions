@@ -22,15 +22,25 @@
  */
 
 
-package com.jcwhatever.bukkit.musical;
+package com.jcwhatever.musical.commands;
 
-import com.jcwhatever.nucleus.utils.language.Localized;
+import com.jcwhatever.nucleus.commands.CommandDispatcher;
+import com.jcwhatever.musical.MusicalRegions;
 
-public class Lang {
-    private Lang() {}
+public class MusicCommandDispatcher extends CommandDispatcher {
 
-    @Localized
-    public static String get(String text, Object... params) {
-        return MusicalRegions.getPlugin().getLanguageManager().get(text, params);
+    public MusicCommandDispatcher() {
+        super(MusicalRegions.getPlugin());
+    }
+
+    @Override
+    protected void registerCommands() {
+        this.registerCommand(CreateCommand.class);
+        this.registerCommand(DelCommand.class);
+        this.registerCommand(ListCommand.class);
+        this.registerCommand(ListMusicCommand.class);
+        this.registerCommand(LoopCommand.class);
+        this.registerCommand(RedefineCommand.class);
+        this.registerCommand(SetSoundCommand.class);
     }
 }
