@@ -32,13 +32,17 @@ import com.jcwhatever.nucleus.sounds.PlayList.PlayerSoundQueue;
 import com.jcwhatever.nucleus.sounds.ResourceSound;
 import com.jcwhatever.nucleus.sounds.SoundManager;
 import com.jcwhatever.nucleus.storage.IDataNode;
+import com.jcwhatever.nucleus.utils.ArrayUtils;
 import com.jcwhatever.nucleus.utils.CollectionUtils;
+import com.jcwhatever.nucleus.utils.PreCon;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import javax.annotation.Nullable;
 
 /**
  * A region that plays sounds to players that enter.
@@ -74,14 +78,9 @@ public class MusicRegion extends Region {
      * @param sound  The resource sound.
      */
     public void setSound(ResourceSound sound) {
-        _playList.clearSounds();
-        _playList.addSound(sound);
+        PreCon.notNull(sound);
 
-        IDataNode dataNode = getDataNode();
-        assert dataNode != null;
-
-        dataNode.set("sounds", _playList.getSounds());
-        dataNode.save();
+        setSound(ArrayUtils.asList(sound));
     }
 
     /**
@@ -91,6 +90,7 @@ public class MusicRegion extends Region {
      * @param sounds  The resource sounds.
      */
     public void setSound(Collection<ResourceSound> sounds) {
+        PreCon.notNull(sounds);
 
         _playList.clearSounds();
         _playList.addSounds(sounds);
@@ -98,7 +98,13 @@ public class MusicRegion extends Region {
         IDataNode dataNode = getDataNode();
         assert dataNode != null;
 
-        dataNode.set("sounds", _playList.getSounds());
+        List<String> soundNames = new ArrayList<>(sounds.size());
+
+        for (ResourceSound sound : sounds) {
+            soundNames.add(sound.getName());
+        }
+
+        dataNode.set("sounds", soundNames);
         dataNode.save();
     }
 
@@ -134,6 +140,16 @@ public class MusicRegion extends Region {
     protected void onPlayerLeave(Player p, LeaveRegionReason reason) {
         if (!p.getWorld().equals(this.getWorld()))
             _playList.removePlayer(p);
+    }
+
+    @Override
+    protected void onCoordsChanged(@Nullable Location p1, @Nullable Location p2) {
+
+        if (p1 == null || p2 == null)
+            return;
+
+        _playList.setLocation(getCenter());
+        _playList.setVolume(Math.max(1, (Math.max(getXBlockWidth(), getZBlockWidth())) / 16));
     }
 
     private void load() {
