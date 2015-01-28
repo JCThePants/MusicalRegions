@@ -52,7 +52,7 @@ import java.util.Collection;
 public class ListCommand extends AbstractCommand {
 
     @Localizable static final String _PAGINATOR_TITLE =
-            "Available Resource Sounds";
+            "Musical Regions";
 
     @Localizable static final String _LABEL_NONE =
             "{RED}<none>";
