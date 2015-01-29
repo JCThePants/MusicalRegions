@@ -28,7 +28,6 @@ import com.jcwhatever.musical.Msg;
 import com.jcwhatever.musical.MusicalRegions;
 import com.jcwhatever.nucleus.regions.Region;
 import com.jcwhatever.nucleus.sounds.PlayList;
-import com.jcwhatever.nucleus.sounds.PlayList.PlayerSoundQueue;
 import com.jcwhatever.nucleus.sounds.ResourceSound;
 import com.jcwhatever.nucleus.sounds.SoundManager;
 import com.jcwhatever.nucleus.storage.IDataNode;
@@ -130,16 +129,8 @@ public class MusicRegion extends Region {
     }
 
     @Override
-    protected boolean canDoPlayerEnter(Player p, EnterRegionReason reason) {
-
-        PlayerSoundQueue queue = _playList.getSoundQueue(p);
-        return queue == null && super.canDoPlayerEnter(p, reason);
-    }
-
-    @Override
     protected void onPlayerLeave(Player p, LeaveRegionReason reason) {
-        if (!p.getWorld().equals(this.getWorld()))
-            _playList.removePlayer(p);
+        _playList.removePlayer(p);
     }
 
     @Override
