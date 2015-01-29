@@ -171,8 +171,10 @@ public class MusicRegion extends Region {
         for (String soundName : soundNames) {
 
             ResourceSound sound = SoundManager.getSound(soundName.trim());
-            if (sound == null)
+            if (sound == null) {
                 Msg.debug("Failed to find resource sound '{0}' for musical region '{1}'", soundName, getName());
+                continue;
+            }
 
             sounds.add(sound);
         }
