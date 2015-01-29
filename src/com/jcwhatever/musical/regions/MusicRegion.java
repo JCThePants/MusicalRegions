@@ -148,8 +148,10 @@ public class MusicRegion extends Region {
         if (p1 == null || p2 == null)
             return;
 
-        _playList.setLocation(getCenter());
-        _playList.setVolume(Math.max(1, (Math.max(getXBlockWidth(), getZBlockWidth())) / 16));
+        _playList.getSettings()
+                .clearLocations()
+                .addLocations(getCenter())
+                .setVolume(Math.max(1, (Math.max(getXBlockWidth(), getZBlockWidth())) / 16));
     }
 
     private void load() {
@@ -177,7 +179,8 @@ public class MusicRegion extends Region {
 
         _playList = new PlayList(MusicalRegions.getPlugin(), sounds);
         _playList.setLoop(isLoop);
-        _playList.setLocation(getCenter());
-        _playList.setVolume(Math.max(1, (Math.max(getXBlockWidth(), getZBlockWidth())) / 16));
+        _playList.getSettings()
+                .addLocations(getCenter())
+                .setVolume(Math.max(1, (Math.max(getXBlockWidth(), getZBlockWidth())) / 16));
     }
 }
