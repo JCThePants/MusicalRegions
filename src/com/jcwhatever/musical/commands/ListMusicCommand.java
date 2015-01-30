@@ -66,8 +66,8 @@ public class ListMusicCommand extends AbstractCommand {
         String secondsLabel = Lang.get(_LABEL_SECONDS);
         for (ResourceSound sound : sounds) {
 
-            String description = sound.getDisplayName() != null
-                    ? sound.getDisplayName() + " - "
+            String description = sound.getTitle() != null
+                    ? sound.getTitle() + " - "
                     : "";
 
             pagin.add(sound.getName(),
