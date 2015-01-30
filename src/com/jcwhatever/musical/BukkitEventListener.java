@@ -25,6 +25,7 @@
 package com.jcwhatever.musical;
 
 
+import com.jcwhatever.nucleus.actionbar.ActionBar;
 import com.jcwhatever.nucleus.events.sounds.PlayResourceSoundEvent;
 import com.jcwhatever.nucleus.sounds.MusicSound;
 import com.jcwhatever.nucleus.sounds.ResourceSound;
@@ -33,10 +34,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Listens to Bukkit events.
  */
 public class BukkitEventListener implements Listener {
+
+    private Map<String, ActionBar> _actionBars = new HashMap<>(10);
 
     @EventHandler()
     private void onPlayResourceSound(PlayResourceSoundEvent event) {
@@ -44,20 +50,22 @@ public class BukkitEventListener implements Listener {
         if (!(event.getResourceSound() instanceof MusicSound))
             return;
 
-        String msg = "";
         ResourceSound sound = event.getResourceSound();
-        Player p = event.getPlayer();
 
-        if (sound.getCredit() != null) {
-            msg += sound.getCredit();
+        ActionBar actionBar = _actionBars.get(sound.getName());
+        if (actionBar == null) {
+
+            String msg = MusicalRegions.getPlugin().getChatPrefix() + '\'' + sound.getTitle() + '\'';
+
+            if (sound.getCredit() != null) {
+                msg += " - By " + sound.getCredit();
+            }
+
+            actionBar = new ActionBar(msg);
+            _actionBars.put(sound.getName(), actionBar);
         }
 
-        if (!msg.isEmpty())
-            msg += " - ";
-
-        msg += '\'' + sound.getDisplayName() + '\'';
-
-        if (!msg.isEmpty())
-            Msg.tell(p, msg);
+        Player p = event.getPlayer();
+        actionBar.show(p);
     }
 }
