@@ -121,6 +121,11 @@ public class MusicRegion extends Region {
      */
     public void setLoop(boolean isLoop) {
         _playList.setLoop(isLoop);
+
+        IDataNode dataNode = getDataNode();
+        assert dataNode != null;
+
+        dataNode.set("loop", isLoop);
     }
 
     @Override
