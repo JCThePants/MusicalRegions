@@ -25,7 +25,10 @@
 package com.jcwhatever.musical.regions;
 
 import com.jcwhatever.musical.MusicalRegions;
+import com.jcwhatever.musical.events.RegionPlayEvent;
 import com.jcwhatever.musical.playlists.RegionPlayList;
+import com.jcwhatever.nucleus.Nucleus;
+import com.jcwhatever.nucleus.collections.players.PlayerMap;
 import com.jcwhatever.nucleus.collections.players.PlayerSet;
 import com.jcwhatever.nucleus.regions.Region;
 import com.jcwhatever.nucleus.regions.selection.IRegionSelection;
@@ -39,7 +42,9 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import javax.annotation.Nullable;
 
 /**
@@ -61,6 +66,7 @@ public class MusicRegion extends Region {
     private float _volumeFactor = 1.0f;
     private Set<Player> _exclude;
     private SoundSettings _settings = new SoundSettings();
+    private Map<UUID, PlayList> _playLists = new PlayerMap<PlayList>(MusicalRegions.getPlugin());
 
     /**
      * Constructor.
@@ -233,14 +239,24 @@ public class MusicRegion extends Region {
         if (isExcluded(p) || _playList == null)
             return;
 
-        _playList.addPlayer(p, _settings);
+        RegionPlayEvent event = new RegionPlayEvent(p, this, _playList);
+        Nucleus.getEventManager().callBukkit(this, event);
+        if (event.isCancelled())
+            return;
+
+        event.getPlayList().addPlayer(p, _settings);
+
+        _playLists.put(p.getUniqueId(), event.getPlayList());
     }
 
     @Override
     protected void onPlayerLeave(Player p, LeaveRegionReason reason) {
 
-        if (_playList != null)
-            _playList.removePlayer(p);
+        PlayList playList = _playLists.remove(p.getUniqueId());
+        if (playList == null)
+            return;
+
+        playList.removePlayer(p);
     }
 
     @Override
