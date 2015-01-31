@@ -33,6 +33,7 @@ import com.jcwhatever.nucleus.collections.players.PlayerSet;
 import com.jcwhatever.nucleus.regions.Region;
 import com.jcwhatever.nucleus.regions.selection.IRegionSelection;
 import com.jcwhatever.nucleus.sounds.PlayList;
+import com.jcwhatever.nucleus.sounds.PlayList.PlayerSoundQueue;
 import com.jcwhatever.nucleus.sounds.ResourceSound;
 import com.jcwhatever.nucleus.sounds.SoundSettings;
 import com.jcwhatever.nucleus.storage.IDataNode;
@@ -238,6 +239,15 @@ public class MusicRegion extends Region {
 
         if (isExcluded(p) || _playList == null)
             return;
+
+        PlayList playList = _playLists.get(p.getUniqueId());
+        if (playList != null) {
+
+            // don't play playlist if player is already listening to a queue
+            PlayerSoundQueue queue = playList.getSoundQueue(p);
+            if (queue != null)
+                return;
+        }
 
         RegionPlayEvent event = new RegionPlayEvent(p, this, _playList);
         Nucleus.getEventManager().callBukkit(this, event);
