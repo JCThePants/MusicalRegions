@@ -91,5 +91,4 @@ public class SetSoundCommand extends AbstractCommand {
 
         tellSuccess(sender, Lang.get(_SUCCESS, regionName));
     }
-
 }

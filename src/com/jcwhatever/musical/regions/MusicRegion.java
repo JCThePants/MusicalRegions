@@ -27,6 +27,7 @@ package com.jcwhatever.musical.regions;
 import com.jcwhatever.musical.Msg;
 import com.jcwhatever.musical.MusicalRegions;
 import com.jcwhatever.nucleus.regions.Region;
+import com.jcwhatever.nucleus.regions.selection.IRegionSelection;
 import com.jcwhatever.nucleus.sounds.PlayList;
 import com.jcwhatever.nucleus.sounds.ResourceSound;
 import com.jcwhatever.nucleus.sounds.SoundManager;
@@ -48,7 +49,18 @@ import javax.annotation.Nullable;
  */
 public class MusicRegion extends Region {
 
+    /**
+     * Calculate the volume needed to encompass a region in a sphere
+     * where the audio can be heard at full volume.
+     *
+     * @param region  The region to get a volume for.
+     */
+    public static float calculateVolume(IRegionSelection region) {
+        return (float) ((Math.max(region.getXBlockWidth(), region.getZBlockWidth()) * Math.sqrt(3)) / 16D);
+    }
+
     private PlayList _playList;
+    private float _volumeFactor = 1.0f;
 
     /**
      * Constructor.
@@ -69,6 +81,49 @@ public class MusicRegion extends Region {
      */
     public PlayList getPlayList() {
         return _playList;
+    }
+
+    /**
+     * Get the volume the sound is played at.
+     */
+    public float getSoundVolume() {
+        return _playList.getSettings().getVolume();
+    }
+
+    /**
+     * Get the factor applied to the regions pre-calculated audio volume value.
+     *
+     * <p>This is not the Minecraft audio volume. The value is factored into the default
+     * volume calculations for the region and serves as a final adjustment.</p>
+     */
+    public float getSoundVolumeFactor() {
+        return _volumeFactor;
+    }
+
+    /**
+     * Set the factor applied to the regions pre-calculated audio volume value.
+     *
+     * <p>This is not the Minecraft audio volume. The value is factored into the default
+     * volume calculations for the region and serves as a final adjustment.</p>
+     *
+     * @param factor  The factor to apply to the sound volume.
+     */
+    public void setSoundVolumeFactor(float factor) {
+        _volumeFactor = factor;
+        _playList.getSettings().setVolume(calculateVolume(this) * factor);
+
+        IDataNode dataNode = getDataNode();
+        assert dataNode != null;
+
+        dataNode.set("volume", factor);
+        dataNode.save();
+    }
+
+    /**
+     * Get the resource sounds that the region plays.
+     */
+    public List<ResourceSound> getSounds() {
+        return _playList.getSounds();
     }
 
     /**
@@ -157,6 +212,7 @@ public class MusicRegion extends Region {
         assert dataNode != null;
 
         boolean isLoop = dataNode.getBoolean("loop");
+        _volumeFactor = (float)dataNode.getDouble("volume", _volumeFactor);
 
         //noinspection unchecked
         List<String> soundNames = dataNode.getStringList("sounds", CollectionUtils.UNMODIFIABLE_EMPTY_LIST);
@@ -179,6 +235,6 @@ public class MusicRegion extends Region {
         _playList.setLoop(isLoop);
         _playList.getSettings()
                 .addLocations(getCenter())
-                .setVolume(Math.max(1, (Math.max(getXBlockWidth(), getZBlockWidth())) / 16));
+                .setVolume(calculateVolume(this) * _volumeFactor);
     }
 }

@@ -37,10 +37,12 @@ public class MusicCommandDispatcher extends CommandDispatcher {
     protected void registerCommands() {
         this.registerCommand(CreateCommand.class);
         this.registerCommand(DelCommand.class);
+        this.registerCommand(InfoCommand.class);
         this.registerCommand(ListCommand.class);
         this.registerCommand(ListMusicCommand.class);
         this.registerCommand(LoopCommand.class);
         this.registerCommand(RedefineCommand.class);
         this.registerCommand(SetSoundCommand.class);
+        this.registerCommand(VolumeCommand.class);
     }
 }
