@@ -127,6 +127,43 @@ public class MusicRegion extends Region {
     }
 
     /**
+     * Get the location the sound is played from.
+     */
+    public Location getSoundSource() {
+        List<Location> locations = _playList.getSettings().getLocations();
+        assert !locations.isEmpty();
+
+        return locations.get(0);
+    }
+
+    /**
+     * Set the location the sound is played from.
+     *
+     * @param location  The location to play the sound from. Must be in the
+     *                  same world as the region.
+     */
+    public void setSoundSource(Location location) {
+        PreCon.notNull(location);
+        PreCon.isValid(getWorld() != null && getWorld().equals(location.getWorld()),
+                "Sound source location must be in the same world as the region.");
+
+        _playList.getSettings().clearLocations().addLocations(location);
+
+        IDataNode dataNode = getDataNode();
+        assert dataNode != null;
+
+        dataNode.set("source", location);
+        dataNode.save();
+    }
+
+    /**
+     * Reset the sound source back to the regions center point.
+     */
+    public void resetSoundSource() {
+        setSoundSource(getCenter());
+    }
+
+    /**
      * Erase the regions playlist and replace with a single resource sound.
      *
      * @param sound  The resource sound.
@@ -200,9 +237,7 @@ public class MusicRegion extends Region {
             return;
 
         _playList.getSettings()
-                .clearLocations()
-                .addLocations(getCenter())
-                .setVolume(Math.max(1, (Math.max(getXBlockWidth(), getZBlockWidth())) / 16));
+                .setVolume(calculateVolume(this) * _volumeFactor);
     }
 
     private void load() {
@@ -212,6 +247,7 @@ public class MusicRegion extends Region {
         assert dataNode != null;
 
         boolean isLoop = dataNode.getBoolean("loop");
+        Location source = dataNode.getLocation("source", getCenter());
         _volumeFactor = (float)dataNode.getDouble("volume", _volumeFactor);
 
         //noinspection unchecked
@@ -234,7 +270,7 @@ public class MusicRegion extends Region {
         _playList = new PlayList(MusicalRegions.getPlugin(), sounds);
         _playList.setLoop(isLoop);
         _playList.getSettings()
-                .addLocations(getCenter())
+                .addLocations(source)
                 .setVolume(calculateVolume(this) * _volumeFactor);
     }
 }
