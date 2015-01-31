@@ -1,5 +1,6 @@
 package com.jcwhatever.musical;
 
+import com.jcwhatever.musical.playlists.RegionPlayList;
 import com.jcwhatever.musical.regions.MusicRegion;
 import com.jcwhatever.nucleus.scripting.IEvaluatedScript;
 import com.jcwhatever.nucleus.scripting.ScriptApiInfo;
@@ -15,8 +16,8 @@ import org.bukkit.plugin.Plugin;
 
 import java.util.List;
 
-/*
- * 
+/**
+ * Musical Regions script API.
  */
 @ScriptApiInfo(
         variableName = "musicalRegions",
@@ -149,6 +150,17 @@ public class MusicScriptApi extends NucleusScriptApi {
             PreCon.notNull(region);
 
             return region.getSounds();
+        }
+
+        /**
+         * Get a playlist by name.
+         *
+         * @param listName  The name of the playlist.
+         */
+        public RegionPlayList getPlayList(String listName) {
+            PreCon.notNullOrEmpty(listName);
+
+            return MusicalRegions.getPlayListManager().get(listName);
         }
     }
 }
