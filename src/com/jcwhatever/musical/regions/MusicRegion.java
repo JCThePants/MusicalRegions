@@ -26,6 +26,7 @@ package com.jcwhatever.musical.regions;
 
 import com.jcwhatever.musical.Msg;
 import com.jcwhatever.musical.MusicalRegions;
+import com.jcwhatever.nucleus.collections.players.PlayerSet;
 import com.jcwhatever.nucleus.regions.Region;
 import com.jcwhatever.nucleus.regions.selection.IRegionSelection;
 import com.jcwhatever.nucleus.sounds.PlayList;
@@ -42,6 +43,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
@@ -61,6 +63,7 @@ public class MusicRegion extends Region {
 
     private PlayList _playList;
     private float _volumeFactor = 1.0f;
+    private Set<Player> _exclude;
 
     /**
      * Constructor.
@@ -220,8 +223,51 @@ public class MusicRegion extends Region {
         dataNode.set("loop", isLoop);
     }
 
+    /**
+     * Determine if a player is excluded from hearing the regions
+     * playlist.
+     *
+     * @param player  The player to check.
+     */
+    public boolean isExcluded(Player player) {
+        return _exclude != null && _exclude.contains(player);
+    }
+
+    /**
+     * Exclude a player from hearing the regions playlist.
+     *
+     * <p>The exclusion is transient. The player is removed from exclusion
+     * when the player logs out of the server.</p>
+     *
+     * @param player  The player to exclude.
+     */
+    public void exclude(Player player) {
+
+        if (_exclude == null)
+            _exclude = new PlayerSet(MusicalRegions.getPlugin());
+
+        _exclude.add(player);
+    }
+
+    /**
+     * Remove a player from exclusion.
+     *
+     * @param player  The player to include.
+     */
+    public void include(Player player) {
+
+        if (_exclude == null)
+            return;
+
+        _exclude.remove(player);
+    }
+
     @Override
     protected void onPlayerEnter(Player p, EnterRegionReason reason) {
+
+        if (isExcluded(p))
+            return;
+
         _playList.addPlayer(p);
     }
 
