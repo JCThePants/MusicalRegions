@@ -26,6 +26,7 @@ package com.jcwhatever.musical;
 
 import com.jcwhatever.musical.commands.MusicCommandDispatcher;
 import com.jcwhatever.musical.regions.RegionManager;
+import com.jcwhatever.nucleus.Nucleus;
 import com.jcwhatever.nucleus.NucleusPlugin;
 
 import org.bukkit.ChatColor;
@@ -78,10 +79,15 @@ public class MusicalRegions extends NucleusPlugin {
 
         registerCommands(new MusicCommandDispatcher());
         registerEventListeners(new BukkitEventListener());
+
+        Nucleus.getScriptApiRepo().registerApiType(this, MusicScriptApi.class);
     }
 
     @Override
     protected void onDisablePlugin() {
+
+        Nucleus.getScriptApiRepo().unregisterApiType(this, MusicScriptApi.class);
+
         _instance = null;
     }
 }
