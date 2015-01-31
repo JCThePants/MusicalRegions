@@ -22,7 +22,7 @@
  */
 
 
-package com.jcwhatever.musical.commands;
+package com.jcwhatever.musical.commands.regions;
 
 import com.jcwhatever.musical.Lang;
 import com.jcwhatever.musical.MusicalRegions;
@@ -32,63 +32,53 @@ import com.jcwhatever.nucleus.commands.AbstractCommand;
 import com.jcwhatever.nucleus.commands.CommandInfo;
 import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
 import com.jcwhatever.nucleus.commands.exceptions.InvalidArgumentException;
-import com.jcwhatever.nucleus.sounds.ResourceSound;
-import com.jcwhatever.nucleus.sounds.SoundManager;
+import com.jcwhatever.nucleus.messaging.ChatPaginator;
 import com.jcwhatever.nucleus.utils.language.Localizable;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
+import com.jcwhatever.nucleus.utils.text.TextUtils.FormatTemplate;
 
 import org.bukkit.command.CommandSender;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 @CommandInfo(
-        command="setsound",
-        staticParams={"regionName", "soundNames"},
-        description="Change a musical regions sound.",
+        command="list",
+        staticParams={"page=1"},
+        description="List music regions.",
         paramDescriptions = {
-                "regionName= The name of the region.",
-                "soundNames= A comma delimited list of resource sound names."
+                "page= {PAGE}"
         })
 
-public class SetSoundCommand extends AbstractCommand {
+public class ListSubCommand extends AbstractCommand {
 
-    @Localizable static final String _REGION_NOT_FOUND =
-            "A musical region with the name '{0: region name}' was not found.";
+    @Localizable static final String _PAGINATOR_TITLE =
+            "Musical Regions";
 
-    @Localizable static final String _SOUND_NOT_FOUND =
-            "A resource sound named '{0: sound name}' was not found.";
-
-    @Localizable static final String _SUCCESS =
-            "Musical region '{0: region name}' sounds updated.";
+    @Localizable static final String _LABEL_NONE =
+            "{RED}<none>";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws InvalidArgumentException {
 
-        String regionName = args.getName("regionName");
-        String rawSoundNames = args.getString("soundNames");
+        int page = args.getInteger("page");
+
+        ChatPaginator pagin = new ChatPaginator(getPlugin(), 6, Lang.get(_PAGINATOR_TITLE));
 
         RegionManager regionManager = MusicalRegions.getRegionManager();
-        MusicRegion region = regionManager.get(regionName);
-        if (region == null) {
-            tellError(sender, Lang.get(_REGION_NOT_FOUND, regionName));
-            return; // finish
+
+        Collection<MusicRegion> regions = regionManager.getAll();
+
+        String noneLabel = Lang.get(_LABEL_NONE);
+
+        for (MusicRegion region : regions) {
+
+            String description = (region.getPlayList() == null || region.getPlayList().size() == 0
+                    ? noneLabel
+                    : TextUtils.concat(region.getPlayList().getSounds(), ", "));
+
+            pagin.add(region.getName(), description);
         }
 
-        String[] soundNames = TextUtils.PATTERN_COMMA.split(rawSoundNames);
-        List<ResourceSound> sounds = new ArrayList<ResourceSound>(soundNames.length);
-
-        for (String soundName : soundNames) {
-            ResourceSound sound = SoundManager.getSound(soundName);
-            if (sound == null) {
-                tellError(sender, Lang.get(_SOUND_NOT_FOUND, soundName));
-                return; // finish
-            }
-            sounds.add(sound);
-        }
-
-        region.setSound(sounds);
-
-        tellSuccess(sender, Lang.get(_SUCCESS, regionName));
+        pagin.show(sender, page, FormatTemplate.LIST_ITEM_DESCRIPTION);
     }
 }

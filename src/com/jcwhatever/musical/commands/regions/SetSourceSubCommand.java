@@ -1,4 +1,4 @@
-package com.jcwhatever.musical.commands;
+package com.jcwhatever.musical.commands.regions;
 
 import com.jcwhatever.musical.Lang;
 import com.jcwhatever.musical.MusicalRegions;
@@ -26,7 +26,7 @@ import org.bukkit.entity.Player;
                         "Otherwise specify specific location: {LOCATION}"
         })
 
-public class SetSourceCommand extends AbstractCommand {
+public class SetSourceSubCommand extends AbstractCommand {
 
     @Localizable static final String _REGION_NOT_FOUND =
             "A musical region with the name '{0: region name}' was not found.";

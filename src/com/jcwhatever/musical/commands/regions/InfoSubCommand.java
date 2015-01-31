@@ -1,4 +1,4 @@
-package com.jcwhatever.musical.commands;
+package com.jcwhatever.musical.commands.regions;
 
 import com.jcwhatever.musical.Lang;
 import com.jcwhatever.musical.MusicalRegions;
@@ -24,7 +24,7 @@ import org.bukkit.command.CommandSender;
                 "page= {PAGE}"
         })
 
-public class InfoCommand extends AbstractCommand {
+public class InfoSubCommand extends AbstractCommand {
 
     @Localizable static final String _PAGINATOR_TITLE =
             "Region Info for '{0: region name}'";

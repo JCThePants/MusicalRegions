@@ -25,6 +25,7 @@
 package com.jcwhatever.musical;
 
 import com.jcwhatever.musical.commands.MusicCommandDispatcher;
+import com.jcwhatever.musical.playlists.PlayListManager;
 import com.jcwhatever.musical.regions.RegionManager;
 import com.jcwhatever.nucleus.Nucleus;
 import com.jcwhatever.nucleus.NucleusPlugin;
@@ -41,6 +42,7 @@ public class MusicalRegions extends NucleusPlugin {
 
     private static MusicalRegions _instance;
 
+    private PlayListManager _playListManager;
     private RegionManager _regionManager;
 
     public static MusicalRegions getPlugin() {
@@ -49,6 +51,10 @@ public class MusicalRegions extends NucleusPlugin {
 
     public static RegionManager getRegionManager() {
         return _instance._regionManager;
+    }
+
+    public static PlayListManager getPlayListManager() {
+        return _instance._playListManager;
     }
 
     public MusicalRegions() {
@@ -75,6 +81,7 @@ public class MusicalRegions extends NucleusPlugin {
 
         _instance = this;
 
+        _playListManager = new PlayListManager(this.getDataNode().getNode("playlists"));
         _regionManager = new RegionManager(this.getDataNode().getNode("regions"));
 
         registerCommands(new MusicCommandDispatcher());

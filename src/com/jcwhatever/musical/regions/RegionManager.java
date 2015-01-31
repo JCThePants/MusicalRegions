@@ -24,13 +24,13 @@
 
 package com.jcwhatever.musical.regions;
 
+import com.jcwhatever.musical.playlists.RegionPlayList;
 import com.jcwhatever.nucleus.regions.selection.IRegionSelection;
-import com.jcwhatever.nucleus.sounds.ResourceSound;
 import com.jcwhatever.nucleus.storage.DataBatchOperation;
 import com.jcwhatever.nucleus.storage.IDataNode;
+import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.utils.managers.NamedInsensitiveDataManager;
 
-import java.util.Collection;
 import javax.annotation.Nullable;
 
 /**
@@ -51,14 +51,18 @@ public class RegionManager extends NamedInsensitiveDataManager<MusicRegion> {
      * Create a new musical region.
      *
      * @param regionName  The name of the region.
-     * @param sounds      A collection of resource sounds to use for the regions playlist.
+     * @param playList    The playlist to use.
      * @param selection   The regions coordinates.
      *
      * @return  The new region instance or null if failed.
      */
     public MusicRegion create(String regionName,
-                              final Collection<ResourceSound> sounds,
+                              final RegionPlayList playList,
                               final IRegionSelection selection) {
+
+        PreCon.notNullOrEmpty(regionName);
+        PreCon.notNull(playList);
+        PreCon.notNull(selection);
 
         assert _dataNode != null;
 
@@ -69,7 +73,7 @@ public class RegionManager extends NamedInsensitiveDataManager<MusicRegion> {
             @Override
             public void run(IDataNode dataNode) {
                 region.setCoords(selection.getP1(), selection.getP2());
-                region.setSound(sounds);
+                region.setPlayList(playList);
             }
         });
 

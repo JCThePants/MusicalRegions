@@ -24,24 +24,20 @@
 
 package com.jcwhatever.musical.regions;
 
-import com.jcwhatever.musical.Msg;
 import com.jcwhatever.musical.MusicalRegions;
+import com.jcwhatever.musical.playlists.RegionPlayList;
 import com.jcwhatever.nucleus.collections.players.PlayerSet;
 import com.jcwhatever.nucleus.regions.Region;
 import com.jcwhatever.nucleus.regions.selection.IRegionSelection;
 import com.jcwhatever.nucleus.sounds.PlayList;
 import com.jcwhatever.nucleus.sounds.ResourceSound;
-import com.jcwhatever.nucleus.sounds.SoundManager;
+import com.jcwhatever.nucleus.sounds.SoundSettings;
 import com.jcwhatever.nucleus.storage.IDataNode;
-import com.jcwhatever.nucleus.utils.ArrayUtils;
-import com.jcwhatever.nucleus.utils.CollectionUtils;
 import com.jcwhatever.nucleus.utils.PreCon;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.Nullable;
@@ -61,9 +57,10 @@ public class MusicRegion extends Region {
         return (float) ((Math.max(region.getXBlockWidth(), region.getZBlockWidth()) * Math.sqrt(3)) / 16D);
     }
 
-    private PlayList _playList;
+    private RegionPlayList _playList;
     private float _volumeFactor = 1.0f;
     private Set<Player> _exclude;
+    private SoundSettings _settings = new SoundSettings();
 
     /**
      * Constructor.
@@ -90,7 +87,7 @@ public class MusicRegion extends Region {
      * Get the volume the sound is played at.
      */
     public float getSoundVolume() {
-        return _playList.getSettings().getVolume();
+        return _settings.getVolume();
     }
 
     /**
@@ -113,7 +110,7 @@ public class MusicRegion extends Region {
      */
     public void setSoundVolumeFactor(float factor) {
         _volumeFactor = factor;
-        _playList.getSettings().setVolume(calculateVolume(this) * factor);
+        _settings.setVolume(calculateVolume(this) * factor);
 
         IDataNode dataNode = getDataNode();
         assert dataNode != null;
@@ -133,7 +130,7 @@ public class MusicRegion extends Region {
      * Get the location the sound is played from.
      */
     public Location getSoundSource() {
-        List<Location> locations = _playList.getSettings().getLocations();
+        List<Location> locations = _settings.getLocations();
         assert !locations.isEmpty();
 
         return locations.get(0);
@@ -150,7 +147,7 @@ public class MusicRegion extends Region {
         PreCon.isValid(getWorld() != null && getWorld().equals(location.getWorld()),
                 "Sound source location must be in the same world as the region.");
 
-        _playList.getSettings().clearLocations().addLocations(location);
+        _settings.clearLocations().addLocations(location);
 
         IDataNode dataNode = getDataNode();
         assert dataNode != null;
@@ -167,60 +164,28 @@ public class MusicRegion extends Region {
     }
 
     /**
-     * Erase the regions playlist and replace with a single resource sound.
+     * Set the default playlist for the region.
      *
-     * @param sound  The resource sound.
+     * @param playList  The playlist.
      */
-    public void setSound(ResourceSound sound) {
-        PreCon.notNull(sound);
+    public void setPlayList(RegionPlayList playList) {
+        PreCon.notNull(playList);
 
-        setSound(ArrayUtils.asList(sound));
-    }
-
-    /**
-     * Erase the regions playlist and replace with the specified
-     * resource sounds.
-     *
-     * @param sounds  The resource sounds.
-     */
-    public void setSound(Collection<ResourceSound> sounds) {
-        PreCon.notNull(sounds);
-
-        _playList.clearSounds();
-        _playList.addSounds(sounds);
+        _playList = playList;
 
         IDataNode dataNode = getDataNode();
         assert dataNode != null;
 
-        List<String> soundNames = new ArrayList<>(sounds.size());
-
-        for (ResourceSound sound : sounds) {
-            soundNames.add(sound.getName());
-        }
-
-        dataNode.set("sounds", soundNames);
+        dataNode.set("playlist", playList.getName());
         dataNode.save();
     }
+
 
     /**
      * Determine if the regions playlist plays in a loop.
      */
     public boolean isLoop() {
-        return _playList.isLoop();
-    }
-
-    /**
-     * Enable or disable playlist looping for the region.
-     *
-     * @param isLoop  True to enable, false to disable.
-     */
-    public void setLoop(boolean isLoop) {
-        _playList.setLoop(isLoop);
-
-        IDataNode dataNode = getDataNode();
-        assert dataNode != null;
-
-        dataNode.set("loop", isLoop);
+        return _playList != null && _playList.isLoop();
     }
 
     /**
@@ -265,15 +230,17 @@ public class MusicRegion extends Region {
     @Override
     protected void onPlayerEnter(Player p, EnterRegionReason reason) {
 
-        if (isExcluded(p))
+        if (isExcluded(p) || _playList == null)
             return;
 
-        _playList.addPlayer(p);
+        _playList.addPlayer(p, _settings);
     }
 
     @Override
     protected void onPlayerLeave(Player p, LeaveRegionReason reason) {
-        _playList.removePlayer(p);
+
+        if (_playList != null)
+            _playList.removePlayer(p);
     }
 
     @Override
@@ -282,8 +249,7 @@ public class MusicRegion extends Region {
         if (p1 == null || p2 == null)
             return;
 
-        _playList.getSettings()
-                .setVolume(calculateVolume(this) * _volumeFactor);
+        _settings.setVolume(calculateVolume(this) * _volumeFactor);
     }
 
     private void load() {
@@ -292,31 +258,14 @@ public class MusicRegion extends Region {
 
         assert dataNode != null;
 
-        boolean isLoop = dataNode.getBoolean("loop");
         Location source = dataNode.getLocation("source", getCenter());
+        String playList = dataNode.getString("playlist");
         _volumeFactor = (float)dataNode.getDouble("volume", _volumeFactor);
 
-        //noinspection unchecked
-        List<String> soundNames = dataNode.getStringList("sounds", CollectionUtils.UNMODIFIABLE_EMPTY_LIST);
-        assert soundNames != null;
+        if (playList != null)
+            _playList = MusicalRegions.getPlayListManager().get(playList);
 
-        List<ResourceSound> sounds = new ArrayList<>(soundNames.size());
-
-        for (String soundName : soundNames) {
-
-            ResourceSound sound = SoundManager.getSound(soundName.trim());
-            if (sound == null) {
-                Msg.debug("Failed to find resource sound '{0}' for musical region '{1}'", soundName, getName());
-                continue;
-            }
-
-            sounds.add(sound);
-        }
-
-        _playList = new PlayList(MusicalRegions.getPlugin(), sounds);
-        _playList.setLoop(isLoop);
-        _playList.getSettings()
-                .addLocations(source)
+        _settings.addLocations(source)
                 .setVolume(calculateVolume(this) * _volumeFactor);
     }
 }

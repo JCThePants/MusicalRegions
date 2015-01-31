@@ -22,7 +22,7 @@
  */
 
 
-package com.jcwhatever.musical.commands;
+package com.jcwhatever.musical.commands.regions;
 
 import com.jcwhatever.musical.Lang;
 import com.jcwhatever.musical.MusicalRegions;
@@ -44,7 +44,7 @@ import org.bukkit.command.CommandSender;
                 "regionName= The name of the region to delete."
         })
 
-public class DelCommand extends AbstractCommand {
+public class DelSubCommand extends AbstractCommand {
 
     @Localizable static final String _REGION_NOT_FOUND =
             "A musical region with the name '{0: region name}' was not found.";

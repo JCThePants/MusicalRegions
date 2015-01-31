@@ -22,10 +22,12 @@
  */
 
 
-package com.jcwhatever.musical.commands;
+package com.jcwhatever.musical.commands.regions;
 
 import com.jcwhatever.musical.Lang;
 import com.jcwhatever.musical.MusicalRegions;
+import com.jcwhatever.musical.playlists.PlayListManager;
+import com.jcwhatever.musical.playlists.RegionPlayList;
 import com.jcwhatever.musical.regions.MusicRegion;
 import com.jcwhatever.musical.regions.RegionManager;
 import com.jcwhatever.nucleus.commands.AbstractCommand;
@@ -33,40 +35,34 @@ import com.jcwhatever.nucleus.commands.CommandInfo;
 import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
 import com.jcwhatever.nucleus.commands.exceptions.CommandException;
 import com.jcwhatever.nucleus.regions.selection.IRegionSelection;
-import com.jcwhatever.nucleus.sounds.ResourceSound;
-import com.jcwhatever.nucleus.sounds.SoundManager;
 import com.jcwhatever.nucleus.utils.language.Localizable;
-import com.jcwhatever.nucleus.utils.text.TextUtils;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
-
 
 @CommandInfo(
-        command="create",
-        staticParams={"regionName", "soundNames"},
+        command="add",
+        staticParams={"regionName", "playListName"},
         description="Create a musical region using your current region selection.",
         paramDescriptions = {
                 "regionName= The name of the region. {NAME16}",
-                "soundNames= A comma delimited list of resource sounds that the region will play."
+                "playListName= The name of the playlist to use."
         })
 
-public class CreateCommand extends AbstractCommand {
+public class AddSubCommand extends AbstractCommand {
 
     @Localizable static final String _REGION_ALREADY_EXISTS =
             "There is already a musical region with the name '{0: region name}'.";
 
-    @Localizable static final String _SOUND_NOT_FOUND =
-            "Failed to find resource sound named '{0: sound name}'.";
+    @Localizable static final String _PLAYLIST_NOT_FOUND =
+            "Failed to find a playlist named '{0: playlist name}'.";
 
     @Localizable static final String _FAILED =
             "Failed to create a new region.";
 
     @Localizable static final String _SUCCESS =
-            "New musical region named '{0: region name}' created.";
+            "New musical region named '{0: region name}' was created.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException{
@@ -74,7 +70,7 @@ public class CreateCommand extends AbstractCommand {
         CommandException.checkNotConsole(this, sender);
 
         String regionName = args.getName("regionName");
-        String soundNames = args.getString("soundNames");
+        String playListName = args.getString("playListName");
 
         IRegionSelection regionSelection = getRegionSelection((Player) sender);
         if (regionSelection == null)
@@ -87,19 +83,14 @@ public class CreateCommand extends AbstractCommand {
             return; // finish
         }
 
-        String[] names = TextUtils.PATTERN_COMMA.split(soundNames);
-        List<ResourceSound> sounds = new ArrayList<>(names.length);
-
-        for (String name : names) {
-            ResourceSound sound = SoundManager.getSound(name.trim());
-            if (sound == null) {
-                tellError(sender, Lang.get(_SOUND_NOT_FOUND, name));
-            }
-
-            sounds.add(sound);
+        PlayListManager playListManager = MusicalRegions.getPlayListManager();
+        RegionPlayList playList = playListManager.get(playListName);
+        if (playList == null) {
+            tellError(sender, Lang.get(_PLAYLIST_NOT_FOUND, playListName));
+            return; // finish
         }
 
-        region = regionManager.create(regionName, sounds, regionSelection);
+        region = regionManager.create(regionName, playList, regionSelection);
         if (region == null) {
             tellError(sender, Lang.get(_FAILED));
             return; // finish

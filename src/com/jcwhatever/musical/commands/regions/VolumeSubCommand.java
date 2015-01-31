@@ -1,4 +1,4 @@
-package com.jcwhatever.musical.commands;
+package com.jcwhatever.musical.commands.regions;
 
 import com.jcwhatever.musical.Lang;
 import com.jcwhatever.musical.MusicalRegions;
@@ -21,7 +21,7 @@ import org.bukkit.command.CommandSender;
                 "factor= The factor to apply (multiply) against the regions pre-calculated audio volume."
         })
 
-public class VolumeCommand extends AbstractCommand {
+public class VolumeSubCommand extends AbstractCommand {
 
     @Localizable static final String _REGION_NOT_FOUND =
             "A musical region with the name '{0: region name}' was not found.";
@@ -33,7 +33,7 @@ public class VolumeCommand extends AbstractCommand {
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws InvalidArgumentException {
 
-        String regionName = args.getName("regionName");
+        String regionName = args.getString("regionName");
         float factor = args.getFloat("factor");
 
         RegionManager regionManager = MusicalRegions.getRegionManager();
@@ -45,7 +45,7 @@ public class VolumeCommand extends AbstractCommand {
 
         region.setSoundVolumeFactor(factor);
 
-        tellSuccess(sender, Lang.get(_SUCCESS, regionName, factor, region.getSoundVolume()));
+        tellSuccess(sender, Lang.get(_SUCCESS, region.getName(), factor, region.getSoundVolume()));
     }
 }
 

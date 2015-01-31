@@ -22,12 +22,12 @@
  */
 
 
-package com.jcwhatever.musical.commands;
+package com.jcwhatever.musical.commands.playlists;
 
 import com.jcwhatever.musical.Lang;
 import com.jcwhatever.musical.MusicalRegions;
-import com.jcwhatever.musical.regions.MusicRegion;
-import com.jcwhatever.musical.regions.RegionManager;
+import com.jcwhatever.musical.playlists.PlayListManager;
+import com.jcwhatever.musical.playlists.RegionPlayList;
 import com.jcwhatever.nucleus.commands.AbstractCommand;
 import com.jcwhatever.nucleus.commands.CommandInfo;
 import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
@@ -38,44 +38,44 @@ import org.bukkit.command.CommandSender;
 
 @CommandInfo(
         command="loop",
-        staticParams={"regionName", "isEnabled"},
-        description="Enable or disable a regions playlist loop.",
+        staticParams={"listName", "isEnabled"},
+        description="Enable or disable a playlist's loop mode.",
         paramDescriptions = {
-                "regionName= The name of the region to change loop settings for.",
-                "isEnabled= True to enable play list looping. False to disable."
+                "listName= The name of the playlist to change loop settings for.",
+                "isEnabled= True to enable playlist looping. False to disable."
         })
 
-public class LoopCommand extends AbstractCommand {
+public class LoopSubCommand extends AbstractCommand {
 
-    @Localizable static final String _REGION_NOT_FOUND =
-            "A musical region with the name '{0: region name}' was not found.";
+    @Localizable static final String _PLAYLIST_NOT_FOUND =
+            "A playlist with the name '{0: playlist name}' was not found.";
 
     @Localizable static final String _ENABLED =
-            "Musical region '{0: region name}' playlist loop Enabled.";
+            "Playlist '{0: playlist name}' loop Enabled.";
 
     @Localizable static final String _DISABLED =
-            "Musical region '{0: region name}' playlist loop Disabled.";
+            "Playlist '{0: playlist name}' loop Disabled.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws InvalidArgumentException {
 
-        String regionName = args.getString("regionName");
+        String listName = args.getString("listName");
         boolean isEnabled = args.getBoolean("isEnabled");
 
-        RegionManager regionManager = MusicalRegions.getRegionManager();
 
-        MusicRegion region = regionManager.get(regionName);
-        if (region == null) {
-            tellError(sender, Lang.get(_REGION_NOT_FOUND, regionName));
+        PlayListManager manager = MusicalRegions.getPlayListManager();
+
+        RegionPlayList list = manager.get(listName);
+        if (list == null) {
+            tellError(sender, Lang.get(_PLAYLIST_NOT_FOUND, listName));
             return; // finish
         }
 
-        region.setLoop(isEnabled);
+        list.setLoop(isEnabled);
 
         if (isEnabled)
-            tellSuccess(sender, Lang.get(_ENABLED, regionName));
+            tellSuccess(sender, Lang.get(_ENABLED, listName));
         else
-            tellSuccess(sender, Lang.get(_DISABLED, regionName));
+            tellSuccess(sender, Lang.get(_DISABLED, listName));
     }
-
 }

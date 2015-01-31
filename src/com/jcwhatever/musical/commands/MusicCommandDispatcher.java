@@ -24,8 +24,10 @@
 
 package com.jcwhatever.musical.commands;
 
-import com.jcwhatever.nucleus.commands.CommandDispatcher;
 import com.jcwhatever.musical.MusicalRegions;
+import com.jcwhatever.musical.commands.playlists.PlayListCommand;
+import com.jcwhatever.musical.commands.regions.RegionsCommand;
+import com.jcwhatever.nucleus.commands.CommandDispatcher;
 
 public class MusicCommandDispatcher extends CommandDispatcher {
 
@@ -35,15 +37,9 @@ public class MusicCommandDispatcher extends CommandDispatcher {
 
     @Override
     protected void registerCommands() {
-        this.registerCommand(CreateCommand.class);
-        this.registerCommand(DelCommand.class);
-        this.registerCommand(InfoCommand.class);
-        this.registerCommand(ListCommand.class);
+
+        this.registerCommand(PlayListCommand.class);
+        this.registerCommand(RegionsCommand.class);
         this.registerCommand(ListMusicCommand.class);
-        this.registerCommand(LoopCommand.class);
-        this.registerCommand(RedefineCommand.class);
-        this.registerCommand(SetSoundCommand.class);
-        this.registerCommand(SetSourceCommand.class);
-        this.registerCommand(VolumeCommand.class);
     }
 }
