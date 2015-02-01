@@ -74,6 +74,7 @@ public class RegionManager extends NamedInsensitiveDataManager<MusicRegion> {
             public void run(IDataNode dataNode) {
                 region.setCoords(selection.getP1(), selection.getP2());
                 region.setPlayList(playList);
+                region.resetSoundSource();
             }
         });
 
