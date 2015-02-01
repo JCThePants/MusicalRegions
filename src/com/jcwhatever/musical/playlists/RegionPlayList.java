@@ -79,6 +79,14 @@ public class RegionPlayList extends PlayList implements INamedInsensitive {
         _dataNode.save();
     }
 
+    @Override
+    public void setRandom(boolean isRandom) {
+        super.setRandom(isRandom);
+
+        _dataNode.set("random", isRandom);
+        _dataNode.save();
+    }
+
     private void save() {
 
         List<ResourceSound> sounds = getSounds();
@@ -94,6 +102,7 @@ public class RegionPlayList extends PlayList implements INamedInsensitive {
     private void load() {
 
         super.setLoop(_dataNode.getBoolean("loop"));
+        super.setRandom(_dataNode.getBoolean("random"));
 
         //noinspection unchecked
         List<String> soundNames = _dataNode.getStringList("sounds", CollectionUtils.UNMODIFIABLE_EMPTY_LIST);

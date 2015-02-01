@@ -16,6 +16,7 @@ public class PlayListCommand extends AbstractCommand {
         registerCommand(DelSubCommand.class);
         registerCommand(ListSubCommand.class);
         registerCommand(LoopSubCommand.class);
+        registerCommand(RandomSubCommand.class);
         registerCommand(SetSoundSubCommand.class);
     }
 }
