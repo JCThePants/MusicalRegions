@@ -25,16 +25,24 @@
 package com.jcwhatever.musical;
 
 
+import com.jcwhatever.musical.playlists.RegionPlayList;
+import com.jcwhatever.musical.regions.MusicRegion;
+import com.jcwhatever.nucleus.Nucleus;
 import com.jcwhatever.nucleus.actionbar.ActionBar;
 import com.jcwhatever.nucleus.events.sounds.PlayResourceSoundEvent;
 import com.jcwhatever.nucleus.sounds.MusicSound;
+import com.jcwhatever.nucleus.sounds.PlayList;
 import com.jcwhatever.nucleus.sounds.ResourceSound;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -67,5 +75,48 @@ public class BukkitEventListener implements Listener {
 
         Player p = event.getPlayer();
         actionBar.show(p);
+    }
+
+    /**
+     * Remove player from region playlist on death since sound
+     * ends on death.
+     */
+    @EventHandler(priority = EventPriority.MONITOR)
+    private void onPlayerDeath(PlayerDeathEvent event) {
+
+        Player player = event.getEntity();
+
+        // check for "cancelled" event
+        if (player.getHealth() > 0.0D)
+            return;
+
+        List<PlayList> playLists = PlayList.getAll(player);
+        if (playLists.isEmpty())
+            return;
+
+        for (PlayList playList : playLists) {
+
+            if (playList instanceof RegionPlayList) {
+                playList.removePlayer(player, true);
+            }
+        }
+    }
+
+    /**
+     * Make {@code MusicRegion}'s the player respawns within forget the player
+     * in case the player was already in the region. Causes the region to
+     * replay playlist to player.
+     */
+    @EventHandler(priority = EventPriority.MONITOR)
+    private void onPlayerRespawn(PlayerRespawnEvent event) {
+
+        Player player = event.getPlayer();
+
+        List<MusicRegion> regions = Nucleus.getRegionManager().getRegions(
+                event.getRespawnLocation(), MusicRegion.class);
+
+        for (MusicRegion region : regions) {
+            Nucleus.getRegionManager().forgetPlayer(player, region);
+        }
     }
 }
