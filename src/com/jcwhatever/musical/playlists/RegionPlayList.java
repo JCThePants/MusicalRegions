@@ -104,8 +104,8 @@ public class RegionPlayList extends PlayList implements INamedInsensitive {
         super.setLoop(_dataNode.getBoolean("loop"));
         super.setRandom(_dataNode.getBoolean("random"));
 
-        //noinspection unchecked
-        List<String> soundNames = _dataNode.getStringList("sounds", CollectionUtils.UNMODIFIABLE_EMPTY_LIST);
+        List<String> soundNames = _dataNode.getStringList(
+                "sounds", CollectionUtils.unmodifiableList(String.class));
         assert soundNames != null;
 
         List<ResourceSound> sounds = new ArrayList<>(soundNames.size());
