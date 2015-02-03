@@ -2,10 +2,14 @@ package com.jcwhatever.musical;
 
 import com.jcwhatever.musical.playlists.RegionPlayList;
 import com.jcwhatever.musical.regions.MusicRegion;
+import com.jcwhatever.nucleus.Nucleus;
+import com.jcwhatever.nucleus.mixins.INamed;
+import com.jcwhatever.nucleus.mixins.INamedInsensitive;
 import com.jcwhatever.nucleus.scripting.IEvaluatedScript;
 import com.jcwhatever.nucleus.scripting.ScriptApiInfo;
 import com.jcwhatever.nucleus.scripting.api.IScriptApiObject;
 import com.jcwhatever.nucleus.scripting.api.NucleusScriptApi;
+import com.jcwhatever.nucleus.sounds.PlayList;
 import com.jcwhatever.nucleus.sounds.ResourceSound;
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.utils.player.PlayerUtils;
@@ -60,8 +64,8 @@ public class MusicScriptApi extends NucleusScriptApi {
          * @param player      The player to check.
          */
         public boolean isExcluded(String regionName, Object player) {
-            PreCon.notNullOrEmpty(regionName);
-            PreCon.notNull(player);
+            PreCon.notNullOrEmpty(regionName, "regionName");
+            PreCon.notNull(player, "player");
 
             Player p = PlayerUtils.getPlayer(player);
             PreCon.notNull(p);
@@ -79,8 +83,8 @@ public class MusicScriptApi extends NucleusScriptApi {
          * @param player      The player to exclude.
          */
         public void excludePlayer(String regionName, Object player) {
-            PreCon.notNullOrEmpty(regionName);
-            PreCon.notNull(player);
+            PreCon.notNullOrEmpty(regionName, "regionName");
+            PreCon.notNull(player, "player");
 
             Player p = PlayerUtils.getPlayer(player);
             PreCon.notNull(p);
@@ -98,8 +102,8 @@ public class MusicScriptApi extends NucleusScriptApi {
          * @param player      The player.
          */
         public void includePlayer(String regionName, Object player) {
-            PreCon.notNullOrEmpty(regionName);
-            PreCon.notNull(player);
+            PreCon.notNullOrEmpty(regionName, "regionName");
+            PreCon.notNull(player, "player");
 
             Player p = PlayerUtils.getPlayer(player);
             PreCon.notNull(p);
@@ -116,7 +120,7 @@ public class MusicScriptApi extends NucleusScriptApi {
          * @param regionName  The name of the region to check.
          */
         public Location getSoundSource(String regionName) {
-            PreCon.notNullOrEmpty(regionName);
+            PreCon.notNullOrEmpty(regionName, "regionName");
 
             MusicRegion region = MusicalRegions.getRegionManager().get(regionName);
             PreCon.notNull(region);
@@ -130,7 +134,7 @@ public class MusicScriptApi extends NucleusScriptApi {
          * @param regionName  The name of the region to check.
          */
         public float getSoundVolume(String regionName) {
-            PreCon.notNullOrEmpty(regionName);
+            PreCon.notNullOrEmpty(regionName, "regionName");
 
             MusicRegion region = MusicalRegions.getRegionManager().get(regionName);
             PreCon.notNull(region);
@@ -144,7 +148,7 @@ public class MusicScriptApi extends NucleusScriptApi {
          * @param regionName  The name of the region to check.
          */
         public List<ResourceSound> getSounds(String regionName) {
-            PreCon.notNullOrEmpty(regionName);
+            PreCon.notNullOrEmpty(regionName, "regionName");
 
             MusicRegion region = MusicalRegions.getRegionManager().get(regionName);
             PreCon.notNull(region);
@@ -158,9 +162,70 @@ public class MusicScriptApi extends NucleusScriptApi {
          * @param listName  The name of the playlist.
          */
         public RegionPlayList getPlayList(String listName) {
-            PreCon.notNullOrEmpty(listName);
+            PreCon.notNullOrEmpty(listName, "listName");
 
             return MusicalRegions.getPlayListManager().get(listName);
+        }
+
+        /**
+         * Determine if a player is currently listening to a named play list.
+         *
+         * @param player    The player to check.
+         * @param listName  The name of the playlist to check for.
+         */
+        public boolean isListening(Object player, String listName) {
+            PreCon.notNull(player, "player");
+            PreCon.notNullOrEmpty(listName, "listName");
+
+            Player p = PlayerUtils.getPlayer(player);
+            PreCon.isValid(p != null, "Invalid player object.");
+
+            List<PlayList> playLists = PlayList.getAll(p);
+
+            String searchName = listName.toLowerCase();
+
+            for (PlayList list : playLists) {
+
+                if (list instanceof INamedInsensitive) {
+                    if (((INamedInsensitive) list).getSearchName().equals(searchName)) {
+                        return true;
+                    }
+                }
+                else if (list instanceof INamed) {
+                    if (((INamed) list).getName().equals(listName)) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        /**
+         * Determine if a player is in the specified {@code MusicRegion}.
+         *
+         * @param player      The player to check.
+         * @param regionName  The name of the {@code MusicRegion} to check.
+         */
+        public boolean isInRegion(Object player, String regionName) {
+            PreCon.notNull(player, "player");
+            PreCon.notNullOrEmpty(regionName, "regionName");
+
+            Player p = PlayerUtils.getPlayer(player);
+            PreCon.isValid(p != null, "Invalid player object.");
+
+            String searchName = regionName.toLowerCase();
+
+            List<MusicRegion> regions = Nucleus.getRegionManager().getRegions(p.getLocation(), MusicRegion.class);
+            for (MusicRegion region : regions) {
+
+                if (!region.getSearchName().equals(searchName))
+                    continue;
+
+                return region.contains(p.getLocation());
+            }
+
+            return false;
         }
     }
 }
