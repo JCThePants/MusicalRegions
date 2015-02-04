@@ -2,7 +2,7 @@ package com.jcwhatever.musical.events;
 
 import com.jcwhatever.musical.regions.MusicRegion;
 import com.jcwhatever.nucleus.mixins.IPlayerReference;
-import com.jcwhatever.nucleus.sounds.PlayList;
+import com.jcwhatever.nucleus.sounds.playlist.PlayList;
 import com.jcwhatever.nucleus.utils.PreCon;
 
 import org.bukkit.entity.Player;

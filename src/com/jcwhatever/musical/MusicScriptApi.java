@@ -9,8 +9,8 @@ import com.jcwhatever.nucleus.scripting.IEvaluatedScript;
 import com.jcwhatever.nucleus.scripting.ScriptApiInfo;
 import com.jcwhatever.nucleus.scripting.api.IScriptApiObject;
 import com.jcwhatever.nucleus.scripting.api.NucleusScriptApi;
-import com.jcwhatever.nucleus.sounds.PlayList;
 import com.jcwhatever.nucleus.sounds.ResourceSound;
+import com.jcwhatever.nucleus.sounds.playlist.PlayList;
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.utils.player.PlayerUtils;
 

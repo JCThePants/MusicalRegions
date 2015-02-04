@@ -32,11 +32,12 @@ import com.jcwhatever.nucleus.collections.players.PlayerMap;
 import com.jcwhatever.nucleus.collections.players.PlayerSet;
 import com.jcwhatever.nucleus.regions.Region;
 import com.jcwhatever.nucleus.regions.selection.IRegionSelection;
-import com.jcwhatever.nucleus.sounds.PlayList;
-import com.jcwhatever.nucleus.sounds.PlayList.PlayerSoundQueue;
 import com.jcwhatever.nucleus.sounds.ResourceSound;
 import com.jcwhatever.nucleus.sounds.SoundSettings;
+import com.jcwhatever.nucleus.sounds.playlist.PlayList;
+import com.jcwhatever.nucleus.sounds.playlist.PlayList.PlayerSoundQueue;
 import com.jcwhatever.nucleus.storage.IDataNode;
+import com.jcwhatever.nucleus.utils.MetaKey;
 import com.jcwhatever.nucleus.utils.PreCon;
 
 import org.bukkit.Location;
@@ -52,6 +53,8 @@ import javax.annotation.Nullable;
  * A region that plays sounds to players that enter.
  */
 public class MusicRegion extends Region {
+
+    public static final MetaKey<MusicRegion> META_KEY = new MetaKey<>(MusicRegion.class);
 
     /**
      * Calculate the volume needed to encompass a region in a sphere
@@ -86,7 +89,7 @@ public class MusicRegion extends Region {
     /**
      * Get the regions playlist.
      */
-    public PlayList getPlayList() {
+    public RegionPlayList getPlayList() {
         return _playList;
     }
 
@@ -254,9 +257,12 @@ public class MusicRegion extends Region {
         if (event.isCancelled())
             return;
 
-        event.getPlayList().addPlayer(p, _settings);
+        PlayerSoundQueue queue = event.getPlayList().addPlayer(p, _settings);
+        if (queue != null) {
+            queue.setMeta(META_KEY, this);
 
-        _playLists.put(p.getUniqueId(), event.getPlayList());
+            _playLists.put(p.getUniqueId(), event.getPlayList());
+        }
     }
 
     @Override

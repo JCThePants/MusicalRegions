@@ -2,10 +2,14 @@ package com.jcwhatever.musical.playlists;
 
 import com.jcwhatever.musical.Msg;
 import com.jcwhatever.musical.MusicalRegions;
+import com.jcwhatever.musical.events.MusicLoopEvent;
+import com.jcwhatever.musical.events.MusicTrackChangeEvent;
+import com.jcwhatever.musical.regions.MusicRegion;
+import com.jcwhatever.nucleus.Nucleus;
 import com.jcwhatever.nucleus.mixins.INamedInsensitive;
-import com.jcwhatever.nucleus.sounds.PlayList;
 import com.jcwhatever.nucleus.sounds.ResourceSound;
 import com.jcwhatever.nucleus.sounds.SoundManager;
+import com.jcwhatever.nucleus.sounds.playlist.SimplePlayList;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.utils.CollectionUtils;
 import com.jcwhatever.nucleus.utils.PreCon;
@@ -13,12 +17,13 @@ import com.jcwhatever.nucleus.utils.PreCon;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import javax.annotation.Nullable;
 
 /**
- * An extended implementation of {@link PlayList} that saves to a data node and
+ * An extended implementation of {@link SimplePlayList} that saves to a data node and
  * implements {@link INamedInsensitive}.
  */
-public class RegionPlayList extends PlayList implements INamedInsensitive {
+public class RegionPlayList extends SimplePlayList implements INamedInsensitive {
 
     private final String _name;
     private final String _searchName;
@@ -85,6 +90,45 @@ public class RegionPlayList extends PlayList implements INamedInsensitive {
 
         _dataNode.set("random", isRandom);
         _dataNode.save();
+    }
+
+    @Override
+    @Nullable
+    protected ResourceSound onTrackChange(PlayerSoundQueue queue,
+                                          @Nullable ResourceSound prev, ResourceSound next) {
+
+        next = super.onTrackChange(queue, prev, next);
+        if (next == null)
+            return null;
+
+        MusicRegion region = queue.getMeta(MusicRegion.META_KEY);
+        if (region == null)
+            return next;
+
+        MusicTrackChangeEvent event = new MusicTrackChangeEvent(region, this, queue, prev, next);
+        Nucleus.getEventManager().callBukkit(this, event);
+
+        if (event.isCancelled())
+            return null;
+
+        return event.getNextSound();
+    }
+
+    @Override
+    protected void onLoop(PlayerSoundQueue queue, List<ResourceSound> sounds, int loopCount) {
+
+        super.onLoop(queue, sounds, loopCount);
+
+        MusicRegion region = queue.getMeta(MusicRegion.META_KEY);
+        if (region == null)
+            return;
+
+        MusicLoopEvent event = new MusicLoopEvent(region, this, queue, sounds, loopCount);
+        event.setCancelled(sounds.isEmpty());
+        Nucleus.getEventManager().callBukkit(this, event);
+
+        if (event.isCancelled())
+            sounds.clear();
     }
 
     private void save() {
