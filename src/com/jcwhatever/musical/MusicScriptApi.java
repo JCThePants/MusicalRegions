@@ -11,6 +11,7 @@ import com.jcwhatever.nucleus.scripting.api.IScriptApiObject;
 import com.jcwhatever.nucleus.scripting.api.NucleusScriptApi;
 import com.jcwhatever.nucleus.sounds.ResourceSound;
 import com.jcwhatever.nucleus.sounds.playlist.PlayList;
+import com.jcwhatever.nucleus.sounds.playlist.PlayList.PlayerSoundQueue;
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.utils.player.PlayerUtils;
 
@@ -196,6 +197,43 @@ public class MusicScriptApi extends NucleusScriptApi {
                         return true;
                     }
                 }
+            }
+
+            return false;
+        }
+
+        /**
+         * Determine if a player is currently listening to a playlist started
+         * by the specified region.
+         *
+         * <p>The player does not have to be in the region.</p>
+         *
+         * @param player      The player to check.
+         * @param regionName  The name of the {@code MusicRegion} to check for.
+         */
+        public boolean isListeningRegion(Object player, String regionName) {
+            PreCon.notNull(player, "player");
+            PreCon.notNullOrEmpty(regionName, "regionName");
+
+            Player p = PlayerUtils.getPlayer(player);
+            PreCon.isValid(p != null, "Invalid player object.");
+
+            List<PlayList> playLists = PlayList.getAll(p);
+
+            String searchName = regionName.toLowerCase();
+
+            for (PlayList list : playLists) {
+
+                PlayerSoundQueue queue = list.getSoundQueue(p);
+                if (queue == null)
+                    continue;
+
+                MusicRegion region = queue.getMeta(MusicRegion.META_KEY);
+                if (region == null)
+                    continue;
+
+                if (region.getSearchName().equals(searchName))
+                    return true;
             }
 
             return false;
