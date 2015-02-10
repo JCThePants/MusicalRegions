@@ -46,7 +46,7 @@ def testRuntimeDepends = null
 
 // dependencies that should always be downloaded (cached for 30 seconds)
 def snapshotDepends = [
-        'com.jcwhatever.bukkit:NucleusFramework:+'
+        'com.jcwhatever.bukkit:NucleusFramework:latest.integration'
 ];
 
 // source directory
