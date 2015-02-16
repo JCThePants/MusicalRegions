@@ -266,13 +266,13 @@ public class MusicRegion extends Region {
     }
 
     @Override
-    protected void onPlayerLeave(Player p, LeaveRegionReason reason) {
+    protected void onPlayerLeave(Player player, LeaveRegionReason reason) {
 
-        PlayList playList = _playLists.remove(p.getUniqueId());
+        PlayList playList = _playLists.remove(player.getUniqueId());
         if (playList == null)
             return;
 
-        playList.removePlayer(p);
+        playList.removePlayer(player);
     }
 
     @Override

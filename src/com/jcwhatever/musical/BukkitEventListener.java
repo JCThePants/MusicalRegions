@@ -103,7 +103,7 @@ public class BukkitEventListener implements Listener {
     }
 
     /**
-     * Make {@code MusicRegion}'s the player respawns within forget the player
+     * Make {@link MusicRegion}'s the player respawns within forget the player
      * in case the player was already in the region. Causes the region to
      * replay playlist to player.
      */

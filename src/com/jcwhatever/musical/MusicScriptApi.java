@@ -209,7 +209,7 @@ public class MusicScriptApi extends NucleusScriptApi {
          * <p>The player does not have to be in the region.</p>
          *
          * @param player      The player to check.
-         * @param regionName  The name of the {@code MusicRegion} to check for.
+         * @param regionName  The name of the {@link MusicRegion} to check for.
          */
         public boolean isListeningRegion(Object player, String regionName) {
             PreCon.notNull(player, "player");
@@ -240,10 +240,10 @@ public class MusicScriptApi extends NucleusScriptApi {
         }
 
         /**
-         * Determine if a player is in the specified {@code MusicRegion}.
+         * Determine if a player is in the specified {@link MusicRegion}.
          *
          * @param player      The player to check.
-         * @param regionName  The name of the {@code MusicRegion} to check.
+         * @param regionName  The name of the {@link MusicRegion} to check.
          */
         public boolean isInRegion(Object player, String regionName) {
             PreCon.notNull(player, "player");

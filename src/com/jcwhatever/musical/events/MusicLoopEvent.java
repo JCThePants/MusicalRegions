@@ -57,11 +57,11 @@ public class MusicLoopEvent extends Event implements IPlayerReference, Cancellab
     /**
      * Constructor.
      *
-     * @param region      The {@code MusicRegion} that the {@code PlayList} is playing for.
-     * @param playList    The {@code PlayList} the event is for.
-     * @param soundQueue  The {@code PlayerSoundQueue} the event is for.
+     * @param region      The {@link MusicRegion} that the {@link PlayList} is playing for.
+     * @param playList    The {@link PlayList} the event is for.
+     * @param soundQueue  The {@link PlayerSoundQueue} the event is for.
      * @param sounds      The sounds that will be played in the next loop.
-     * @param loopCount   The number of times the {@code PlayerSoundQueue} has looped.
+     * @param loopCount   The number of times the {@link PlayerSoundQueue} has looped.
      */
     public MusicLoopEvent(MusicRegion region, PlayList playList, PlayerSoundQueue soundQueue,
                           List<ResourceSound> sounds, int loopCount) {
@@ -83,21 +83,21 @@ public class MusicLoopEvent extends Event implements IPlayerReference, Cancellab
     }
 
     /**
-     * Get the {@code MusicRegion} the {@code PlayList} is playing for.
+     * Get the {@link MusicRegion} the {@link PlayList} is playing for.
      */
     public MusicRegion getRegion() {
         return _region;
     }
 
     /**
-     * Get the {@code PlayList} the event is for.
+     * Get the {@link PlayList} the event is for.
      */
     public PlayList getPlayList() {
         return _playList;
     }
 
     /**
-     * Get the {@code PlayerSoundQueue} the event is for.
+     * Get the {@link PlayerSoundQueue} the event is for.
      */
     public PlayerSoundQueue getSoundQueue() {
         return _soundQueue;
@@ -111,7 +111,7 @@ public class MusicLoopEvent extends Event implements IPlayerReference, Cancellab
     }
 
     /**
-     * Get the number of times the {@code PlayerSoundQueue} has looped.
+     * Get the number of times the {@link PlayerSoundQueue} has looped.
      */
     public int getLoopCount() {
         return _loopCount;

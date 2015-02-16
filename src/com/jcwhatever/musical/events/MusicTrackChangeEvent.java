@@ -40,7 +40,7 @@ import org.bukkit.event.HandlerList;
 import javax.annotation.Nullable;
 
 /**
- * Called when a playlist track changes
+ * Called when a playlist track changes.
  */
 public class MusicTrackChangeEvent extends Event implements IPlayerReference, Cancellable, ICancellable {
 
@@ -57,9 +57,9 @@ public class MusicTrackChangeEvent extends Event implements IPlayerReference, Ca
     /**
      * Constructor.
      *
-     * @param region      The {@code MusicRegion} that the {@code PlayList} is playing for.
-     * @param playList    The {@code PlayList} the event is for.
-     * @param soundQueue  The {@code PlayerSoundQueue} the event is for.
+     * @param region      The {@link MusicRegion} that the {@link PlayList} is playing for.
+     * @param playList    The {@link PlayList} the event is for.
+     * @param soundQueue  The {@link PlayerSoundQueue} the event is for.
      * @param prev        The previous song that was playing, if any.
      * @param next        The next song to be played.
      */
@@ -83,21 +83,21 @@ public class MusicTrackChangeEvent extends Event implements IPlayerReference, Ca
     }
 
     /**
-     * Get the {@code MusicRegion} the {@code PlayList} is playing for.
+     * Get the {@link MusicRegion} the {@link PlayList} is playing for.
      */
     public MusicRegion getRegion() {
         return _region;
     }
 
     /**
-     * Get the {@code PlayList} the event is for.
+     * Get the {@link PlayList} the event is for.
      */
     public PlayList getPlayList() {
         return _playList;
     }
 
     /**
-     * Get the {@code PlayerSoundQueue} the event is for.
+     * Get the {@link PlayerSoundQueue} the event is for.
      */
     public PlayerSoundQueue getSoundQueue() {
         return _soundQueue;
