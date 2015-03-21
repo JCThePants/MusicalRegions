@@ -228,7 +228,7 @@ public class MusicScriptApi extends NucleusScriptApi {
                 if (queue == null)
                     continue;
 
-                MusicRegion region = queue.getMeta(MusicRegion.META_KEY);
+                MusicRegion region = queue.getMeta().get(MusicRegion.META_KEY);
                 if (region == null)
                     continue;
 

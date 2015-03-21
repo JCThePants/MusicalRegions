@@ -101,7 +101,7 @@ public class RegionPlayList extends SimplePlayList implements INamedInsensitive 
         if (next == null)
             return null;
 
-        MusicRegion region = queue.getMeta(MusicRegion.META_KEY);
+        MusicRegion region = queue.getMeta().get(MusicRegion.META_KEY);
         if (region == null)
             return next;
 
@@ -119,7 +119,7 @@ public class RegionPlayList extends SimplePlayList implements INamedInsensitive 
 
         super.onLoop(queue, sounds, loopCount);
 
-        MusicRegion region = queue.getMeta(MusicRegion.META_KEY);
+        MusicRegion region = queue.getMeta().get(MusicRegion.META_KEY);
         if (region == null)
             return;
 
