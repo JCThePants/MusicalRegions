@@ -28,7 +28,7 @@ package com.jcwhatever.musical;
 import com.jcwhatever.musical.playlists.RegionPlayList;
 import com.jcwhatever.musical.regions.MusicRegion;
 import com.jcwhatever.nucleus.Nucleus;
-import com.jcwhatever.nucleus.actionbar.ActionBar;
+import com.jcwhatever.nucleus.utils.actionbar.ActionBar;
 import com.jcwhatever.nucleus.events.sounds.PlayResourceSoundEvent;
 import com.jcwhatever.nucleus.sounds.MusicSound;
 import com.jcwhatever.nucleus.sounds.ResourceSound;
