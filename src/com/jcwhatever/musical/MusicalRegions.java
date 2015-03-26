@@ -29,8 +29,14 @@ import com.jcwhatever.musical.playlists.PlayListManager;
 import com.jcwhatever.musical.regions.RegionManager;
 import com.jcwhatever.nucleus.Nucleus;
 import com.jcwhatever.nucleus.NucleusPlugin;
+import com.jcwhatever.nucleus.mixins.IDisposable;
+import com.jcwhatever.nucleus.scripting.IEvaluatedScript;
+import com.jcwhatever.nucleus.scripting.IScriptApi;
+import com.jcwhatever.nucleus.scripting.SimpleScriptApi;
+import com.jcwhatever.nucleus.scripting.SimpleScriptApi.IApiObjectCreator;
 
 import org.bukkit.ChatColor;
+import org.bukkit.plugin.Plugin;
 
 /**
  * Musical Regions plugin.
@@ -44,6 +50,7 @@ public class MusicalRegions extends NucleusPlugin {
 
     private PlayListManager _playListManager;
     private RegionManager _regionManager;
+    private IScriptApi _scriptApi;
 
     public static MusicalRegions getPlugin() {
         return _instance;
@@ -87,13 +94,20 @@ public class MusicalRegions extends NucleusPlugin {
         registerCommands(new MusicCommandDispatcher());
         registerEventListeners(new BukkitEventListener());
 
-        Nucleus.getScriptApiRepo().registerApiType(this, MusicScriptApi.class);
+        _scriptApi = new SimpleScriptApi(this, "musicalRegions", new IApiObjectCreator() {
+            @Override
+            public IDisposable create(Plugin plugin, IEvaluatedScript script) {
+                return new MusicScriptApi();
+            }
+        });
+
+        Nucleus.getScriptApiRepo().registerApi(_scriptApi);
     }
 
     @Override
     protected void onDisablePlugin() {
 
-        Nucleus.getScriptApiRepo().unregisterApiType(this, MusicScriptApi.class);
+        Nucleus.getScriptApiRepo().unregisterApi(_scriptApi);
 
         _instance = null;
     }
