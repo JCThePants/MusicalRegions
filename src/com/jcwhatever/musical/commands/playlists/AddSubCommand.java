@@ -4,12 +4,12 @@ import com.jcwhatever.musical.Lang;
 import com.jcwhatever.musical.MusicalRegions;
 import com.jcwhatever.musical.playlists.PlayListManager;
 import com.jcwhatever.musical.playlists.RegionPlayList;
+import com.jcwhatever.nucleus.Nucleus;
 import com.jcwhatever.nucleus.commands.AbstractCommand;
 import com.jcwhatever.nucleus.commands.CommandInfo;
 import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
 import com.jcwhatever.nucleus.commands.exceptions.CommandException;
-import com.jcwhatever.nucleus.sounds.ResourceSound;
-import com.jcwhatever.nucleus.sounds.SoundManager;
+import com.jcwhatever.nucleus.sounds.types.ResourceSound;
 import com.jcwhatever.nucleus.utils.language.Localizable;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
 
@@ -59,7 +59,7 @@ public class AddSubCommand extends AbstractCommand {
 
         for (String soundName : soundNames) {
 
-            ResourceSound sound = SoundManager.getSound(soundName);
+            ResourceSound sound = Nucleus.getSoundManager().getSound(soundName);
             if (sound == null) {
                 tellError(sender, Lang.get(_SOUND_NOT_FOUND, soundName));
                 return; // finish

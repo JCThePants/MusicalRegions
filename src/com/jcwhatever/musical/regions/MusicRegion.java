@@ -34,7 +34,7 @@ import com.jcwhatever.nucleus.regions.Region;
 import com.jcwhatever.nucleus.regions.options.EnterRegionReason;
 import com.jcwhatever.nucleus.regions.options.LeaveRegionReason;
 import com.jcwhatever.nucleus.regions.selection.IRegionSelection;
-import com.jcwhatever.nucleus.sounds.ResourceSound;
+import com.jcwhatever.nucleus.sounds.types.ResourceSound;
 import com.jcwhatever.nucleus.sounds.SoundSettings;
 import com.jcwhatever.nucleus.sounds.playlist.PlayList;
 import com.jcwhatever.nucleus.sounds.playlist.PlayList.PlayerSoundQueue;

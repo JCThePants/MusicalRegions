@@ -25,20 +25,20 @@
 package com.jcwhatever.musical.commands;
 
 import com.jcwhatever.musical.Lang;
+import com.jcwhatever.nucleus.Nucleus;
 import com.jcwhatever.nucleus.commands.AbstractCommand;
 import com.jcwhatever.nucleus.commands.CommandInfo;
 import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
 import com.jcwhatever.nucleus.commands.exceptions.InvalidArgumentException;
 import com.jcwhatever.nucleus.messaging.ChatPaginator;
-import com.jcwhatever.nucleus.sounds.MusicSound;
-import com.jcwhatever.nucleus.sounds.ResourceSound;
-import com.jcwhatever.nucleus.sounds.SoundManager;
+import com.jcwhatever.nucleus.sounds.types.MusicSound;
+import com.jcwhatever.nucleus.sounds.types.ResourceSound;
 import com.jcwhatever.nucleus.utils.language.Localizable;
 import com.jcwhatever.nucleus.utils.text.TextUtils.FormatTemplate;
 
 import org.bukkit.command.CommandSender;
 
-import java.util.List;
+import java.util.Collection;
 
 @CommandInfo(
         command="listmusic",
@@ -61,7 +61,7 @@ public class ListMusicCommand extends AbstractCommand {
         String paginTitle = Lang.get(_PAGINATOR_TITLE);
         ChatPaginator pagin = new ChatPaginator(getPlugin(), 6, paginTitle);
 
-        List<MusicSound> sounds = SoundManager.getSounds(MusicSound.class);
+        Collection<MusicSound> sounds = Nucleus.getSoundManager().getSounds(MusicSound.class);
 
         String secondsLabel = Lang.get(_LABEL_SECONDS);
         for (ResourceSound sound : sounds) {

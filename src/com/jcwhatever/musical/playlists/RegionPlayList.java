@@ -7,9 +7,8 @@ import com.jcwhatever.musical.events.MusicTrackChangeEvent;
 import com.jcwhatever.musical.regions.MusicRegion;
 import com.jcwhatever.nucleus.Nucleus;
 import com.jcwhatever.nucleus.mixins.INamedInsensitive;
-import com.jcwhatever.nucleus.sounds.ResourceSound;
-import com.jcwhatever.nucleus.sounds.SoundManager;
 import com.jcwhatever.nucleus.sounds.playlist.SimplePlayList;
+import com.jcwhatever.nucleus.sounds.types.ResourceSound;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.utils.CollectionUtils;
 import com.jcwhatever.nucleus.utils.PreCon;
@@ -155,7 +154,7 @@ public class RegionPlayList extends SimplePlayList implements INamedInsensitive 
         List<ResourceSound> sounds = new ArrayList<>(soundNames.size());
 
         for (String soundName : soundNames) {
-            ResourceSound sound = SoundManager.getSound(soundName);
+            ResourceSound sound = Nucleus.getSoundManager().getSound(soundName);
             if (sound == null) {
                 Msg.debug("Failed to load sound named '{0}'. Not found.", soundName);
                 continue;
