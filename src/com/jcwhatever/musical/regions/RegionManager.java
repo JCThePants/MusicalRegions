@@ -26,7 +26,6 @@ package com.jcwhatever.musical.regions;
 
 import com.jcwhatever.musical.playlists.RegionPlayList;
 import com.jcwhatever.nucleus.regions.selection.IRegionSelection;
-import com.jcwhatever.nucleus.storage.DataBatchOperation;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.utils.managers.NamedInsensitiveDataManager;
@@ -67,16 +66,9 @@ public class RegionManager extends NamedInsensitiveDataManager<MusicRegion> {
         assert _dataNode != null;
 
         final MusicRegion region = new MusicRegion(regionName, _dataNode.getNode(regionName));
-
-        _dataNode.runBatchOperation(new DataBatchOperation() {
-
-            @Override
-            public void run(IDataNode dataNode) {
-                region.setCoords(selection.getP1(), selection.getP2());
-                region.setPlayList(playList);
-                region.resetSoundSource();
-            }
-        });
+        region.setCoords(selection.getP1(), selection.getP2());
+        region.setPlayList(playList);
+        region.resetSoundSource();
 
         add(region);
 
