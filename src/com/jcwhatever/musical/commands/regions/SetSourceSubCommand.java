@@ -7,7 +7,7 @@ import com.jcwhatever.musical.regions.RegionManager;
 import com.jcwhatever.nucleus.commands.AbstractCommand;
 import com.jcwhatever.nucleus.commands.CommandInfo;
 import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.arguments.LocationResponse;
+import com.jcwhatever.nucleus.commands.arguments.ILocationHandler;
 import com.jcwhatever.nucleus.commands.exceptions.CommandException;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
@@ -54,10 +54,10 @@ public class SetSourceSubCommand extends AbstractCommand {
         }
         else {
 
-            args.getLocation(sender, "location", new LocationResponse() {
+            args.getLocation(sender, "location", new ILocationHandler() {
                 @Override
-                public void onLocationRetrieved(Player p, Location result) {
-                    setSource(p, region, result);
+                public void onLocationRetrieved(Player player, Location result) {
+                    setSource(player, region, result);
                 }
             });
         }
