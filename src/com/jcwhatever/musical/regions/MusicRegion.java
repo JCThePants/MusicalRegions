@@ -33,7 +33,7 @@ import com.jcwhatever.nucleus.collections.players.PlayerSet;
 import com.jcwhatever.nucleus.regions.Region;
 import com.jcwhatever.nucleus.regions.options.EnterRegionReason;
 import com.jcwhatever.nucleus.regions.options.LeaveRegionReason;
-import com.jcwhatever.nucleus.regions.selection.IRegionSelection;
+import com.jcwhatever.nucleus.providers.regionselect.IRegionSelection;
 import com.jcwhatever.nucleus.sounds.types.ResourceSound;
 import com.jcwhatever.nucleus.sounds.SoundSettings;
 import com.jcwhatever.nucleus.sounds.playlist.PlayList;
