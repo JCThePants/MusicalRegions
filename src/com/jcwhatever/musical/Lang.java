@@ -24,7 +24,7 @@
 
 package com.jcwhatever.musical;
 
-import com.jcwhatever.nucleus.utils.language.Localized;
+import com.jcwhatever.nucleus.managed.language.Localized;
 
 /**
  * Convenience class for accessing MusicalRegions language manager.
@@ -35,6 +35,6 @@ public class Lang {
 
     @Localized
     public static String get(String text, Object... params) {
-        return MusicalRegions.getPlugin().getLanguageManager().get(text, params);
+        return MusicalRegions.getPlugin().getLanguageContext().get(text, params);
     }
 }
