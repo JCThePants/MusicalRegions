@@ -6,9 +6,9 @@ import com.jcwhatever.nucleus.Nucleus;
 import com.jcwhatever.nucleus.mixins.IDisposable;
 import com.jcwhatever.nucleus.mixins.INamed;
 import com.jcwhatever.nucleus.mixins.INamedInsensitive;
-import com.jcwhatever.nucleus.sounds.types.ResourceSound;
-import com.jcwhatever.nucleus.sounds.playlist.PlayList;
-import com.jcwhatever.nucleus.sounds.playlist.PlayList.PlayerSoundQueue;
+import com.jcwhatever.nucleus.managed.sounds.types.ResourceSound;
+import com.jcwhatever.nucleus.managed.sounds.playlist.PlayList;
+import com.jcwhatever.nucleus.managed.sounds.playlist.PlayList.PlayerSoundQueue;
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.utils.player.PlayerUtils;
 

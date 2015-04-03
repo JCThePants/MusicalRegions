@@ -1,6 +1,6 @@
 package com.jcwhatever.musical.playlists;
 
-import com.jcwhatever.nucleus.sounds.types.ResourceSound;
+import com.jcwhatever.nucleus.managed.sounds.types.ResourceSound;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.utils.managers.NamedInsensitiveDataManager;

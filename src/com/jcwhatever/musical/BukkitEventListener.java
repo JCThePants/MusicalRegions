@@ -30,9 +30,9 @@ import com.jcwhatever.musical.regions.MusicRegion;
 import com.jcwhatever.nucleus.Nucleus;
 import com.jcwhatever.nucleus.utils.actionbar.ActionBar;
 import com.jcwhatever.nucleus.events.sounds.PlayResourceSoundEvent;
-import com.jcwhatever.nucleus.sounds.types.MusicSound;
-import com.jcwhatever.nucleus.sounds.types.ResourceSound;
-import com.jcwhatever.nucleus.sounds.playlist.PlayList;
+import com.jcwhatever.nucleus.managed.sounds.types.MusicSound;
+import com.jcwhatever.nucleus.managed.sounds.types.ResourceSound;
+import com.jcwhatever.nucleus.managed.sounds.playlist.PlayList;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
