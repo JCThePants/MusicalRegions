@@ -240,30 +240,30 @@ public class MusicRegion extends Region {
     }
 
     @Override
-    protected void onPlayerEnter(Player p, EnterRegionReason reason) {
+    protected void onPlayerEnter(Player player, EnterRegionReason reason) {
 
-        if (isExcluded(p) || _playList == null)
+        if (isExcluded(player) || _playList == null)
             return;
 
-        PlayList playList = _playLists.get(p.getUniqueId());
+        PlayList playList = _playLists.get(player.getUniqueId());
         if (playList != null) {
 
             // don't play playlist if player is already listening to a queue
-            PlayerSoundQueue queue = playList.getSoundQueue(p);
+            PlayerSoundQueue queue = playList.getSoundQueue(player);
             if (queue != null)
                 return;
         }
 
-        RegionPlayEvent event = new RegionPlayEvent(p, this, _playList);
+        RegionPlayEvent event = new RegionPlayEvent(player, this, _playList);
         Nucleus.getEventManager().callBukkit(this, event);
         if (event.isCancelled())
             return;
 
-        PlayerSoundQueue queue = event.getPlayList().addPlayer(p, _settings);
+        PlayerSoundQueue queue = event.getPlayList().addPlayer(player, _settings);
         if (queue != null) {
             queue.getMeta().set(META_KEY, this);
 
-            _playLists.put(p.getUniqueId(), event.getPlayList());
+            _playLists.put(player.getUniqueId(), event.getPlayList());
         }
     }
 
