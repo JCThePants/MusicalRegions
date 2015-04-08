@@ -1,7 +1,7 @@
 package com.jcwhatever.musical.commands.playlists;
 
-import com.jcwhatever.nucleus.commands.AbstractCommand;
-import com.jcwhatever.nucleus.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.utils.AbstractCommand;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
 
 @CommandInfo(
         command="playlist",

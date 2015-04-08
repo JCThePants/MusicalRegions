@@ -24,16 +24,18 @@
 
 package com.jcwhatever.musical;
 
-import com.jcwhatever.musical.commands.MusicCommandDispatcher;
+import com.jcwhatever.musical.commands.ListMusicCommand;
+import com.jcwhatever.musical.commands.playlists.PlayListCommand;
+import com.jcwhatever.musical.commands.regions.RegionsCommand;
 import com.jcwhatever.musical.playlists.PlayListManager;
 import com.jcwhatever.musical.regions.RegionManager;
 import com.jcwhatever.nucleus.Nucleus;
 import com.jcwhatever.nucleus.NucleusPlugin;
-import com.jcwhatever.nucleus.mixins.IDisposable;
 import com.jcwhatever.nucleus.managed.scripting.IEvaluatedScript;
 import com.jcwhatever.nucleus.managed.scripting.IScriptApi;
 import com.jcwhatever.nucleus.managed.scripting.SimpleScriptApi;
 import com.jcwhatever.nucleus.managed.scripting.SimpleScriptApi.IApiObjectCreator;
+import com.jcwhatever.nucleus.mixins.IDisposable;
 
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
@@ -91,7 +93,10 @@ public class MusicalRegions extends NucleusPlugin {
         _playListManager = new PlayListManager(this.getDataNode().getNode("playlists"));
         _regionManager = new RegionManager(this.getDataNode().getNode("regions"));
 
-        registerCommands(new MusicCommandDispatcher());
+        this.registerCommand(PlayListCommand.class);
+        this.registerCommand(RegionsCommand.class);
+        this.registerCommand(ListMusicCommand.class);
+
         registerEventListeners(new BukkitEventListener());
 
         _scriptApi = new SimpleScriptApi(this, "musicalRegions", new IApiObjectCreator() {

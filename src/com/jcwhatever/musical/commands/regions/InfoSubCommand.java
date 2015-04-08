@@ -4,12 +4,13 @@ import com.jcwhatever.musical.Lang;
 import com.jcwhatever.musical.MusicalRegions;
 import com.jcwhatever.musical.regions.MusicRegion;
 import com.jcwhatever.musical.regions.RegionManager;
-import com.jcwhatever.nucleus.commands.AbstractCommand;
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.InvalidArgumentException;
-import com.jcwhatever.nucleus.managed.messaging.ChatPaginator;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.InvalidArgumentException;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
+import com.jcwhatever.nucleus.managed.commands.utils.AbstractCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
+import com.jcwhatever.nucleus.managed.messaging.ChatPaginator;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.nucleus.utils.text.TextUtils.FormatTemplate;
 
@@ -24,7 +25,7 @@ import org.bukkit.command.CommandSender;
                 "page= {PAGE}"
         })
 
-public class InfoSubCommand extends AbstractCommand {
+public class InfoSubCommand extends AbstractCommand implements IExecutableCommand {
 
     @Localizable static final String _PAGINATOR_TITLE =
             "Region Info for '{0: region name}'";
@@ -40,7 +41,7 @@ public class InfoSubCommand extends AbstractCommand {
     @Localizable static final String _LABEL_RESOURCE_SOUNDS = "Resource Sounds";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws InvalidArgumentException {
+    public void execute(CommandSender sender, ICommandArguments args) throws InvalidArgumentException {
 
         String regionName = args.getString("regionName");
         int page = args.getInteger("page");

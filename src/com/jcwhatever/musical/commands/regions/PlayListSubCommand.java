@@ -6,10 +6,11 @@ import com.jcwhatever.musical.playlists.PlayListManager;
 import com.jcwhatever.musical.playlists.RegionPlayList;
 import com.jcwhatever.musical.regions.MusicRegion;
 import com.jcwhatever.musical.regions.RegionManager;
-import com.jcwhatever.nucleus.commands.AbstractCommand;
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.InvalidArgumentException;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.InvalidArgumentException;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
+import com.jcwhatever.nucleus.managed.commands.utils.AbstractCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 
 import org.bukkit.command.CommandSender;
@@ -23,7 +24,7 @@ import org.bukkit.command.CommandSender;
                 "listName= The name of the playlist."
         })
 
-public class PlayListSubCommand extends AbstractCommand {
+public class PlayListSubCommand extends AbstractCommand implements IExecutableCommand {
 
     @Localizable static final String _REGION_NOT_FOUND =
             "A musical region with the name '{0: region name}' was not found.";
@@ -35,7 +36,7 @@ public class PlayListSubCommand extends AbstractCommand {
             "Musical region '{0: region name}' playlist is now '{1: playlist name}'.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws InvalidArgumentException {
+    public void execute(CommandSender sender, ICommandArguments args) throws InvalidArgumentException {
 
         String regionName = args.getString("regionName");
         String listName = args.getString("listName");

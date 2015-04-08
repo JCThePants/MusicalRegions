@@ -5,12 +5,13 @@ import com.jcwhatever.musical.MusicalRegions;
 import com.jcwhatever.musical.playlists.PlayListManager;
 import com.jcwhatever.musical.playlists.RegionPlayList;
 import com.jcwhatever.nucleus.Nucleus;
-import com.jcwhatever.nucleus.commands.AbstractCommand;
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
-import com.jcwhatever.nucleus.managed.sounds.types.ResourceSound;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
+import com.jcwhatever.nucleus.managed.commands.utils.AbstractCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
+import com.jcwhatever.nucleus.managed.sounds.types.ResourceSound;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
 
 import org.bukkit.command.CommandSender;
@@ -27,7 +28,7 @@ import java.util.List;
                 "soundNames= A comma delimited list of resource sound names."
         })
 
-public class AddSubCommand extends AbstractCommand {
+public class AddSubCommand extends AbstractCommand implements IExecutableCommand {
 
     @Localizable static final String _PLAYLIST_ALREADY_EXISTS =
             "There is already a playlist with the name '{0: playlist name}'.";
@@ -42,7 +43,7 @@ public class AddSubCommand extends AbstractCommand {
             "New playlist named '{0: playlist name}' was created.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
         String playlistName = args.getName("listName");
         String rawSoundNames = args.getString("soundNames");

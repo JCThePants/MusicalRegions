@@ -30,12 +30,13 @@ import com.jcwhatever.musical.playlists.PlayListManager;
 import com.jcwhatever.musical.playlists.RegionPlayList;
 import com.jcwhatever.musical.regions.MusicRegion;
 import com.jcwhatever.musical.regions.RegionManager;
-import com.jcwhatever.nucleus.commands.AbstractCommand;
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
-import com.jcwhatever.nucleus.providers.regionselect.IRegionSelection;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
+import com.jcwhatever.nucleus.managed.commands.utils.AbstractCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
+import com.jcwhatever.nucleus.providers.regionselect.IRegionSelection;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -50,7 +51,7 @@ import org.bukkit.entity.Player;
                 "playListName= The name of the playlist to use."
         })
 
-public class AddSubCommand extends AbstractCommand {
+public class AddSubCommand extends AbstractCommand implements IExecutableCommand {
 
     @Localizable static final String _REGION_ALREADY_EXISTS =
             "There is already a musical region with the name '{0: region name}'.";
@@ -65,9 +66,9 @@ public class AddSubCommand extends AbstractCommand {
             "New musical region named '{0: region name}' was created.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws CommandException{
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException{
 
-        CommandException.checkNotConsole(this, sender);
+        CommandException.checkNotConsole(getPlugin(), this, sender);
 
         String regionName = args.getName("regionName");
         String playListName = args.getString("playListName");
