@@ -6,7 +6,7 @@ import com.jcwhatever.musical.playlists.PlayListManager;
 import com.jcwhatever.musical.playlists.RegionPlayList;
 import com.jcwhatever.nucleus.managed.commands.CommandInfo;
 import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
-import com.jcwhatever.nucleus.managed.commands.exceptions.InvalidArgumentException;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
 import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.commands.utils.AbstractCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
@@ -33,22 +33,18 @@ public class DelSubCommand extends AbstractCommand implements IExecutableCommand
             "Playlist '{0: playlist name}' deleted.";
 
     @Override
-    public void execute(CommandSender sender, ICommandArguments args) throws InvalidArgumentException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
         String listName = args.getString("listName");
 
         PlayListManager manager = MusicalRegions.getPlayListManager();
 
         RegionPlayList playList = manager.get(listName);
-        if (playList == null) {
-            tellError(sender, Lang.get(_PLAYLIST_NOT_FOUND, listName));
-            return; // finish
-        }
+        if (playList == null)
+            throw new CommandException(Lang.get(_PLAYLIST_NOT_FOUND, listName));
 
-        if (!manager.remove(listName)) {
-            tellError(sender, Lang.get(_FAILED, listName));
-            return; // finish
-        }
+        if (!manager.remove(listName))
+            throw new CommandException(Lang.get(_FAILED, listName));
 
         tellSuccess(sender, Lang.get(_SUCCESS, listName));
     }

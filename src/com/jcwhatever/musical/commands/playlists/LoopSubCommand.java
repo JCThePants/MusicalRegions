@@ -30,7 +30,7 @@ import com.jcwhatever.musical.playlists.PlayListManager;
 import com.jcwhatever.musical.playlists.RegionPlayList;
 import com.jcwhatever.nucleus.managed.commands.CommandInfo;
 import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
-import com.jcwhatever.nucleus.managed.commands.exceptions.InvalidArgumentException;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
 import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.commands.utils.AbstractCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
@@ -58,19 +58,16 @@ public class LoopSubCommand extends AbstractCommand implements IExecutableComman
             "Playlist '{0: playlist name}' loop Disabled.";
 
     @Override
-    public void execute(CommandSender sender, ICommandArguments args) throws InvalidArgumentException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
         String listName = args.getString("listName");
         boolean isEnabled = args.getBoolean("isEnabled");
 
-
         PlayListManager manager = MusicalRegions.getPlayListManager();
 
         RegionPlayList list = manager.get(listName);
-        if (list == null) {
-            tellError(sender, Lang.get(_PLAYLIST_NOT_FOUND, listName));
-            return; // finish
-        }
+        if (list == null)
+            throw new CommandException(Lang.get(_PLAYLIST_NOT_FOUND, listName));
 
         list.setLoop(isEnabled);
 

@@ -31,7 +31,7 @@ import com.jcwhatever.musical.playlists.RegionPlayList;
 import com.jcwhatever.nucleus.Nucleus;
 import com.jcwhatever.nucleus.managed.commands.CommandInfo;
 import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
-import com.jcwhatever.nucleus.managed.commands.exceptions.InvalidArgumentException;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
 import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.commands.utils.AbstractCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
@@ -64,27 +64,25 @@ public class SetSoundSubCommand extends AbstractCommand implements IExecutableCo
             "Playlist '{0: playlist name}' sounds updated.";
 
     @Override
-    public void execute(CommandSender sender, ICommandArguments args) throws InvalidArgumentException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
         String listName = args.getName("listName");
         String rawSoundNames = args.getString("soundNames");
 
         PlayListManager manager = MusicalRegions.getPlayListManager();
         RegionPlayList playList = manager.get(listName);
-        if (playList == null) {
-            tellError(sender, Lang.get(_PLAYLIST_NOT_FOUND, listName));
-            return; // finish
-        }
+        if (playList == null)
+            throw new CommandException(Lang.get(_PLAYLIST_NOT_FOUND, listName));
 
         String[] soundNames = TextUtils.PATTERN_COMMA.split(rawSoundNames);
         List<ResourceSound> sounds = new ArrayList<ResourceSound>(soundNames.length);
 
         for (String soundName : soundNames) {
+
             ResourceSound sound = Nucleus.getSoundManager().getSound(soundName);
-            if (sound == null) {
-                tellError(sender, Lang.get(_SOUND_NOT_FOUND, soundName));
-                return; // finish
-            }
+            if (sound == null)
+                throw new CommandException(Lang.get(_SOUND_NOT_FOUND, soundName));
+
             sounds.add(sound);
         }
 

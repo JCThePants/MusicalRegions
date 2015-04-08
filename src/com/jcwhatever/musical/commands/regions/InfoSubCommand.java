@@ -6,7 +6,7 @@ import com.jcwhatever.musical.regions.MusicRegion;
 import com.jcwhatever.musical.regions.RegionManager;
 import com.jcwhatever.nucleus.managed.commands.CommandInfo;
 import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
-import com.jcwhatever.nucleus.managed.commands.exceptions.InvalidArgumentException;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
 import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.commands.utils.AbstractCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
@@ -41,7 +41,7 @@ public class InfoSubCommand extends AbstractCommand implements IExecutableComman
     @Localizable static final String _LABEL_RESOURCE_SOUNDS = "Resource Sounds";
 
     @Override
-    public void execute(CommandSender sender, ICommandArguments args) throws InvalidArgumentException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
         String regionName = args.getString("regionName");
         int page = args.getInteger("page");
@@ -50,10 +50,8 @@ public class InfoSubCommand extends AbstractCommand implements IExecutableComman
 
         RegionManager regionManager = MusicalRegions.getRegionManager();
         MusicRegion region = regionManager.get(regionName);
-        if (region == null) {
-            tellError(sender, Lang.get(_REGION_NOT_FOUND, regionName));
-            return; // finish
-        }
+        if (region == null)
+            throw new CommandException(Lang.get(_REGION_NOT_FOUND, regionName));
 
         pagin.add(Lang.get(_LABEL_WORLD), region.getWorldName());
         pagin.add(Lang.get(_LABEL_P1_COORDS), TextUtils.formatLocation(region.getP1(), true));

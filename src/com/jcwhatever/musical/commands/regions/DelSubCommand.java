@@ -30,7 +30,7 @@ import com.jcwhatever.musical.regions.MusicRegion;
 import com.jcwhatever.musical.regions.RegionManager;
 import com.jcwhatever.nucleus.managed.commands.CommandInfo;
 import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
-import com.jcwhatever.nucleus.managed.commands.exceptions.InvalidArgumentException;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
 import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.commands.utils.AbstractCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
@@ -57,22 +57,18 @@ public class DelSubCommand extends AbstractCommand implements IExecutableCommand
             "Musical region '{0: region name}' deleted.";
 
     @Override
-    public void execute(CommandSender sender, ICommandArguments args) throws InvalidArgumentException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
         String regionName = args.getString("regionName");
 
         RegionManager regionManager = MusicalRegions.getRegionManager();
 
         MusicRegion region = regionManager.get(regionName);
-        if (region == null) {
-            tellError(sender, Lang.get(_REGION_NOT_FOUND, regionName));
-            return; // finish
-        }
+        if (region == null)
+            throw new CommandException(Lang.get(_REGION_NOT_FOUND, regionName));
 
-        if (!regionManager.remove(regionName)) {
-            tellError(sender, Lang.get(_FAILED, regionName));
-            return; // finish
-        }
+        if (!regionManager.remove(regionName))
+            throw new CommandException(Lang.get(_FAILED, regionName));
 
         tellSuccess(sender, Lang.get(_SUCCESS, regionName));
     }

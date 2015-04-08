@@ -74,28 +74,20 @@ public class AddSubCommand extends AbstractCommand implements IExecutableCommand
         String playListName = args.getString("playListName");
 
         IRegionSelection regionSelection = getRegionSelection((Player) sender);
-        if (regionSelection == null)
-            return; // finish
 
         RegionManager regionManager = MusicalRegions.getRegionManager();
         MusicRegion region = regionManager.get(regionName);
-        if (region != null) {
-            tellError(sender, Lang.get(_REGION_ALREADY_EXISTS, regionName));
-            return; // finish
-        }
+        if (region != null)
+            throw new CommandException(Lang.get(_REGION_ALREADY_EXISTS, regionName));
 
         PlayListManager playListManager = MusicalRegions.getPlayListManager();
         RegionPlayList playList = playListManager.get(playListName);
-        if (playList == null) {
-            tellError(sender, Lang.get(_PLAYLIST_NOT_FOUND, playListName));
-            return; // finish
-        }
+        if (playList == null)
+            throw new CommandException(Lang.get(_PLAYLIST_NOT_FOUND, playListName));
 
         region = regionManager.create(regionName, playList, regionSelection);
-        if (region == null) {
-            tellError(sender, Lang.get(_FAILED));
-            return; // finish
-        }
+        if (region == null)
+            throw new CommandException(Lang.get(_FAILED));
 
         tellSuccess(sender, Lang.get(_SUCCESS, regionName));
     }

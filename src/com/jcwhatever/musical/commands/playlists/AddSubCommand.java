@@ -50,10 +50,8 @@ public class AddSubCommand extends AbstractCommand implements IExecutableCommand
 
         PlayListManager manager = MusicalRegions.getPlayListManager();
         RegionPlayList playList = manager.get(playlistName);
-        if (playList != null) {
-            tellError(sender, Lang.get(_PLAYLIST_ALREADY_EXISTS, playlistName));
-            return; // finish
-        }
+        if (playList != null)
+            throw new CommandException(Lang.get(_PLAYLIST_ALREADY_EXISTS, playlistName));
 
         String[] soundNames = TextUtils.PATTERN_COMMA.split(rawSoundNames);
         List<ResourceSound> sounds = new ArrayList<>(soundNames.length);
@@ -61,19 +59,15 @@ public class AddSubCommand extends AbstractCommand implements IExecutableCommand
         for (String soundName : soundNames) {
 
             ResourceSound sound = Nucleus.getSoundManager().getSound(soundName);
-            if (sound == null) {
-                tellError(sender, Lang.get(_SOUND_NOT_FOUND, soundName));
-                return; // finish
-            }
+            if (sound == null)
+                throw new CommandException(Lang.get(_SOUND_NOT_FOUND, soundName));
 
             sounds.add(sound);
         }
 
         playList = manager.create(playlistName, sounds);
-        if (playList == null) {
-            tellError(sender, Lang.get(_FAILED));
-            return; // finish
-        }
+        if (playList == null)
+            throw new CommandException(Lang.get(_FAILED));
 
         tellSuccess(sender, Lang.get(_SUCCESS, playlistName));
     }

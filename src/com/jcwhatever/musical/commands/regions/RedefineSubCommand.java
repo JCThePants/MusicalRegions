@@ -63,15 +63,11 @@ public class RedefineSubCommand extends AbstractCommand implements IExecutableCo
         String regionName = args.getString("regionName");
 
         IRegionSelection sel = getRegionSelection((Player) sender);
-        if (sel == null)
-            return; // finish
 
         RegionManager regionManager = MusicalRegions.getRegionManager();
         MusicRegion region = regionManager.get(regionName);
-        if (region == null) {
-            tellError(sender, Lang.get(_REGION_NOT_FOUND, regionName));
-            return; // finish
-        }
+        if (region == null)
+            throw new CommandException(Lang.get(_REGION_NOT_FOUND, regionName));
 
         region.setCoords(sel.getP1(), sel.getP2());
 

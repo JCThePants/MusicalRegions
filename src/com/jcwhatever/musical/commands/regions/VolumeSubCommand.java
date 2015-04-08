@@ -6,7 +6,7 @@ import com.jcwhatever.musical.regions.MusicRegion;
 import com.jcwhatever.musical.regions.RegionManager;
 import com.jcwhatever.nucleus.managed.commands.CommandInfo;
 import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
-import com.jcwhatever.nucleus.managed.commands.exceptions.InvalidArgumentException;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
 import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.commands.utils.AbstractCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
@@ -32,17 +32,15 @@ public class VolumeSubCommand extends AbstractCommand implements IExecutableComm
                     "against {1: factor}. The volume is now {2: math product}.";
 
     @Override
-    public void execute(CommandSender sender, ICommandArguments args) throws InvalidArgumentException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
         String regionName = args.getString("regionName");
         float factor = args.getFloat("factor");
 
         RegionManager regionManager = MusicalRegions.getRegionManager();
         MusicRegion region = regionManager.get(regionName);
-        if (region == null) {
-            tellError(sender, Lang.get(_REGION_NOT_FOUND, regionName));
-            return; // finish
-        }
+        if (region == null)
+            throw new CommandException(Lang.get(_REGION_NOT_FOUND, regionName));
 
         region.setSoundVolumeFactor(factor);
 

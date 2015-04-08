@@ -45,10 +45,8 @@ public class SetSourceSubCommand extends AbstractCommand implements IExecutableC
 
         RegionManager regionManager = MusicalRegions.getRegionManager();
         final MusicRegion region = regionManager.get(regionName);
-        if (region == null) {
-            tellError(sender, Lang.get(_REGION_NOT_FOUND, regionName));
-            return; // finish
-        }
+        if (region == null)
+            throw new CommandException(Lang.get(_REGION_NOT_FOUND, regionName));
 
         if (args.getString("location").equalsIgnoreCase("center")) {
             setSource(sender, region, region.getCenter());
@@ -58,18 +56,22 @@ public class SetSourceSubCommand extends AbstractCommand implements IExecutableC
             args.getLocation(sender, "location", new ILocationHandler() {
                 @Override
                 public void onLocationRetrieved(Player player, Location result) {
-                    setSource(player, region, result);
+
+                    try {
+                        setSource(player, region, result);
+                    }
+                    catch (CommandException e) {
+                        tellError(player, e.getMessage());
+                    }
                 }
             });
         }
     }
 
-    private void setSource(CommandSender sender, MusicRegion region, Location location) {
+    private void setSource(CommandSender sender, MusicRegion region, Location location) throws CommandException {
 
-        if (location.getWorld() == null || !location.getWorld().equals(region.getWorld())) {
-            tellError(sender, Lang.get(_INVALID_WORLD));
-            return;
-        }
+        if (location.getWorld() == null || !location.getWorld().equals(region.getWorld()))
+            throw new CommandException(Lang.get(_INVALID_WORLD));
 
         region.setSoundSource(location);
 
