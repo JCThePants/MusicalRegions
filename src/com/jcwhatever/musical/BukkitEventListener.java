@@ -53,7 +53,7 @@ public class BukkitEventListener implements Listener {
 
     private Map<String, IActionBar> _actionBars = new HashMap<>(10);
 
-    @EventHandler()
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     private void onPlayResourceSound(PlayResourceSoundEvent event) {
 
         if (!(event.getResourceSound() instanceof MusicSound))
