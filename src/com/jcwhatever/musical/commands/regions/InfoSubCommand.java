@@ -35,7 +35,7 @@ public class InfoSubCommand extends AbstractCommand implements IExecutableComman
 
     @Localizable static final String _LABEL_WORLD = "World";
     @Localizable static final String _LABEL_P1_COORDS = "P1 Coords";
-    @Localizable static final String _LABEL_P2_COORDS = "P1 Coords";
+    @Localizable static final String _LABEL_P2_COORDS = "P2 Coords";
     @Localizable static final String _LABEL_AUDIO_VOLUME = "Audio Volume";
     @Localizable static final String _LABEL_AUDIO_VOLUME_FACTOR = "Audio Volume Factor";
     @Localizable static final String _LABEL_RESOURCE_SOUNDS = "Resource Sounds";
@@ -55,7 +55,7 @@ public class InfoSubCommand extends AbstractCommand implements IExecutableComman
 
         pagin.add(Lang.get(_LABEL_WORLD), region.getWorldName());
         pagin.add(Lang.get(_LABEL_P1_COORDS), TextUtils.formatLocation(region.getP1(), true));
-        pagin.add(Lang.get(_LABEL_P2_COORDS), TextUtils.formatLocation(region.getP1(), true));
+        pagin.add(Lang.get(_LABEL_P2_COORDS), TextUtils.formatLocation(region.getP2(), true));
         pagin.add(Lang.get(_LABEL_AUDIO_VOLUME), region.getSoundVolume());
         pagin.add(Lang.get(_LABEL_AUDIO_VOLUME_FACTOR), region.getSoundVolumeFactor());
         pagin.add(Lang.get(_LABEL_RESOURCE_SOUNDS), TextUtils.concat(region.getSounds(), ", "));
