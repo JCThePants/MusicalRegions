@@ -261,7 +261,7 @@ public class MusicRegion extends Region {
 
         PlayerSoundQueue queue = event.getPlayList().addPlayer(player, _settings);
         if (queue != null) {
-            queue.getMeta().set(META_KEY, this);
+            queue.getMeta().setKey(META_KEY, this);
 
             _playLists.put(player.getUniqueId(), event.getPlayList());
         }
