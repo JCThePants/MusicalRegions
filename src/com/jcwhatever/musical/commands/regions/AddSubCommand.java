@@ -27,7 +27,7 @@ package com.jcwhatever.musical.commands.regions;
 import com.jcwhatever.musical.Lang;
 import com.jcwhatever.musical.MusicalRegions;
 import com.jcwhatever.musical.playlists.PlayListManager;
-import com.jcwhatever.musical.playlists.RegionPlayList;
+import com.jcwhatever.musical.playlists.MusicPlayList;
 import com.jcwhatever.musical.regions.MusicRegion;
 import com.jcwhatever.musical.regions.RegionManager;
 import com.jcwhatever.nucleus.managed.commands.CommandInfo;
@@ -81,7 +81,7 @@ public class AddSubCommand extends AbstractCommand implements IExecutableCommand
             throw new CommandException(Lang.get(_REGION_ALREADY_EXISTS, regionName));
 
         PlayListManager playListManager = MusicalRegions.getPlayListManager();
-        RegionPlayList playList = playListManager.get(playListName);
+        MusicPlayList playList = playListManager.get(playListName);
         if (playList == null)
             throw new CommandException(Lang.get(_PLAYLIST_NOT_FOUND, playListName));
 

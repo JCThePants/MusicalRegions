@@ -25,7 +25,7 @@
 package com.jcwhatever.musical;
 
 
-import com.jcwhatever.musical.playlists.RegionPlayList;
+import com.jcwhatever.musical.playlists.MusicPlayList;
 import com.jcwhatever.musical.regions.MusicRegion;
 import com.jcwhatever.nucleus.Nucleus;
 import com.jcwhatever.nucleus.events.sounds.PlayResourceSoundEvent;
@@ -40,7 +40,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.util.HashMap;
 import java.util.List;
@@ -79,7 +81,7 @@ public class BukkitEventListener implements Listener {
     }
 
     /**
-     * Remove player from region playlist on death since sound
+     * Remove player from music playlist on death since sound
      * ends on death.
      */
     @EventHandler(priority = EventPriority.MONITOR)
@@ -97,7 +99,7 @@ public class BukkitEventListener implements Listener {
 
         for (PlayList playList : playLists) {
 
-            if (playList instanceof RegionPlayList) {
+            if (playList instanceof MusicPlayList) {
                 playList.removePlayer(player, true);
             }
         }
@@ -119,5 +121,27 @@ public class BukkitEventListener implements Listener {
         for (MusicRegion region : regions) {
             Nucleus.getRegionManager().forgetPlayer(player, region);
         }
+
+        MusicalRegions.getWorldManager().onEnterWorld(player, player.getWorld());
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    private void onPlayerTeleport(PlayerTeleportEvent event) {
+
+        if (event.getTo().getWorld().equals(event.getFrom().getWorld()))
+            return;
+
+        Player player = event.getPlayer();
+
+        MusicalRegions.getWorldManager().onLeaveWorld(player, event.getFrom().getWorld());
+        MusicalRegions.getWorldManager().onEnterWorld(player, event.getTo().getWorld());
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    private void onPlayerJoin(PlayerJoinEvent event) {
+
+        Player player = event.getPlayer();
+        MusicalRegions.getWorldManager()
+                .onEnterWorld(player, player.getWorld());
     }
 }

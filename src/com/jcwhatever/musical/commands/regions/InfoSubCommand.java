@@ -38,6 +38,7 @@ public class InfoSubCommand extends AbstractCommand implements IExecutableComman
     @Localizable static final String _LABEL_P2_COORDS = "P2 Coords";
     @Localizable static final String _LABEL_AUDIO_VOLUME = "Audio Volume";
     @Localizable static final String _LABEL_AUDIO_VOLUME_FACTOR = "Audio Volume Factor";
+    @Localizable static final String _LABEL_TRACK_CHANGE_DELAY = "Track Change Delay";
     @Localizable static final String _LABEL_RESOURCE_SOUNDS = "Resource Sounds";
 
     @Override
@@ -46,18 +47,18 @@ public class InfoSubCommand extends AbstractCommand implements IExecutableComman
         String regionName = args.getString("regionName");
         int page = args.getInteger("page");
 
-        ChatPaginator pagin = new ChatPaginator(getPlugin(), 7, Lang.get(_PAGINATOR_TITLE));
-
         RegionManager regionManager = MusicalRegions.getRegionManager();
         MusicRegion region = regionManager.get(regionName);
         if (region == null)
             throw new CommandException(Lang.get(_REGION_NOT_FOUND, regionName));
 
+        ChatPaginator pagin = new ChatPaginator(getPlugin(), 7, Lang.get(_PAGINATOR_TITLE, region.getName()));
         pagin.add(Lang.get(_LABEL_WORLD), region.getWorldName());
         pagin.add(Lang.get(_LABEL_P1_COORDS), TextUtils.formatLocation(region.getP1(), true));
         pagin.add(Lang.get(_LABEL_P2_COORDS), TextUtils.formatLocation(region.getP2(), true));
         pagin.add(Lang.get(_LABEL_AUDIO_VOLUME), region.getSoundVolume());
         pagin.add(Lang.get(_LABEL_AUDIO_VOLUME_FACTOR), region.getSoundVolumeFactor());
+        pagin.add(Lang.get(_LABEL_TRACK_CHANGE_DELAY), region.getTrackChangeDelay());
         pagin.add(Lang.get(_LABEL_RESOURCE_SOUNDS), TextUtils.concat(region.getSounds(), ", "));
 
         pagin.show(sender, page, FormatTemplate.LIST_ITEM_DESCRIPTION);

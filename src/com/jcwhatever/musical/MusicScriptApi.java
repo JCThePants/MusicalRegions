@@ -1,6 +1,6 @@
 package com.jcwhatever.musical;
 
-import com.jcwhatever.musical.playlists.RegionPlayList;
+import com.jcwhatever.musical.playlists.MusicPlayList;
 import com.jcwhatever.musical.regions.MusicRegion;
 import com.jcwhatever.nucleus.Nucleus;
 import com.jcwhatever.nucleus.mixins.IDisposable;
@@ -139,7 +139,7 @@ public class MusicScriptApi implements IDisposable {
      *
      * @param listName  The name of the playlist.
      */
-    public RegionPlayList getPlayList(String listName) {
+    public MusicPlayList getPlayList(String listName) {
         PreCon.notNullOrEmpty(listName, "listName");
 
         return MusicalRegions.getPlayListManager().get(listName);

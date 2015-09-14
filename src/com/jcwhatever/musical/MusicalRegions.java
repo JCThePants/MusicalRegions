@@ -27,8 +27,10 @@ package com.jcwhatever.musical;
 import com.jcwhatever.musical.commands.ListMusicCommand;
 import com.jcwhatever.musical.commands.playlists.PlayListCommand;
 import com.jcwhatever.musical.commands.regions.RegionsCommand;
+import com.jcwhatever.musical.commands.worlds.WorldCommand;
 import com.jcwhatever.musical.playlists.PlayListManager;
 import com.jcwhatever.musical.regions.RegionManager;
+import com.jcwhatever.musical.worlds.WorldManager;
 import com.jcwhatever.nucleus.Nucleus;
 import com.jcwhatever.nucleus.NucleusPlugin;
 import com.jcwhatever.nucleus.managed.scripting.IEvaluatedScript;
@@ -52,6 +54,7 @@ public class MusicalRegions extends NucleusPlugin {
 
     private PlayListManager _playListManager;
     private RegionManager _regionManager;
+    private WorldManager _worldManager;
     private IScriptApi _scriptApi;
 
     public static MusicalRegions getPlugin() {
@@ -60,6 +63,10 @@ public class MusicalRegions extends NucleusPlugin {
 
     public static RegionManager getRegionManager() {
         return _instance._regionManager;
+    }
+
+    public static WorldManager getWorldManager() {
+        return _instance._worldManager;
     }
 
     public static PlayListManager getPlayListManager() {
@@ -92,10 +99,12 @@ public class MusicalRegions extends NucleusPlugin {
 
         _playListManager = new PlayListManager(this.getDataNode().getNode("playlists"));
         _regionManager = new RegionManager(this.getDataNode().getNode("regions"));
+        _worldManager = new WorldManager(this.getDataNode().getNode("worlds"));
 
         this.registerCommand(PlayListCommand.class);
         this.registerCommand(RegionsCommand.class);
         this.registerCommand(ListMusicCommand.class);
+        this.registerCommand(WorldCommand.class);
 
         registerEventListeners(new BukkitEventListener());
 

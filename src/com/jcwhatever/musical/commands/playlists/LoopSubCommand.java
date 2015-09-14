@@ -27,7 +27,7 @@ package com.jcwhatever.musical.commands.playlists;
 import com.jcwhatever.musical.Lang;
 import com.jcwhatever.musical.MusicalRegions;
 import com.jcwhatever.musical.playlists.PlayListManager;
-import com.jcwhatever.musical.playlists.RegionPlayList;
+import com.jcwhatever.musical.playlists.MusicPlayList;
 import com.jcwhatever.nucleus.managed.commands.CommandInfo;
 import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
 import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
@@ -65,7 +65,7 @@ public class LoopSubCommand extends AbstractCommand implements IExecutableComman
 
         PlayListManager manager = MusicalRegions.getPlayListManager();
 
-        RegionPlayList list = manager.get(listName);
+        MusicPlayList list = manager.get(listName);
         if (list == null)
             throw new CommandException(Lang.get(_PLAYLIST_NOT_FOUND, listName));
 

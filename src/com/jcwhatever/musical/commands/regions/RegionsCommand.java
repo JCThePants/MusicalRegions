@@ -19,6 +19,7 @@ public class RegionsCommand extends AbstractCommand {
         registerCommand(PlayListSubCommand.class);
         registerCommand(RedefineSubCommand.class);
         registerCommand(SetSourceSubCommand.class);
+        registerCommand(TrackChangeDelaySubCommand.class);
         registerCommand(VolumeSubCommand.class);
     }
 }

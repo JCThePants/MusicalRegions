@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
 /**
  * Manages play lists.
  */
-public class PlayListManager extends NamedInsensitiveDataManager<RegionPlayList> {
+public class PlayListManager extends NamedInsensitiveDataManager<MusicPlayList> {
     /**
      * Constructor.
      *
@@ -30,7 +30,7 @@ public class PlayListManager extends NamedInsensitiveDataManager<RegionPlayList>
      * @return  The new play list or null if a playlist by the specified name
      * already exists.
      */
-    public RegionPlayList create(String name, Collection<ResourceSound> sounds) {
+    public MusicPlayList create(String name, Collection<ResourceSound> sounds) {
         PreCon.notNullOrEmpty(name);
         PreCon.notNull(sounds);
 
@@ -40,7 +40,7 @@ public class PlayListManager extends NamedInsensitiveDataManager<RegionPlayList>
         assert _dataNode != null;
         IDataNode dataNode = _dataNode.getNode(name);
 
-        RegionPlayList playList = new RegionPlayList(name, dataNode);
+        MusicPlayList playList = new MusicPlayList(name, dataNode);
         playList.addSounds(sounds);
 
         add(playList);
@@ -50,12 +50,12 @@ public class PlayListManager extends NamedInsensitiveDataManager<RegionPlayList>
 
     @Nullable
     @Override
-    protected RegionPlayList load(String name, IDataNode itemNode) {
-        return new RegionPlayList(name, itemNode);
+    protected MusicPlayList load(String name, IDataNode itemNode) {
+        return new MusicPlayList(name, itemNode);
     }
 
     @Override
-    protected void save(RegionPlayList item, IDataNode itemNode) {
+    protected void save(MusicPlayList item, IDataNode itemNode) {
         // do nothing
     }
 

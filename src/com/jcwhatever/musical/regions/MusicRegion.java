@@ -26,7 +26,7 @@ package com.jcwhatever.musical.regions;
 
 import com.jcwhatever.musical.MusicalRegions;
 import com.jcwhatever.musical.events.RegionPlayEvent;
-import com.jcwhatever.musical.playlists.RegionPlayList;
+import com.jcwhatever.musical.playlists.MusicPlayList;
 import com.jcwhatever.nucleus.Nucleus;
 import com.jcwhatever.nucleus.collections.players.PlayerMap;
 import com.jcwhatever.nucleus.collections.players.PlayerSet;
@@ -68,7 +68,7 @@ public class MusicRegion extends Region {
         return (float) ((Math.max(region.getXBlockWidth(), region.getZBlockWidth()) * Math.sqrt(3)) / 16D);
     }
 
-    private RegionPlayList _playList;
+    private MusicPlayList _playList;
     private float _volumeFactor = 1.0f;
     private Set<Player> _exclude;
     private SoundSettings _settings = new SoundSettings();
@@ -91,7 +91,7 @@ public class MusicRegion extends Region {
     /**
      * Get the regions playlist.
      */
-    public RegionPlayList getPlayList() {
+    public MusicPlayList getPlayList() {
         return _playList;
     }
 
@@ -128,6 +128,28 @@ public class MusicRegion extends Region {
         assert dataNode != null;
 
         dataNode.set("volume", factor);
+        dataNode.save();
+    }
+
+    /**
+     * Get the track change delay.
+     */
+    public long getTrackChangeDelay() {
+        return _settings.getTrackChangeDelay();
+    }
+
+    /**
+     * Set the track change delay.
+     *
+     * @param ticks  The delay in ticks.
+     */
+    public void setTrackChangeDelay(long ticks) {
+        _settings.setTrackChangeDelay(ticks);
+
+        IDataNode dataNode = getDataNode();
+        assert dataNode != null;
+
+        dataNode.set("track-change-delay", ticks);
         dataNode.save();
     }
 
@@ -180,7 +202,7 @@ public class MusicRegion extends Region {
      *
      * @param playList  The playlist.
      */
-    public void setPlayList(RegionPlayList playList) {
+    public void setPlayList(MusicPlayList playList) {
         PreCon.notNull(playList);
 
         _playList = playList;
@@ -295,6 +317,7 @@ public class MusicRegion extends Region {
         Location source = dataNode.getLocation("source", getCenter());
         String playList = dataNode.getString("playlist");
         _volumeFactor = (float)dataNode.getDouble("volume", _volumeFactor);
+        _settings.setTrackChangeDelay(dataNode.getLong("track-change-delay", 0L));
 
         if (playList != null)
             _playList = MusicalRegions.getPlayListManager().get(playList);

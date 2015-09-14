@@ -22,13 +22,13 @@ import javax.annotation.Nullable;
  * An extended implementation of {@link SimplePlayList} that saves to a data node and
  * implements {@link INamedInsensitive}.
  */
-public class RegionPlayList extends SimplePlayList implements INamedInsensitive {
+public class MusicPlayList extends SimplePlayList implements INamedInsensitive {
 
     private final String _name;
     private final String _searchName;
     private final IDataNode _dataNode;
 
-    public RegionPlayList(String name, IDataNode dataNode) {
+    public MusicPlayList(String name, IDataNode dataNode) {
         super(MusicalRegions.getPlugin());
 
         PreCon.notNullOrEmpty(name);

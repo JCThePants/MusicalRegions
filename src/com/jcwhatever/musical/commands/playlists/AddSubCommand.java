@@ -3,7 +3,7 @@ package com.jcwhatever.musical.commands.playlists;
 import com.jcwhatever.musical.Lang;
 import com.jcwhatever.musical.MusicalRegions;
 import com.jcwhatever.musical.playlists.PlayListManager;
-import com.jcwhatever.musical.playlists.RegionPlayList;
+import com.jcwhatever.musical.playlists.MusicPlayList;
 import com.jcwhatever.nucleus.Nucleus;
 import com.jcwhatever.nucleus.managed.commands.CommandInfo;
 import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
@@ -49,7 +49,7 @@ public class AddSubCommand extends AbstractCommand implements IExecutableCommand
         String rawSoundNames = args.getString("soundNames");
 
         PlayListManager manager = MusicalRegions.getPlayListManager();
-        RegionPlayList playList = manager.get(playlistName);
+        MusicPlayList playList = manager.get(playlistName);
         if (playList != null)
             throw new CommandException(Lang.get(_PLAYLIST_ALREADY_EXISTS, playlistName));
 

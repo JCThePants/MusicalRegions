@@ -24,7 +24,7 @@
 
 package com.jcwhatever.musical.regions;
 
-import com.jcwhatever.musical.playlists.RegionPlayList;
+import com.jcwhatever.musical.playlists.MusicPlayList;
 import com.jcwhatever.nucleus.providers.regionselect.IRegionSelection;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.utils.PreCon;
@@ -56,7 +56,7 @@ public class RegionManager extends NamedInsensitiveDataManager<MusicRegion> {
      * @return  The new region instance or null if failed.
      */
     public MusicRegion create(String regionName,
-                              final RegionPlayList playList,
+                              final MusicPlayList playList,
                               final IRegionSelection selection) {
 
         PreCon.notNullOrEmpty(regionName);

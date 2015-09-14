@@ -27,7 +27,7 @@ package com.jcwhatever.musical.commands.playlists;
 import com.jcwhatever.musical.Lang;
 import com.jcwhatever.musical.MusicalRegions;
 import com.jcwhatever.musical.playlists.PlayListManager;
-import com.jcwhatever.musical.playlists.RegionPlayList;
+import com.jcwhatever.musical.playlists.MusicPlayList;
 import com.jcwhatever.nucleus.Nucleus;
 import com.jcwhatever.nucleus.managed.commands.CommandInfo;
 import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
@@ -70,7 +70,7 @@ public class SetSoundSubCommand extends AbstractCommand implements IExecutableCo
         String rawSoundNames = args.getString("soundNames");
 
         PlayListManager manager = MusicalRegions.getPlayListManager();
-        RegionPlayList playList = manager.get(listName);
+        MusicPlayList playList = manager.get(listName);
         if (playList == null)
             throw new CommandException(Lang.get(_PLAYLIST_NOT_FOUND, listName));
 

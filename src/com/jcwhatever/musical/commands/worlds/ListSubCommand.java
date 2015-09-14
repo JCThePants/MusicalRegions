@@ -1,9 +1,13 @@
-package com.jcwhatever.musical.commands.playlists;
+package com.jcwhatever.musical.commands.worlds;
+
+import java.util.Collection;
 
 import com.jcwhatever.musical.Lang;
 import com.jcwhatever.musical.MusicalRegions;
-import com.jcwhatever.musical.playlists.PlayListManager;
-import com.jcwhatever.musical.playlists.MusicPlayList;
+import com.jcwhatever.musical.regions.MusicRegion;
+import com.jcwhatever.musical.regions.RegionManager;
+import com.jcwhatever.musical.worlds.MusicWorld;
+import com.jcwhatever.musical.worlds.WorldManager;
 import com.jcwhatever.nucleus.managed.commands.CommandInfo;
 import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
 import com.jcwhatever.nucleus.managed.commands.exceptions.InvalidArgumentException;
@@ -12,16 +16,13 @@ import com.jcwhatever.nucleus.managed.commands.utils.AbstractCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.managed.messaging.ChatPaginator;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
-import com.jcwhatever.nucleus.utils.text.TextUtils.FormatTemplate;
 
 import org.bukkit.command.CommandSender;
-
-import java.util.Collection;
 
 @CommandInfo(
         command="list",
         staticParams={"page=1"},
-        description="List playlists.",
+        description="List world playlist bindings.",
         paramDescriptions = {
                 "page= {PAGE}"
         })
@@ -29,10 +30,7 @@ import java.util.Collection;
 public class ListSubCommand extends AbstractCommand implements IExecutableCommand {
 
     @Localizable static final String _PAGINATOR_TITLE =
-            "Playlists";
-
-    @Localizable static final String _LABEL_NONE =
-            "{RED}<no sounds>";
+            "Musical Worlds";
 
     @Override
     public void execute(CommandSender sender, ICommandArguments args) throws InvalidArgumentException {
@@ -41,22 +39,14 @@ public class ListSubCommand extends AbstractCommand implements IExecutableComman
 
         ChatPaginator pagin = new ChatPaginator(getPlugin(), 6, Lang.get(_PAGINATOR_TITLE));
 
-        PlayListManager manager = MusicalRegions.getPlayListManager();
+        WorldManager manager = MusicalRegions.getWorldManager();
 
-        Collection<MusicPlayList> playLists = manager.getAll();
+        Collection<MusicWorld> worlds = manager.getAll();
 
-        String noneLabel = Lang.get(_LABEL_NONE);
-
-        for (MusicPlayList playList : playLists) {
-
-            String description = (playList.getSounds().isEmpty()
-                    ? noneLabel
-                    : TextUtils.concat(playList.getSounds(), ", "));
-
-            pagin.add(playList.getName(), description);
+        for (MusicWorld world : worlds) {
+            pagin.add(world.getName(), world.getPlaylistName());
         }
 
-        pagin.show(sender, page, FormatTemplate.LIST_ITEM_DESCRIPTION);
+        pagin.show(sender, page, TextUtils.FormatTemplate.LIST_ITEM_DESCRIPTION);
     }
 }
-
