@@ -1,11 +1,7 @@
 package com.jcwhatever.musical.commands.worlds;
 
-import java.util.Collection;
-
 import com.jcwhatever.musical.Lang;
 import com.jcwhatever.musical.MusicalRegions;
-import com.jcwhatever.musical.regions.MusicRegion;
-import com.jcwhatever.musical.regions.RegionManager;
 import com.jcwhatever.musical.worlds.MusicWorld;
 import com.jcwhatever.musical.worlds.WorldManager;
 import com.jcwhatever.nucleus.managed.commands.CommandInfo;
@@ -16,8 +12,9 @@ import com.jcwhatever.nucleus.managed.commands.utils.AbstractCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.managed.messaging.ChatPaginator;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
-
 import org.bukkit.command.CommandSender;
+
+import java.util.Collection;
 
 @CommandInfo(
         command="list",
@@ -37,7 +34,7 @@ public class ListSubCommand extends AbstractCommand implements IExecutableComman
 
         int page = args.getInteger("page");
 
-        ChatPaginator pagin = new ChatPaginator(getPlugin(), 6, Lang.get(_PAGINATOR_TITLE));
+        ChatPaginator pagin = createPagin(args, 6, Lang.get(_PAGINATOR_TITLE));
 
         WorldManager manager = MusicalRegions.getWorldManager();
 

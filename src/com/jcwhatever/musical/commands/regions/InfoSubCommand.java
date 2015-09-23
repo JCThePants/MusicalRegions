@@ -52,7 +52,7 @@ public class InfoSubCommand extends AbstractCommand implements IExecutableComman
         if (region == null)
             throw new CommandException(Lang.get(_REGION_NOT_FOUND, regionName));
 
-        ChatPaginator pagin = new ChatPaginator(getPlugin(), 7, Lang.get(_PAGINATOR_TITLE, region.getName()));
+        ChatPaginator pagin = createPagin(args, 7, Lang.get(_PAGINATOR_TITLE, region.getName()));
         pagin.add(Lang.get(_LABEL_WORLD), region.getWorldName());
         pagin.add(Lang.get(_LABEL_P1_COORDS), TextUtils.formatLocation(region.getP1(), true));
         pagin.add(Lang.get(_LABEL_P2_COORDS), TextUtils.formatLocation(region.getP2(), true));

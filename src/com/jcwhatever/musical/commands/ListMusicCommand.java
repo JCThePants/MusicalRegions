@@ -59,12 +59,12 @@ public class ListMusicCommand extends AbstractCommand implements IExecutableComm
 
         int page = args.getInteger("page");
 
-        String paginTitle = Lang.get(_PAGINATOR_TITLE);
-        ChatPaginator pagin = new ChatPaginator(getPlugin(), 6, paginTitle);
+        String paginTitle = Lang.get(_PAGINATOR_TITLE).toString();
+        ChatPaginator pagin = createPagin(args, 6, paginTitle);
 
         Collection<MusicSound> sounds = Nucleus.getSoundManager().getSounds(MusicSound.class);
 
-        String secondsLabel = Lang.get(_LABEL_SECONDS);
+        String secondsLabel = Lang.get(_LABEL_SECONDS).toString();
         for (ResourceSound sound : sounds) {
 
             String description = sound.getTitle() != null

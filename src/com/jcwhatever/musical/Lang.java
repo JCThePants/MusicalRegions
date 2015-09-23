@@ -25,6 +25,7 @@
 package com.jcwhatever.musical;
 
 import com.jcwhatever.nucleus.managed.language.Localized;
+import com.jcwhatever.nucleus.utils.text.components.IChatMessage;
 
 /**
  * Convenience class for accessing MusicalRegions language manager.
@@ -34,7 +35,7 @@ public class Lang {
     private Lang() {}
 
     @Localized
-    public static String get(String text, Object... params) {
+    public static IChatMessage get(CharSequence text, Object... params) {
         return MusicalRegions.getPlugin().getLanguageContext().get(text, params);
     }
 }

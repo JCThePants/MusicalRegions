@@ -39,13 +39,13 @@ public class ListSubCommand extends AbstractCommand implements IExecutableComman
 
         int page = args.getInteger("page");
 
-        ChatPaginator pagin = new ChatPaginator(getPlugin(), 6, Lang.get(_PAGINATOR_TITLE));
+        ChatPaginator pagin = createPagin(args, 6, Lang.get(_PAGINATOR_TITLE));
 
         PlayListManager manager = MusicalRegions.getPlayListManager();
 
         Collection<MusicPlayList> playLists = manager.getAll();
 
-        String noneLabel = Lang.get(_LABEL_NONE);
+        String noneLabel = Lang.get(_LABEL_NONE).toString();
 
         for (MusicPlayList playList : playLists) {
 

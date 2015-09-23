@@ -42,7 +42,7 @@ public class InfoSubCommand extends AbstractCommand implements IExecutableComman
         String worldName = args.getString("worldName");
         int page = args.getInteger("page");
 
-        ChatPaginator pagin = new ChatPaginator(getPlugin(), 7, Lang.get(_PAGINATOR_TITLE));
+        ChatPaginator pagin = createPagin(args, 7, Lang.get(_PAGINATOR_TITLE));
 
         WorldManager manager = MusicalRegions.getWorldManager();
         MusicWorld musicWorld = manager.get(worldName);
