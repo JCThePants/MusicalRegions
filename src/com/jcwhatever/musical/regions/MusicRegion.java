@@ -30,26 +30,25 @@ import com.jcwhatever.musical.playlists.MusicPlayList;
 import com.jcwhatever.nucleus.Nucleus;
 import com.jcwhatever.nucleus.collections.players.PlayerMap;
 import com.jcwhatever.nucleus.collections.players.PlayerSet;
+import com.jcwhatever.nucleus.managed.resourcepacks.sounds.playlist.PlayList;
+import com.jcwhatever.nucleus.managed.resourcepacks.sounds.playlist.PlayList.PlayerSoundQueue;
+import com.jcwhatever.nucleus.managed.resourcepacks.sounds.types.IResourceSound;
+import com.jcwhatever.nucleus.managed.sounds.SoundSettings;
+import com.jcwhatever.nucleus.providers.regionselect.IRegionSelection;
 import com.jcwhatever.nucleus.regions.Region;
 import com.jcwhatever.nucleus.regions.options.EnterRegionReason;
 import com.jcwhatever.nucleus.regions.options.LeaveRegionReason;
-import com.jcwhatever.nucleus.providers.regionselect.IRegionSelection;
-import com.jcwhatever.nucleus.managed.sounds.types.ResourceSound;
-import com.jcwhatever.nucleus.managed.sounds.SoundSettings;
-import com.jcwhatever.nucleus.managed.sounds.playlist.PlayList;
-import com.jcwhatever.nucleus.managed.sounds.playlist.PlayList.PlayerSoundQueue;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.utils.MetaKey;
 import com.jcwhatever.nucleus.utils.PreCon;
-
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import javax.annotation.Nullable;
 
 /**
  * A region that plays sounds to players that enter.
@@ -156,7 +155,7 @@ public class MusicRegion extends Region {
     /**
      * Get the resource sounds that the region plays.
      */
-    public List<ResourceSound> getSounds() {
+    public List<IResourceSound> getSounds() {
         return _playList.getSounds();
     }
 

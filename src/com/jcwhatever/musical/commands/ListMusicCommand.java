@@ -25,7 +25,6 @@
 package com.jcwhatever.musical.commands;
 
 import com.jcwhatever.musical.Lang;
-import com.jcwhatever.nucleus.Nucleus;
 import com.jcwhatever.nucleus.managed.commands.CommandInfo;
 import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
 import com.jcwhatever.nucleus.managed.commands.exceptions.InvalidArgumentException;
@@ -33,13 +32,16 @@ import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.commands.utils.AbstractCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.managed.messaging.ChatPaginator;
-import com.jcwhatever.nucleus.managed.sounds.types.MusicSound;
-import com.jcwhatever.nucleus.managed.sounds.types.ResourceSound;
+import com.jcwhatever.nucleus.managed.resourcepacks.IResourcePack;
+import com.jcwhatever.nucleus.managed.resourcepacks.ResourcePacks;
+import com.jcwhatever.nucleus.managed.resourcepacks.sounds.types.IMusicSound;
+import com.jcwhatever.nucleus.managed.resourcepacks.sounds.types.IResourceSound;
 import com.jcwhatever.nucleus.utils.text.TextUtils.FormatTemplate;
-
 import org.bukkit.command.CommandSender;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @CommandInfo(
         command="listmusic",
@@ -62,16 +64,25 @@ public class ListMusicCommand extends AbstractCommand implements IExecutableComm
         String paginTitle = Lang.get(_PAGINATOR_TITLE).toString();
         ChatPaginator pagin = createPagin(args, 6, paginTitle);
 
-        Collection<MusicSound> sounds = Nucleus.getSoundManager().getSounds(MusicSound.class);
+        Collection<IResourcePack> packs = ResourcePacks.getAll();
+        List<IMusicSound> sounds = new ArrayList<>(25);
+
+        for (IResourcePack pack : packs) {
+            pack.getSounds().getTypes(IMusicSound.class, sounds);
+        }
 
         String secondsLabel = Lang.get(_LABEL_SECONDS).toString();
-        for (ResourceSound sound : sounds) {
+        for (IResourceSound sound : sounds) {
 
             String description = sound.getTitle() != null
                     ? sound.getTitle() + " - "
                     : "";
 
-            pagin.add(sound.getName(),
+            String name = sound.getResourcePack() == ResourcePacks.getDefault()
+                    ? sound.getName()
+                    : sound.getResourcePack().getName() + '.' + sound.getName();
+
+            pagin.add(name,
                     description + sound.getDurationSeconds() + ' ' + secondsLabel);
         }
 

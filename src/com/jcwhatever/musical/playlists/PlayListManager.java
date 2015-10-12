@@ -1,12 +1,12 @@
 package com.jcwhatever.musical.playlists;
 
-import com.jcwhatever.nucleus.managed.sounds.types.ResourceSound;
+import com.jcwhatever.nucleus.managed.resourcepacks.sounds.types.IResourceSound;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.utils.managers.NamedInsensitiveDataManager;
 
-import java.util.Collection;
 import javax.annotation.Nullable;
+import java.util.Collection;
 
 /**
  * Manages play lists.
@@ -30,7 +30,7 @@ public class PlayListManager extends NamedInsensitiveDataManager<MusicPlayList> 
      * @return  The new play list or null if a playlist by the specified name
      * already exists.
      */
-    public MusicPlayList create(String name, Collection<ResourceSound> sounds) {
+    public MusicPlayList create(String name, Collection<IResourceSound> sounds) {
         PreCon.notNullOrEmpty(name);
         PreCon.notNull(sounds);
 

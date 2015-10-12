@@ -2,18 +2,17 @@ package com.jcwhatever.musical.commands.playlists;
 
 import com.jcwhatever.musical.Lang;
 import com.jcwhatever.musical.MusicalRegions;
-import com.jcwhatever.musical.playlists.PlayListManager;
 import com.jcwhatever.musical.playlists.MusicPlayList;
-import com.jcwhatever.nucleus.Nucleus;
+import com.jcwhatever.musical.playlists.PlayListManager;
 import com.jcwhatever.nucleus.managed.commands.CommandInfo;
 import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
 import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
 import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.commands.utils.AbstractCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
-import com.jcwhatever.nucleus.managed.sounds.types.ResourceSound;
+import com.jcwhatever.nucleus.managed.resourcepacks.sounds.types.IResourceSound;
+import com.jcwhatever.nucleus.managed.sounds.Sounds;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
-
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
@@ -54,11 +53,11 @@ public class AddSubCommand extends AbstractCommand implements IExecutableCommand
             throw new CommandException(Lang.get(_PLAYLIST_ALREADY_EXISTS, playlistName));
 
         String[] soundNames = TextUtils.PATTERN_COMMA.split(rawSoundNames);
-        List<ResourceSound> sounds = new ArrayList<>(soundNames.length);
+        List<IResourceSound> sounds = new ArrayList<>(soundNames.length);
 
         for (String soundName : soundNames) {
 
-            ResourceSound sound = Nucleus.getSoundManager().getSound(soundName);
+            IResourceSound sound = Sounds.get(soundName);
             if (sound == null)
                 throw new CommandException(Lang.get(_SOUND_NOT_FOUND, soundName));
 

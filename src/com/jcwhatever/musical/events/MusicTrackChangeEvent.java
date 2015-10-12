@@ -27,9 +27,9 @@ package com.jcwhatever.musical.events;
 import com.jcwhatever.musical.regions.MusicRegion;
 import com.jcwhatever.nucleus.mixins.ICancellable;
 import com.jcwhatever.nucleus.mixins.IPlayerReference;
-import com.jcwhatever.nucleus.managed.sounds.types.ResourceSound;
-import com.jcwhatever.nucleus.managed.sounds.playlist.PlayList;
-import com.jcwhatever.nucleus.managed.sounds.playlist.PlayList.PlayerSoundQueue;
+import com.jcwhatever.nucleus.managed.resourcepacks.sounds.types.IResourceSound;
+import com.jcwhatever.nucleus.managed.resourcepacks.sounds.playlist.PlayList;
+import com.jcwhatever.nucleus.managed.resourcepacks.sounds.playlist.PlayList.PlayerSoundQueue;
 import com.jcwhatever.nucleus.utils.PreCon;
 
 import org.bukkit.entity.Player;
@@ -49,9 +49,9 @@ public class MusicTrackChangeEvent extends Event implements IPlayerReference, Ca
     private final MusicRegion _region;
     private final PlayList _playList;
     private final PlayerSoundQueue _soundQueue;
-    private final ResourceSound _prev;
+    private final IResourceSound _prev;
 
-    private ResourceSound _next;
+    private IResourceSound _next;
     private boolean _isCancelled;
 
     /**
@@ -64,7 +64,7 @@ public class MusicTrackChangeEvent extends Event implements IPlayerReference, Ca
      * @param next        The next song to be played.
      */
     public MusicTrackChangeEvent(MusicRegion region, PlayList playList, PlayerSoundQueue soundQueue,
-                                 @Nullable ResourceSound prev, ResourceSound next) {
+                                 @Nullable IResourceSound prev, IResourceSound next) {
         PreCon.notNull(region);
         PreCon.notNull(playList);
         PreCon.notNull(soundQueue);
@@ -109,14 +109,14 @@ public class MusicTrackChangeEvent extends Event implements IPlayerReference, Ca
      * @return The previous sound or null if there was no previous sound.
      */
     @Nullable
-    public ResourceSound getPreviousSound() {
+    public IResourceSound getPreviousSound() {
         return _prev;
     }
 
     /**
      * Get the next sound to be played.
      */
-    public ResourceSound getNextSound() {
+    public IResourceSound getNextSound() {
         return _next;
     }
 
@@ -125,7 +125,7 @@ public class MusicTrackChangeEvent extends Event implements IPlayerReference, Ca
      *
      * @param sound  The next sound.
      */
-    public void setNextSound(ResourceSound sound) {
+    public void setNextSound(IResourceSound sound) {
         PreCon.notNull(sound);
 
         _next = sound;

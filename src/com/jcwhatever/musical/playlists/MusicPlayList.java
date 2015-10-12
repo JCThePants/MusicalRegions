@@ -6,17 +6,18 @@ import com.jcwhatever.musical.events.MusicLoopEvent;
 import com.jcwhatever.musical.events.MusicTrackChangeEvent;
 import com.jcwhatever.musical.regions.MusicRegion;
 import com.jcwhatever.nucleus.Nucleus;
+import com.jcwhatever.nucleus.managed.resourcepacks.sounds.playlist.SimplePlayList;
+import com.jcwhatever.nucleus.managed.resourcepacks.sounds.types.IResourceSound;
+import com.jcwhatever.nucleus.managed.sounds.Sounds;
 import com.jcwhatever.nucleus.mixins.INamedInsensitive;
-import com.jcwhatever.nucleus.managed.sounds.playlist.SimplePlayList;
-import com.jcwhatever.nucleus.managed.sounds.types.ResourceSound;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.utils.CollectionUtils;
 import com.jcwhatever.nucleus.utils.PreCon;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import javax.annotation.Nullable;
 
 /**
  * An extended implementation of {@link SimplePlayList} that saves to a data node and
@@ -52,19 +53,19 @@ public class MusicPlayList extends SimplePlayList implements INamedInsensitive {
     }
 
     @Override
-    public void addSound(ResourceSound sound) {
+    public void addSound(IResourceSound sound) {
         super.addSound(sound);
         save();
     }
 
     @Override
-    public void removeSound(ResourceSound sound) {
+    public void removeSound(IResourceSound sound) {
         super.removeSound(sound);
         save();
     }
 
     @Override
-    public void addSounds(Collection<? extends ResourceSound> sounds) {
+    public void addSounds(Collection<? extends IResourceSound> sounds) {
         super.addSounds(sounds);
         save();
     }
@@ -93,8 +94,8 @@ public class MusicPlayList extends SimplePlayList implements INamedInsensitive {
 
     @Override
     @Nullable
-    protected ResourceSound onTrackChange(PlayerSoundQueue queue,
-                                          @Nullable ResourceSound prev, ResourceSound next) {
+    protected IResourceSound onTrackChange(PlayerSoundQueue queue,
+                                          @Nullable IResourceSound prev, IResourceSound next) {
 
         next = super.onTrackChange(queue, prev, next);
         if (next == null)
@@ -114,7 +115,7 @@ public class MusicPlayList extends SimplePlayList implements INamedInsensitive {
     }
 
     @Override
-    protected void onLoop(PlayerSoundQueue queue, List<ResourceSound> sounds, int loopCount) {
+    protected void onLoop(PlayerSoundQueue queue, List<IResourceSound> sounds, int loopCount) {
 
         super.onLoop(queue, sounds, loopCount);
 
@@ -132,9 +133,9 @@ public class MusicPlayList extends SimplePlayList implements INamedInsensitive {
 
     private void save() {
 
-        List<ResourceSound> sounds = getSounds();
+        List<IResourceSound> sounds = getSounds();
         List<String> soundNames = new ArrayList<>(sounds.size());
-        for (ResourceSound sound : sounds) {
+        for (IResourceSound sound : sounds) {
             soundNames.add(sound.getName());
         }
 
@@ -151,10 +152,10 @@ public class MusicPlayList extends SimplePlayList implements INamedInsensitive {
                 "sounds", CollectionUtils.unmodifiableList(String.class));
         assert soundNames != null;
 
-        List<ResourceSound> sounds = new ArrayList<>(soundNames.size());
+        List<IResourceSound> sounds = new ArrayList<>(soundNames.size());
 
         for (String soundName : soundNames) {
-            ResourceSound sound = Nucleus.getSoundManager().getSound(soundName);
+            IResourceSound sound = Sounds.get(soundName);
             if (sound == null) {
                 Msg.debug("Failed to load sound named '{0}'. Not found.", soundName);
                 continue;

@@ -31,9 +31,9 @@ import com.jcwhatever.nucleus.Nucleus;
 import com.jcwhatever.nucleus.events.sounds.PlayResourceSoundEvent;
 import com.jcwhatever.nucleus.managed.actionbar.ActionBars;
 import com.jcwhatever.nucleus.managed.actionbar.IActionBar;
-import com.jcwhatever.nucleus.managed.sounds.playlist.PlayList;
-import com.jcwhatever.nucleus.managed.sounds.types.MusicSound;
-import com.jcwhatever.nucleus.managed.sounds.types.ResourceSound;
+import com.jcwhatever.nucleus.managed.resourcepacks.sounds.playlist.PlayList;
+import com.jcwhatever.nucleus.managed.resourcepacks.sounds.types.IMusicSound;
+import com.jcwhatever.nucleus.managed.resourcepacks.sounds.types.IResourceSound;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -58,10 +58,10 @@ public class BukkitEventListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     private void onPlayResourceSound(PlayResourceSoundEvent event) {
 
-        if (!(event.getResourceSound() instanceof MusicSound))
+        if (!(event.getResourceSound() instanceof IMusicSound))
             return;
 
-        ResourceSound sound = event.getResourceSound();
+        IResourceSound sound = event.getResourceSound();
 
         IActionBar actionBar = _actionBars.get(sound.getName());
         if (actionBar == null) {

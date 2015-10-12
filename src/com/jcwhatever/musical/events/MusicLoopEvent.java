@@ -27,9 +27,9 @@ package com.jcwhatever.musical.events;
 import com.jcwhatever.musical.regions.MusicRegion;
 import com.jcwhatever.nucleus.mixins.ICancellable;
 import com.jcwhatever.nucleus.mixins.IPlayerReference;
-import com.jcwhatever.nucleus.managed.sounds.types.ResourceSound;
-import com.jcwhatever.nucleus.managed.sounds.playlist.PlayList;
-import com.jcwhatever.nucleus.managed.sounds.playlist.PlayList.PlayerSoundQueue;
+import com.jcwhatever.nucleus.managed.resourcepacks.sounds.types.IResourceSound;
+import com.jcwhatever.nucleus.managed.resourcepacks.sounds.playlist.PlayList;
+import com.jcwhatever.nucleus.managed.resourcepacks.sounds.playlist.PlayList.PlayerSoundQueue;
 import com.jcwhatever.nucleus.utils.PreCon;
 
 import org.bukkit.entity.Player;
@@ -49,7 +49,7 @@ public class MusicLoopEvent extends Event implements IPlayerReference, Cancellab
     private final MusicRegion _region;
     private final PlayList _playList;
     private final PlayerSoundQueue _soundQueue;
-    private final List<ResourceSound> _sounds;
+    private final List<IResourceSound> _sounds;
     private final int _loopCount;
 
     private boolean _isCancelled;
@@ -64,7 +64,7 @@ public class MusicLoopEvent extends Event implements IPlayerReference, Cancellab
      * @param loopCount   The number of times the {@link PlayerSoundQueue} has looped.
      */
     public MusicLoopEvent(MusicRegion region, PlayList playList, PlayerSoundQueue soundQueue,
-                          List<ResourceSound> sounds, int loopCount) {
+                          List<IResourceSound> sounds, int loopCount) {
         PreCon.notNull(region);
         PreCon.notNull(playList);
         PreCon.notNull(soundQueue);
@@ -106,7 +106,7 @@ public class MusicLoopEvent extends Event implements IPlayerReference, Cancellab
     /**
      * Get the sounds that will be played in the next loop.
      */
-    public List<ResourceSound> getSounds() {
+    public List<IResourceSound> getSounds() {
         return _sounds;
     }
 
