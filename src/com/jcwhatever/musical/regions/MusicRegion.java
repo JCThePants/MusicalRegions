@@ -90,6 +90,7 @@ public class MusicRegion extends Region {
     /**
      * Get the regions playlist.
      */
+    @Nullable
     public MusicPlayList getPlayList() {
         return _playList;
     }

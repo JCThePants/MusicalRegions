@@ -6,6 +6,7 @@ import com.jcwhatever.musical.events.MusicLoopEvent;
 import com.jcwhatever.musical.events.MusicTrackChangeEvent;
 import com.jcwhatever.musical.regions.MusicRegion;
 import com.jcwhatever.nucleus.Nucleus;
+import com.jcwhatever.nucleus.managed.resourcepacks.ResourcePacks;
 import com.jcwhatever.nucleus.managed.resourcepacks.sounds.playlist.SimplePlayList;
 import com.jcwhatever.nucleus.managed.resourcepacks.sounds.types.IResourceSound;
 import com.jcwhatever.nucleus.managed.sounds.Sounds;
@@ -136,7 +137,12 @@ public class MusicPlayList extends SimplePlayList implements INamedInsensitive {
         List<IResourceSound> sounds = getSounds();
         List<String> soundNames = new ArrayList<>(sounds.size());
         for (IResourceSound sound : sounds) {
-            soundNames.add(sound.getName());
+            if (sound.getResourcePack() == ResourcePacks.getDefault()) {
+                soundNames.add(sound.getName());
+            }
+            else {
+                soundNames.add(sound.getResourcePack().getName() + '.' + sound.getName());
+            }
         }
 
         _dataNode.set("sounds", soundNames);
